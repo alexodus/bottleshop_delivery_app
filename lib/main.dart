@@ -1,37 +1,57 @@
 import 'dart:async';
 
-import 'package:bottleshopdeliveryapp/models/user.dart';
-import 'package:bottleshopdeliveryapp/screens/wrapper.dart';
-import 'package:bottleshopdeliveryapp/services/auth_service.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:bottleshopdeliveryapp/src/constants/app_theme.dart';
+import 'package:bottleshopdeliveryapp/src/services/analytics.dart';
+import 'package:bottleshopdeliveryapp/src/services/firebase_auth_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/log_engine_service.dart';
+import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
+import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  Crashlytics.instance.enableInDevMode = true;
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  var logEngine = LogEngineService();
+  logEngine.setLogLevel(level: Level.warning);
+  FlutterError.onError = logEngine.recordFlutterError;
   runZoned(() {
+    WidgetsFlutterBinding.ensureInitialized();
     runApp(MyApp());
-  }, onError: Crashlytics.instance.recordError);
+  }, onError: logEngine.recordError);
 }
 
 class MyApp extends StatelessWidget {
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  get providers => null;
+
+  get dispose => null;
+
+  final authentication = FirebaseAuthService();
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>(
-      create: (_) => AuthService().user,
-      catchError: (_, __) => null,
+    return MultiProvider(
+      providers: [
+        Provider<Analytics>(create: (_) => LogEngineService()),
+        ChangeNotifierProvider<AuthState>(
+            create: (_) => AuthState(authentication: authentication)),
+      ],
       child: MaterialApp(
-        home: Wrapper(),
-        navigatorObservers: <NavigatorObserver>[
-          observer,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
         ],
+        title: 'Bottleshop 3 Veze',
+        debugShowCheckedModeBanner: false,
+        routes: RoutePaths.initial(),
+        onGenerateRoute: RouteGenerator.onGenerateRoute,
+        onUnknownRoute: RouteGenerator.onUnknownRoute,
+        navigatorObservers: <NavigatorObserver>[
+          LogEngineService().getAnalyticsObserver(),
+        ],
+        darkTheme: appThemeDark,
+        theme: appTheme,
+        themeMode: ThemeMode.system,
       ),
     );
   }
