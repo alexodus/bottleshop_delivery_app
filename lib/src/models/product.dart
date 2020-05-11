@@ -4,13 +4,15 @@ class Product {
   String id = UniqueKey().toString();
   String name;
   String image;
-  //String description;
   double price;
   int available;
   int quantity;
   int sales;
   double rate;
   double discount;
+  String countryOfOrigin;
+  String alcoholContent;
+  String volume;
 
   Product(this.name, this.image, this.available, this.price, this.quantity,
       this.sales, this.rate, this.discount);

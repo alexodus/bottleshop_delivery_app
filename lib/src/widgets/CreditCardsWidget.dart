@@ -59,7 +59,7 @@ class CreditCardsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Image.asset(
-                  'assetsimagesvisa.png',
+                  'assets/images/visa.png',
                   height: 22,
                   width: 70,
                 ),

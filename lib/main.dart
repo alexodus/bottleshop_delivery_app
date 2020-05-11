@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   var logEngine = LogEngineService();
-  logEngine.setLogLevel(level: Level.warning);
+  logEngine.setLogLevel(level: Level.verbose);
   FlutterError.onError = logEngine.recordFlutterError;
   runZoned(() {
     WidgetsFlutterBinding.ensureInitialized();
@@ -43,9 +43,8 @@ class MyApp extends StatelessWidget {
         ],
         title: 'Bottleshop 3 Veze',
         debugShowCheckedModeBanner: false,
-        routes: RoutePaths.initial(),
+        initialRoute: RoutePaths.splash,
         onGenerateRoute: RouteGenerator.onGenerateRoute,
-        onUnknownRoute: RouteGenerator.onUnknownRoute,
         navigatorObservers: <NavigatorObserver>[
           LogEngineService().getAnalyticsObserver(),
         ],

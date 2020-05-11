@@ -1,8 +1,11 @@
+import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutDoneScreen extends StatefulWidget {
   @override
@@ -12,7 +15,7 @@ class CheckoutDoneScreen extends StatefulWidget {
 class _CheckoutDoneScreenState extends State<CheckoutDoneScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    var currentUser = Provider.of<AuthState>(context).user;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -41,9 +44,7 @@ class _CheckoutDoneScreenState extends State<CheckoutDoneScreen> {
                   Navigator.of(context)
                       .pushNamed(RoutePaths.tabs, arguments: 1);
                 },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/user2.jpg'),
-                ),
+                child: ProfileAvatar(),
               )),
         ],
       ),
@@ -116,7 +117,7 @@ class _CheckoutDoneScreenState extends State<CheckoutDoneScreen> {
               SizedBox(height: 50),
               FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(RoutePaths.tabs);
+                  Navigator.pushNamed(context, RoutePaths.tabs, arguments: 2);
                 },
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
                 color: Theme.of(context).focusColor.withOpacity(0.15),

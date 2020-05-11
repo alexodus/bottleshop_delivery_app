@@ -105,6 +105,7 @@ class FirebaseAuthService extends BaseAuthService implements Authentication {
   @override
   Future<void> signOut() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.disconnect();
     await googleSignIn.signOut();
     final FacebookLogin facebookLogin = FacebookLogin();
     await facebookLogin.logOut();

@@ -1,5 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/models/order.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
+import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -49,9 +50,9 @@ class _OrderListItemWidgetState extends State<OrderListItemWidget> {
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.of(context).pushNamed('/Product',
+          Navigator.pushNamed(context, RoutePaths.productDetail,
               arguments: RouteArgument(
-                  argumentsList: [this.widget.heroTag],
+                  argumentsList: [widget.order.product, widget.heroTag],
                   id: this.widget.order.product.id));
         },
         child: Container(

@@ -1,8 +1,11 @@
+import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/CreditCardsWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutScreen extends StatefulWidget {
   @override
@@ -14,7 +17,7 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    var currentUser = Provider.of<AuthState>(context).user;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -34,18 +37,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               iconColor: Theme.of(context).hintColor,
               labelColor: Theme.of(context).accentColor),
           Container(
-              width: 30,
-              height: 30,
-              margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(300),
-                onTap: () {
-                  Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
-                },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/user2.jpg'),
-                ),
-              )),
+            width: 30,
+            height: 30,
+            margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(300),
+              onTap: () {
+                Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
+              },
+              child: ProfileAvatar(),
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(

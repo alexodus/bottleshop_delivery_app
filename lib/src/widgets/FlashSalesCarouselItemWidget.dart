@@ -1,5 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
+import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/AvailableProgressBarWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class FlashSalesCarouselItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/Product',
+        Navigator.of(context).pushNamed(RoutePaths.productDetail,
             arguments: RouteArgument(
                 id: product.id, argumentsList: [product, heroTag]));
       },

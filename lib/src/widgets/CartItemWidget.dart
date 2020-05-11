@@ -23,7 +23,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed(RoutePaths.products,
+        Navigator.pushNamed(context, RoutePaths.productDetail,
             arguments: RouteArgument(
                 id: widget.product.id,
                 argumentsList: [widget.product, widget.heroTag]));

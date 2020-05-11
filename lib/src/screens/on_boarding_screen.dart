@@ -31,7 +31,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 20, top: 50),
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, RoutePaths.signUp);
+                },
                 child: Text(
                   'Skip',
                   style: Theme.of(context).textTheme.button,

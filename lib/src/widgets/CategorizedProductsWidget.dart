@@ -26,7 +26,7 @@ class CategorizedProductsWidget extends StatelessWidget {
           shrinkWrap: true,
           crossAxisCount: 4,
           itemCount: _productsList.length,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
             Product product = _productsList.elementAt(index);
             return ProductGridItemWidget(
               product: product,

@@ -1,8 +1,6 @@
-import 'package:bottleshopdeliveryapp/src/models/brand.dart';
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/services/mock_database_service.dart';
-import 'package:bottleshopdeliveryapp/src/widgets/BrandsIconsCarouselWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/CategoriesIconsCarouselWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/CategorizedProductsWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/FlashSalesCarouselWidget.dart';
@@ -23,9 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   List<Product> _productsOfCategoryList;
-  List<Product> _productsOfBrandList;
   List<Category> _categoriesList;
-  List<Brand> _brandsList;
   List<Product> _flashSales;
 
   Animation animationOpacity;
@@ -44,15 +40,10 @@ class _HomeScreenState extends State<HomeScreen>
 
     animationController.forward();
     _categoriesList = MockDatabaseService().categories;
-    _brandsList = MockDatabaseService().brands;
     _flashSales = MockDatabaseService().flashSalesList;
 
     _productsOfCategoryList = _categoriesList.firstWhere((category) {
       return category.selected;
-    }).products;
-
-    _productsOfBrandList = _brandsList.firstWhere((brand) {
-      return brand.selected;
     }).products;
     super.initState();
   }
@@ -109,40 +100,6 @@ class _HomeScreenState extends State<HomeScreen>
           content: CategorizedProductsWidget(
               animationOpacity: animationOpacity,
               productsList: _productsOfCategoryList),
-        ),
-        // Heading (Brands)
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: ListTile(
-            dense: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 0),
-            leading: FaIcon(
-              FontAwesomeIcons.flag,
-              color: Theme.of(context).hintColor,
-            ),
-            title: Text(
-              'Brands',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ),
-        ),
-        StickyHeader(
-          header: BrandsIconsCarouselWidget(
-              heroTag: 'home_brand_1',
-              brandsList: _brandsList,
-              onChanged: (id) {
-                setState(() {
-                  animationController.reverse().then((f) {
-                    _productsOfBrandList = _brandsList.firstWhere((brand) {
-                      return brand.id == id;
-                    }).products;
-                    animationController.forward();
-                  });
-                });
-              }),
-          content: CategorizedProductsWidget(
-              animationOpacity: animationOpacity,
-              productsList: _productsOfBrandList),
         ),
       ],
     );

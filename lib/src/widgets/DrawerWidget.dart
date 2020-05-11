@@ -1,5 +1,6 @@
-import 'package:bottleshopdeliveryapp/src/models/user.dart';
+import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -7,15 +8,14 @@ import 'package:provider/provider.dart';
 class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //var user = Provider.of<User>(context);
-    User user = User.basic('name', 'assets/images/user2.jpg');
+    var authState = Provider.of<AuthState>(context);
 
     return Drawer(
       child: ListView(
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(RoutePaths.tabs, arguments: 1);
+              Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
             },
             child: UserAccountsDrawerHeader(
               decoration: BoxDecoration(
@@ -23,22 +23,19 @@ class DrawerWidget extends StatelessWidget {
 //              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
               ),
               accountName: Text(
-                user?.name,
+                authState.user?.name,
                 style: Theme.of(context).textTheme.title,
               ),
               accountEmail: Text(
-                user?.email,
+                authState.user?.email,
                 style: Theme.of(context).textTheme.caption,
               ),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Theme.of(context).accentColor,
-                backgroundImage: AssetImage(user?.avatar),
-              ),
+              currentAccountPicture: ProfileAvatar(),
             ),
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed(RoutePaths.tabs, arguments: 2);
+              Navigator.pushNamed(context, RoutePaths.tabs, arguments: 2);
             },
             leading: Icon(
               Icons.home,
@@ -51,7 +48,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed(RoutePaths.tabs, arguments: 0);
+              Navigator.pushNamed(context, RoutePaths.tabs, arguments: 0);
             },
             leading: FaIcon(
               FontAwesomeIcons.bell,
@@ -64,7 +61,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Orders', arguments: 0);
+              Navigator.pushNamed(context, RoutePaths.orders, arguments: 0);
             },
             leading: FaIcon(
               FontAwesomeIcons.inbox,
@@ -87,7 +84,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Tabs', arguments: 4);
+              Navigator.pushNamed(context, RoutePaths.tabs, arguments: 4);
             },
             leading: FaIcon(
               FontAwesomeIcons.heart,
@@ -111,7 +108,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Categories');
+              Navigator.pushNamed(context, RoutePaths.categories);
             },
             leading: FaIcon(
               FontAwesomeIcons.inbox,
@@ -120,19 +117,6 @@ class DrawerWidget extends StatelessWidget {
             title: Text(
               "Categories",
               style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Brands');
-            },
-            leading: FaIcon(
-              FontAwesomeIcons.folder,
-              color: Theme.of(context).focusColor.withOpacity(1),
-            ),
-            title: Text(
-              "Brands",
-              style: Theme.of(context).textTheme.subhead,
             ),
           ),
           ListTile(
@@ -148,7 +132,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Help');
+              Navigator.pushNamed(context, RoutePaths.help);
             },
             leading: Icon(
               FontAwesomeIcons.info,
@@ -161,7 +145,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Tabs', arguments: 1);
+              Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
             },
             leading: FaIcon(
               FontAwesomeIcons.cog,
@@ -174,7 +158,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Languages');
+              Navigator.pushNamed(context, RoutePaths.languages);
             },
             leading: FaIcon(
               FontAwesomeIcons.sun,
@@ -187,10 +171,12 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Login');
+              authState.logoutCallback();
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  RoutePaths.signIn, ModalRoute.withName('/'));
             },
             leading: Icon(
-              FontAwesomeIcons.upload,
+              FontAwesomeIcons.signOutAlt,
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(

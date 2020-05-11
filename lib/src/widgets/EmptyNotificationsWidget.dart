@@ -1,4 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
+import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -78,7 +79,7 @@ class EmptyNotificationsWidget extends StatelessWidget {
           SizedBox(height: 50),
           FlatButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/Tabs', arguments: 2);
+              Navigator.pushNamed(context, RoutePaths.tabs, arguments: 2);
             },
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
             color: Theme.of(context).focusColor.withOpacity(0.15),

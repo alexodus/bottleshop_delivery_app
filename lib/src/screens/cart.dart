@@ -1,9 +1,12 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/services/mock_database_service.dart';
+import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/CartItemWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   CartScreen({Key key}) : super(key: key);
@@ -21,11 +24,12 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var profilePic = Provider.of<AuthState>(context).user?.avatar;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: FaIcon(FontAwesomeIcons.backward,
+          icon: FaIcon(FontAwesomeIcons.longArrowAltLeft,
               color: Theme.of(context).hintColor),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -41,14 +45,11 @@ class _CartScreenState extends State<CartScreen> {
               height: 30,
               margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
               child: InkWell(
-                borderRadius: BorderRadius.circular(300),
-                onTap: () {
-                  Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
-                },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/user2.jpg'),
-                ),
-              )),
+                  borderRadius: BorderRadius.circular(300),
+                  onTap: () {
+                    Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
+                  },
+                  child: ProfileAvatar())),
         ],
       ),
       body: Stack(

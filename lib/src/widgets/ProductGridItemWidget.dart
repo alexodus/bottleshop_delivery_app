@@ -19,7 +19,7 @@ class ProductGridItemWidget extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context).pushNamed(RoutePaths.products,
+        Navigator.of(context).pushNamed(RoutePaths.productDetail,
             arguments: RouteArgument(
                 argumentsList: [this.product, this.heroTag],
                 id: this.product.id));

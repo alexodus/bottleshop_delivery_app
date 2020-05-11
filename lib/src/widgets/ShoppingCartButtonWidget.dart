@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -17,7 +18,7 @@ class ShoppingCartButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () {
-        Navigator.of(context).pushNamed('/Cart');
+        Navigator.of(context).pushNamed(RoutePaths.cart);
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,

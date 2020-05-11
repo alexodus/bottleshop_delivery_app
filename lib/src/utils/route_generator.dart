@@ -1,6 +1,4 @@
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/screens/brand.dart';
-import 'package:bottleshopdeliveryapp/src/screens/brands.dart';
 import 'package:bottleshopdeliveryapp/src/screens/cart.dart';
 import 'package:bottleshopdeliveryapp/src/screens/categories.dart';
 import 'package:bottleshopdeliveryapp/src/screens/category.dart';
@@ -18,22 +16,15 @@ import 'package:bottleshopdeliveryapp/src/screens/tabs.dart';
 import 'package:flutter/material.dart';
 
 class RoutePaths {
-  static dynamic initial() {
-    return {
-      '/': (context) => SplashScreen(),
-    };
-  }
-
+  static const String splash = '/';
   static const String onBoarding = '/onboarding';
   static const String signUp = '/signup';
   static const String signIn = '/signin';
   static const String tabs = '/tabs';
   static const String categories = '/categories';
   static const String orders = '/orders';
-  static const String brands = '/brands';
-  static const String brandDetail = '/brandDetail';
   static const String categoryDetail = '/categoryDetail';
-  static const String products = '/product';
+  static const String productDetail = '/productDetail';
   static const String cart = '/cart';
   static const String checkout = '/checkout';
   static const String checkoutCompleted = '/checkoutDone';
@@ -50,7 +41,7 @@ class RouteGenerator {
           title: Text('Error'),
         ),
         body: Center(
-          child: Text('Get out'),
+          child: Text(settings.name),
         ),
       );
     });
@@ -61,6 +52,8 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      case RoutePaths.splash:
+        return MaterialPageRoute(builder: (_) => AppSplashScreen());
       case RoutePaths.onBoarding:
         return MaterialPageRoute(builder: (_) => OnBoardingScreen());
       case RoutePaths.signUp:
@@ -71,8 +64,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CategoriesScreen());
       case RoutePaths.orders:
         return MaterialPageRoute(builder: (_) => OrdersScreen());
-      case RoutePaths.brands:
-        return MaterialPageRoute(builder: (_) => BrandsScreen());
       case RoutePaths.tabs:
         return MaterialPageRoute(
             builder: (_) => TabsScreen(
@@ -82,11 +73,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) =>
                 CategoryDetailScreen(routeArgument: args as RouteArgument));
-      case RoutePaths.brandDetail:
-        return MaterialPageRoute(
-            builder: (_) =>
-                BrandDetailScreen(routeArgument: args as RouteArgument));
-      case RoutePaths.products:
+      case RoutePaths.productDetail:
         return MaterialPageRoute(
             builder: (_) =>
                 ProductDetailScreen(routeArgument: args as RouteArgument));
@@ -102,7 +89,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LanguagesScreen());
       default:
         // If there is no such named route in the switch statement, e.g. /third
-        return onUnknownRoute(RouteSettings(name: '/404'));
+        return onUnknownRoute(settings);
     }
   }
 }

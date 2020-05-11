@@ -1,5 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
+import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -50,7 +51,7 @@ class _FavoriteListItemWidgetState extends State<FavoriteListItemWidget> {
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.of(context).pushNamed('/Product',
+          Navigator.of(context).pushNamed(RoutePaths.productDetail,
               arguments: RouteArgument(
                   argumentsList: [this.widget.product, this.widget.heroTag],
                   id: this.widget.product.id));

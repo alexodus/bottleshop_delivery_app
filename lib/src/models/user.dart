@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
+const defaultAvatar = 'assets/images/avatar.png';
+
 @immutable
 class User {
   final String id;
@@ -13,7 +15,9 @@ class User {
       : id = firebaseUser.uid,
         name = firebaseUser.displayName,
         email = firebaseUser.email,
-        avatar = firebaseUser?.photoUrl,
+        avatar = firebaseUser?.photoUrl == null
+            ? defaultAvatar
+            : firebaseUser?.photoUrl,
         phoneNumber = firebaseUser?.phoneNumber;
 
   factory User.withDetails(

@@ -1,11 +1,14 @@
 import 'package:bottleshopdeliveryapp/src/models/language.dart';
 import 'package:bottleshopdeliveryapp/src/services/mock_database_service.dart';
+import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/DrawerWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/LanguageItemWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/SearchBarWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class LanguagesScreen extends StatefulWidget {
@@ -24,6 +27,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = Provider.of<AuthState>(context).user;
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),
@@ -52,9 +56,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                 onTap: () {
                   Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
                 },
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/user2.jpg'),
-                ),
+                child: ProfileAvatar(),
               )),
         ],
       ),

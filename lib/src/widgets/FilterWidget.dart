@@ -1,11 +1,8 @@
-import 'package:bottleshopdeliveryapp/src/models/brand.dart';
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/services/mock_database_service.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 
 class FilterWidget extends StatefulWidget {
   @override
@@ -15,7 +12,6 @@ class FilterWidget extends StatefulWidget {
 class _FilterWidgetState extends State<FilterWidget> {
   List<Category> _categoriesList = MockDatabaseService().categories;
   List<SubCategory> _subCategoriesList = MockDatabaseService().subCategories;
-  List<Brand> _brandsList = MockDatabaseService().brands;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +46,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                 children: <Widget>[
                   ExpansionTile(
                     title: Text('Categories'),
+                    initiallyExpanded: true,
                     children: List.generate(5, (index) {
                       var _category = _categoriesList.elementAt(index);
                       return ExpansionTile(
@@ -75,36 +72,6 @@ class _FilterWidgetState extends State<FilterWidget> {
                         }),
                       );
                     }),
-                    initiallyExpanded: true,
-                  ),
-                  ExpansionTile(
-                    initiallyExpanded: true,
-                    title: Text('Brands'),
-                    children: List.generate(_brandsList.length, (index) {
-                      var _brand = _brandsList.elementAt(index);
-                      return CheckboxListTile(
-                        value: _brand.selected,
-                        onChanged: (value) {
-                          setState(() {
-                            _brand.selected = value;
-                          });
-                        },
-                        secondary: SizedBox(
-                          width: 40,
-                          height: 30,
-                          child: SvgPicture.asset(
-                            _brand.logo,
-                            color: _brand.color,
-                          ),
-                        ),
-                        title: Text(
-                          _brand.name,
-                          overflow: TextOverflow.fade,
-                          softWrap: false,
-                          maxLines: 1,
-                        ),
-                      );
-                    }),
                   ),
                 ],
               ),
@@ -112,7 +79,8 @@ class _FilterWidgetState extends State<FilterWidget> {
             SizedBox(height: 15),
             FlatButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(
+                Navigator.pushNamed(
+                  context,
                   RoutePaths.categoryDetail,
                   arguments: RouteArgument(
                     id: 2,
@@ -139,6 +107,12 @@ class _FilterWidgetState extends State<FilterWidget> {
   }
 
   void clearSelection() {
+    _categoriesList.forEach((category) {
+      category.selected = false;
+    });
+    _subCategoriesList.forEach((element) {
+      element.selected = false;
+    });
     //TODO
   }
 }

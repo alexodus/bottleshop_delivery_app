@@ -1,15 +1,15 @@
 import 'package:bottleshopdeliveryapp/src/screens/account.dart';
 import 'package:bottleshopdeliveryapp/src/screens/favorites.dart';
 import 'package:bottleshopdeliveryapp/src/screens/home.dart';
+import 'package:bottleshopdeliveryapp/src/screens/messages.dart';
 import 'package:bottleshopdeliveryapp/src/screens/shop_notifications.dart';
-import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/DrawerWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/FilterWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class TabsScreen extends StatefulWidget {
   final currentTab;
@@ -61,6 +61,10 @@ class _TabsScreenState extends State<TabsScreen> {
           currentPage = HomeScreen();
           break;
         case 3:
+          currentTitle = 'Messages';
+          currentPage = MessagesScreen();
+          break;
+        case 4:
           currentTitle = 'Favorites';
           currentPage = FavoritesScreen();
           break;
@@ -70,7 +74,6 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var profilePic = Provider.of<AuthState>(context).user?.avatar;
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),
@@ -100,51 +103,11 @@ class _TabsScreenState extends State<TabsScreen> {
                 onTap: () {
                   Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
                 },
-                child: CircleAvatar(
-                  backgroundImage: profilePic == null ? AssetImage
-                    ('assets/images/avatar.png') : NetworkImage(profilePic),
-                ),
+                child: ProfileAvatar(),
               )),
         ],
       ),
       body: currentPage,
-//      bottomNavigationBar: CurvedNavigationBar(
-//        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-//        buttonBackgroundColor: Theme.of(context).accentColor,
-//        color: Theme.of(context).focusColor.withOpacity(0.2),
-//        height: 60,
-//        index: widget.selectedTab,
-//        onTap: (int i) {
-//          this._selectTab(i);
-//        },
-//        items: <Widget>[
-//          Icon(
-//            UiIcons.bell,
-//            size: 23,
-//            color: Theme.of(context).focusColor,
-//          ),
-//          Icon(
-//            UiIcons.user_1,
-//            size: 23,
-//            color: Theme.of(context).focusColor,
-//          ),
-//          Icon(
-//            UiIcons.home,
-//            size: 23,
-//            color: Theme.of(context).focusColor,
-//          ),
-//          Icon(
-//            UiIcons.chat,
-//            size: 23,
-//            color: Theme.of(context).focusColor,
-//          ),
-//          Icon(
-//            UiIcons.heart,
-//            size: 23,
-//            color: Theme.of(context).focusColor,
-//          ),
-//        ],
-//      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Theme.of(context).accentColor,
@@ -166,9 +129,8 @@ class _TabsScreenState extends State<TabsScreen> {
             title: Container(height: 0.0),
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.user),
-            title: Container(height: 0.0),
-          ),
+              title: Container(height: 0.0),
+              icon: FaIcon(FontAwesomeIcons.user)),
           BottomNavigationBarItem(
               title: Container(height: 5.0),
               icon: Container(
@@ -191,11 +153,10 @@ class _TabsScreenState extends State<TabsScreen> {
                         offset: Offset(0, 3))
                   ],
                 ),
-                child: FaIcon(FontAwesomeIcons.home,
-                    color: Theme.of(context).primaryColor),
+                child: Icon(Icons.home, color: Theme.of(context).primaryColor),
               )),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.commentDots),
+            icon: FaIcon(FontAwesomeIcons.rocketchat),
             title: Container(height: 0.0),
           ),
           BottomNavigationBarItem(

@@ -1,12 +1,15 @@
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/services/mock_database_service.dart';
+import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/DrawerWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ProductsByCategoryWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CategoryDetailScreen extends StatefulWidget {
   final Category _category;
@@ -54,6 +57,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = Provider.of<AuthState>(context).user;
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),
@@ -63,7 +67,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
           floating: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            icon: FaIcon(FontAwesomeIcons.backward,
+            icon: FaIcon(FontAwesomeIcons.arrowLeft,
                 color: Theme.of(context).primaryColor),
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -78,12 +82,9 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
                 child: InkWell(
                   borderRadius: BorderRadius.circular(300),
                   onTap: () {
-                    Navigator.of(context)
-                        .pushNamed(RoutePaths.tabs, arguments: 1);
+                    Navigator.pushNamed(context, RoutePaths.tabs, arguments: 1);
                   },
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/user2.jpg'),
-                  ),
+                  child: ProfileAvatar(),
                 )),
           ],
           backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
