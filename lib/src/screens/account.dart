@@ -1,5 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
+import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ProfileSettingsDialog.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/SearchBarWidget.dart';
 import 'package:flutter/material.dart';
@@ -46,18 +47,17 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
                 SizedBox(
-                    width: 55,
-                    height: 55,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(300),
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutePaths.tabs,
-                            arguments: 1);
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(authState.user.avatar),
-                      ),
-                    )),
+                  width: 55,
+                  height: 55,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(300),
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutePaths.tabs,
+                          arguments: 0);
+                    },
+                    child: ProfileAvatar(),
+                  ),
+                )
               ],
             ),
           ),
@@ -80,13 +80,13 @@ class _AccountScreenState extends State<AccountScreen> {
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                     onPressed: () {
                       Navigator.pushNamed(context, RoutePaths.tabs,
-                          arguments: 4);
+                          arguments: 0);
                     },
                     child: Column(
                       children: <Widget>[
-                        FaIcon(FontAwesomeIcons.heart),
+                        FaIcon(FontAwesomeIcons.bell),
                         Text(
-                          'Wish List',
+                          'Notifications',
                           style: Theme.of(context).textTheme.bodyText2,
                         )
                       ],
@@ -98,13 +98,13 @@ class _AccountScreenState extends State<AccountScreen> {
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                     onPressed: () {
                       Navigator.pushNamed(context, RoutePaths.tabs,
-                          arguments: 0);
+                          arguments: 2);
                     },
                     child: Column(
                       children: <Widget>[
                         FaIcon(FontAwesomeIcons.heart),
                         Text(
-                          'Following',
+                          'Wish List',
                           style: Theme.of(context).textTheme.bodyText2,
                         )
                       ],

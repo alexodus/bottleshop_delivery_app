@@ -1,6 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/DrawerWidget.dart';
@@ -10,7 +9,6 @@ import 'package:bottleshopdeliveryapp/src/widgets/ReviewsListWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   RouteArgument routeArgument;
@@ -55,7 +53,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = Provider.of<AuthState>(context).user;
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),

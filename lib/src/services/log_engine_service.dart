@@ -22,9 +22,8 @@ class LogEngineService extends BaseAnalyticsEngine implements Analytics {
       _instance.crashlyticsInstance.recordFlutterError;
 
   @override
-  Future<void> logAppOpen() {
-    // TODO: implement logAppOpen
-    throw UnimplementedError();
+  Future<void> logAppOpen() async {
+    await firebaseAnalyticsInstance.logAppOpen();
   }
 
   @override
@@ -34,9 +33,8 @@ class LogEngineService extends BaseAnalyticsEngine implements Analytics {
   }
 
   @override
-  Future<void> logLogin() {
-    // TODO: implement logLogin
-    throw UnimplementedError();
+  Future<void> logLogin() async {
+    await firebaseAnalyticsInstance.logLogin();
   }
 
   FirebaseAnalyticsObserver getAnalyticsObserver() {

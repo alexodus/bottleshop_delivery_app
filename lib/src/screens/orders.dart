@@ -1,12 +1,10 @@
 import 'package:bottleshopdeliveryapp/src/models/order.dart';
 import 'package:bottleshopdeliveryapp/src/services/mock_database_service.dart';
-import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/DrawerWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'orders_products.dart';
 
@@ -23,7 +21,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = Provider.of<AuthState>(context).user;
     return DefaultTabController(
         initialIndex: widget.currentTab ?? 0,
         length: 5,

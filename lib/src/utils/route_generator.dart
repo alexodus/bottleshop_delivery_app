@@ -50,7 +50,6 @@ class RouteGenerator {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final args = settings.arguments;
-
     switch (settings.name) {
       case RoutePaths.splash:
         return MaterialPageRoute(builder: (_) => AppSplashScreen());

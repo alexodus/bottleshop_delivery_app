@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   var logEngine = LogEngineService();
+  logEngine.logAppOpen();
   logEngine.setLogLevel(level: Level.verbose);
   FlutterError.onError = logEngine.recordFlutterError;
   runZoned(() {

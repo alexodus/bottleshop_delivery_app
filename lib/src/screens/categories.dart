@@ -1,14 +1,12 @@
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/services/mock_database_service.dart';
-import 'package:bottleshopdeliveryapp/src/state/AuthState.dart';
 import 'package:bottleshopdeliveryapp/src/utils/route_generator.dart';
 import 'package:bottleshopdeliveryapp/src/utils/ui_helper.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/DrawerWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/SearchBarWidget.dart';
 import 'package:bottleshopdeliveryapp/src/widgets/ShoppingCartButtonWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
   @override
@@ -30,7 +28,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = Provider.of<AuthState>(context).user;
     return Scaffold(
       drawer: DrawerWidget(),
       appBar: AppBar(
