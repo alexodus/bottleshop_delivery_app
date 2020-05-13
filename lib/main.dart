@@ -13,11 +13,11 @@ import 'package:provider/provider.dart';
 
 void main() {
   var logEngine = LogEngineService();
-  logEngine.logAppOpen();
-  logEngine.setLogLevel(level: Level.verbose);
   FlutterError.onError = logEngine.recordFlutterError;
   runZoned(() {
     WidgetsFlutterBinding.ensureInitialized();
+    logEngine.logAppOpen();
+    logEngine.setLogLevel(level: Level.verbose);
     runApp(MyApp());
   }, onError: logEngine.recordError);
 }

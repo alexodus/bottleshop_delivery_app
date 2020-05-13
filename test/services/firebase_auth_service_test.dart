@@ -22,6 +22,7 @@ void main() {
     });
 
     setUp(() {
+      TestWidgetsFlutterBinding.ensureInitialized();
       sut = FirebaseAuthService();
     });
 
