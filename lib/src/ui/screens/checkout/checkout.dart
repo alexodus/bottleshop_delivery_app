@@ -23,7 +23,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: FaIcon(FontAwesomeIcons.backward,
+          icon: FaIcon(FontAwesomeIcons.longArrowAltLeft,
               color: Theme.of(context).hintColor),
           onPressed: () => Navigator.of(context).pop(),
         ),

@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
               title: 'Bottleshop 3 Veze',
               routes: Routes.routes,
               onUnknownRoute: Routes.onUnknownRoute,
+              onGenerateRoute: Routes.onGenerateRoute,
               theme: appTheme,
               darkTheme: appThemeDark,
               themeMode: themeProviderRef.isDarkModeOn

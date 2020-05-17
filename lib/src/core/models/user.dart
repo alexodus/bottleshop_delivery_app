@@ -13,7 +13,7 @@ class User {
 
   User({this.uid, this.name, this.email, this.avatar, this.phoneNumber});
 
-  factory User.fromMap(Map data) {
+  factory User.fromMap(Map<String, String> data) {
     return User(
       uid: data['uid'],
       email: data['email'] ?? '',
@@ -23,11 +23,16 @@ class User {
     );
   }
 
+  factory User.fromAuthResult(AuthResult result) {
+    var map = result.additionalUserInfo.profile;
+    return User.fromMap(map);
+  }
+
   factory User.fromFirebase(FirebaseUser user) {
     return User(
         uid: user.uid,
-        email: user.email,
-        name: user.displayName,
+        email: user?.email ?? '',
+        name: user?.displayName ?? '',
         avatar: user?.photoUrl ?? Constants.defaultAvatar,
         phoneNumber: user?.phoneNumber ?? '');
   }

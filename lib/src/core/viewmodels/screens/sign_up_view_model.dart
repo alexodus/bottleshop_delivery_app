@@ -11,9 +11,9 @@ class SignUpViewModel extends BaseViewModel {
       User user =
           await authentication.createUserWithEmailAndPassword(email, password);
       if (user != null) {
-        await authentication.signInWithEmailAndPassword(email, password);
         await userDatabase.save(user);
         await analytics.logSignUp('email');
+        await authentication.signInWithEmailAndPassword(email, password);
         notifyListeners();
         return true;
       }

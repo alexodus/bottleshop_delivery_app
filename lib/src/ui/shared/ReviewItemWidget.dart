@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/src/core/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/core/models/review.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,7 +24,7 @@ class ReviewItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
                 image: DecorationImage(
-                    image: AssetImage(this.review.user.avatar),
+                    image: AssetImage(Constants.defaultAvatar),
                     fit: BoxFit.cover),
               ),
             ),

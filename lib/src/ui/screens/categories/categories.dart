@@ -44,7 +44,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         elevation: 0,
         title: Text(
           'Categories',
-          style: Theme.of(context).textTheme.display1,
+          style: Theme.of(context).textTheme.headline4,
         ),
         actions: <Widget>[
           ShoppingCartButtonWidget(

@@ -67,7 +67,6 @@ class _SignInScreenState extends State<SignInScreen> {
                             onFacebookClicked: () async {
                               var status = await model.signInWithFacebook();
                               if (!status) {
-                                model.loading = false;
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content:
                                       Text('Sing in failed, please try again'),
@@ -77,7 +76,6 @@ class _SignInScreenState extends State<SignInScreen> {
                             onGoogleClicked: () async {
                               var status = await model.signInWithGoogle();
                               if (!status) {
-                                model.loading = false;
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content:
                                       Text('Sing in failed, please try again'),
@@ -91,7 +89,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                     await model.signInWithEmailAndPassword(
                                         _email.text, _password.text);
                                 if (!status) {
-                                  model.loading = false;
                                   _scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
                                     content: Text(

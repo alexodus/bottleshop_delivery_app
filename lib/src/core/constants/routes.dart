@@ -26,14 +26,12 @@ class Routes {
   static final routes = <String, WidgetBuilder>{
     CartScreen.routeName: (builder) => CartScreen(),
     CategoriesScreen.routeName: (builder) => CategoriesScreen(),
-    CategoryDetailScreen.routeName: (builder) => CategoryDetailScreen(),
     CheckoutScreen.routeName: (builder) => CheckoutScreen(),
     CheckoutDoneScreen.routeName: (builder) => CheckoutDoneScreen(),
     HelpScreen.routeName: (builder) => HelpScreen(),
     LanguagesScreen.routeName: (builder) => LanguagesScreen(),
     OnBoardingScreen.routeName: (builder) => OnBoardingScreen(),
     OrdersScreen.routeName: (builder) => OrdersScreen(),
-    ProductDetailScreen.routeName: (builder) => ProductDetailScreen(),
     SignInScreen.routeName: (builder) => SignInScreen(),
     SignUpScreen.routeName: (builder) => SignUpScreen(),
     ResetPasswordScreen.routeName: (builder) => ResetPasswordScreen(),
@@ -84,6 +82,24 @@ class Routes {
       default:
         return RouteArgument(
             title: 'Home', id: TabIndex.home.index, argumentsList: [HomeTab()]);
+    }
+  }
+
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    if (settings.name == CategoryDetailScreen.routeName) {
+      final RouteArgument args = settings.arguments;
+      return MaterialPageRoute(
+        builder: (context) {
+          return CategoryDetailScreen(routeArgument: args);
+        },
+      );
+    } else if (settings.name == ProductDetailScreen.routeName) {
+      final RouteArgument args = settings.arguments;
+      return MaterialPageRoute(
+        builder: (context) {
+          return ProductDetailScreen(routeArgument: args);
+        },
+      );
     }
   }
 

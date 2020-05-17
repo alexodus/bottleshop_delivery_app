@@ -40,12 +40,12 @@ class _AccountTabState extends State<AccountTab> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        user.name,
+                        user?.name ?? '',
                         textAlign: TextAlign.left,
                         style: Theme.of(context).textTheme.headline3,
                       ),
                       Text(
-                        user.email,
+                        user?.email ?? '',
                         style: Theme.of(context).textTheme.caption,
                       )
                     ],
@@ -275,7 +275,7 @@ class _AccountTabState extends State<AccountTab> {
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   trailing: Text(
-                    user.name,
+                    user?.name ?? '',
                     style: TextStyle(color: Theme.of(context).focusColor),
                   ),
                 ),
@@ -287,7 +287,7 @@ class _AccountTabState extends State<AccountTab> {
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   trailing: Text(
-                    user.email,
+                    user?.email ?? '',
                     style: TextStyle(color: Theme.of(context).focusColor),
                   ),
                 ),

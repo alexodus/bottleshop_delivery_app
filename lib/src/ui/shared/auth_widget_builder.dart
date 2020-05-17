@@ -1,6 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
 import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/database/user_database_service.dart';
+import 'package:bottleshopdeliveryapp/src/core/services/database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +11,7 @@ class AuthWidgetBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<Authentication>(context, listen: false);
+    final userDatabase = Provider.of<Database<User>>(context, listen: false);
     return StreamBuilder<User>(
       stream: authService.onAuthStateChanged,
       builder: (context, snapshot) {
@@ -20,7 +21,7 @@ class AuthWidgetBuilder extends StatelessWidget {
             providers: [
               Provider<User>.value(value: user),
               StreamProvider<User>.value(
-                value: UserDatabaseService.fromFireStore().stream(user.uid),
+                value: userDatabase.stream(user.uid),
                 catchError: (_, __) => user,
               ),
             ],

@@ -14,8 +14,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   static const String routeName = '/product-detail';
+  RouteArgument routeArgument;
+  Product _product;
+  String _heroTag;
 
-  ProductDetailScreen({Key key}) : super(key: key);
+  ProductDetailScreen({Key key, this.routeArgument}) {
+    _product = this.routeArgument.argumentsList[0] as Product;
+    _heroTag = this.routeArgument.argumentsList[1] as String;
+  }
 
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -24,7 +30,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _tabIndex = 0;
 
   @override
@@ -50,10 +56,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    final RouteArgument args = ModalRoute.of(context).settings.arguments;
-    final product = args.argumentsList[0] as Product;
-    final heroTag = args.argumentsList[1] as String;
-    final id = args.id as String;
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),
@@ -175,7 +177,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.parallax,
             background: Hero(
-              tag: heroTag + id,
+              tag: widget._heroTag + widget.routeArgument.id,
               child: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
@@ -185,7 +187,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(product.image),
+                        image: AssetImage(widget._product.image),
                       ),
                     ),
                   ),
@@ -274,7 +276,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               offstage: 0 != _tabIndex,
               child: Column(
                 children: <Widget>[
-                  ProductHomeTabWidget(product: product),
+                  ProductHomeTabWidget(product: widget._product),
                 ],
               ),
             ),
@@ -283,7 +285,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               child: Column(
                 children: <Widget>[
                   ProductDetailsTabWidget(
-                    product: product,
+                    product: widget._product,
                   )
                 ],
               ),

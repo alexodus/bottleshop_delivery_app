@@ -2,6 +2,7 @@ import 'package:bottleshopdeliveryapp/src/core/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/core/enums/enums.dart';
 import 'package:bottleshopdeliveryapp/src/core/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/core/models/route_argument.dart';
+import 'package:bottleshopdeliveryapp/src/core/services/database/mock_database_service.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/DrawerWidget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/ProductsByCategoryWidget.dart';
@@ -12,8 +13,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoryDetailScreen extends StatefulWidget {
   static const String routeName = '/category-detail';
+  RouteArgument routeArgument;
+  Category _category;
 
-  CategoryDetailScreen({Key key}) : super(key: key);
+  CategoryDetailScreen({Key key, this.routeArgument}) {
+    _category = this.routeArgument.argumentsList[0] as Category;
+  }
 
   @override
   _CategoryDetailScreenState createState() => _CategoryDetailScreenState();
@@ -23,37 +28,33 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<SubCategory> _subCategoriesList;
+  List<SubCategory> _subCategoriesList = MockDatabaseService().subCategories;
 
-  /*@override
+  @override
   void initState() {
-    _subCategoriesList = MockDatabaseService().subCategories;
     _tabController = TabController(
         length: _subCategoriesList.length,
         initialIndex: widget.routeArgument.id,
         vsync: this);
     _tabController.addListener(_handleTabSelection);
     super.initState();
-  }*/
+  }
 
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
 
-  /*_handleTabSelection() {
+  _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       setState(() {
         widget.routeArgument.id = _tabController.index;
       });
     }
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
-    final RouteArgument args = ModalRoute.of(context).settings.arguments;
-    final id = args.id as int;
-    final category = args.argumentsList[0] as Category;
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),
@@ -116,16 +117,16 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Hero(
-                        tag: id,
+                        tag: widget.routeArgument.id,
                         child: Icon(
-                          category.icon,
+                          widget._category.icon,
                           color: Theme.of(context).primaryColor,
                           size: 70,
                         ),
                       ),
                       SizedBox(height: 5),
                       Text(
-                        category.name,
+                        widget._category.name,
                         style: Theme.of(context).textTheme.headline6.merge(
                             TextStyle(color: Theme.of(context).primaryColor)),
                       )
@@ -176,7 +177,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen>
         ),
         SliverToBoxAdapter(
           child: ProductsByCategoryWidget(
-            subCategory: _subCategoriesList.elementAt(id),
+            subCategory: _subCategoriesList.elementAt(widget.routeArgument.id),
           ),
         ),
       ]),

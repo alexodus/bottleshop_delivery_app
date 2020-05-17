@@ -2,11 +2,10 @@ import 'package:bottleshopdeliveryapp/src/core/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/core/enums/enums.dart';
 import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
 import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/ui/screens/category_detail/category.dart';
+import 'package:bottleshopdeliveryapp/src/ui/screens/categories/categories.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/help/help.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/languages/languages.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/orders/orders.dart';
-import 'package:bottleshopdeliveryapp/src/ui/screens/sign_in/sign_in_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/profile_avatar_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +13,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatelessWidget {
+  DrawerWidget({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    var authService = Provider.of<Authentication>(context, listen: false);
-    var user = Provider.of<User>(context);
+    final user = Provider.of<User>(context, listen: false);
+    final auth = Provider.of<Authentication>(context, listen: false);
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -29,14 +30,15 @@ class DrawerWidget extends StatelessWidget {
             child: UserAccountsDrawerHeader(
               decoration: BoxDecoration(
                 color: Theme.of(context).hintColor.withOpacity(0.1),
-//              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
+                borderRadius:
+                    BorderRadius.only(bottomLeft: Radius.circular(35)),
               ),
               accountName: Text(
                 user?.name ?? '',
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline6,
               ),
               accountEmail: Text(
-                user.email,
+                user?.email ?? '',
                 style: Theme.of(context).textTheme.caption,
               ),
               currentAccountPicture: ProfileAvatar(),
@@ -67,13 +69,12 @@ class DrawerWidget extends StatelessWidget {
             ),
             title: Text(
               "Notifications",
-              style: Theme.of(context).textTheme.subhead,
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, OrdersScreen.routeName,
-                  arguments: 0);
+              Navigator.pushNamed(context, OrdersScreen.routeName);
             },
             leading: FaIcon(
               FontAwesomeIcons.inbox,
@@ -105,14 +106,14 @@ class DrawerWidget extends StatelessWidget {
             ),
             title: Text(
               "Wish List",
-              style: Theme.of(context).textTheme.subhead,
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           ListTile(
             dense: true,
             title: Text(
               "Products",
-              style: Theme.of(context).textTheme.body1,
+              style: Theme.of(context).textTheme.bodyText2,
             ),
             trailing: Icon(
               Icons.remove,
@@ -121,7 +122,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, CategoryDetailScreen.routeName);
+              Navigator.pushNamed(context, CategoriesScreen.routeName);
             },
             leading: FaIcon(
               FontAwesomeIcons.inbox,
@@ -184,10 +185,8 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () async {
-              await authService.signOut();
-              return Navigator.of(context).pushNamedAndRemoveUntil(
-                  SignInScreen.routeName, ModalRoute.withName('/'));
+            onTap: () {
+              auth.signOut();
             },
             leading: Icon(
               FontAwesomeIcons.signOutAlt,
@@ -195,14 +194,14 @@ class DrawerWidget extends StatelessWidget {
             ),
             title: Text(
               "Log out",
-              style: Theme.of(context).textTheme.subhead,
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           ListTile(
             dense: true,
             title: Text(
               "Version 0.0.1",
-              style: Theme.of(context).textTheme.body1,
+              style: Theme.of(context).textTheme.bodyText2,
             ),
             trailing: Icon(
               Icons.remove,

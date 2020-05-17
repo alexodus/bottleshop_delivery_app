@@ -1,6 +1,6 @@
 class RouteArgument {
   final String title;
-  final dynamic id;
+  dynamic id;
   final List<dynamic> argumentsList;
 
   RouteArgument({this.title, this.id, this.argumentsList});
