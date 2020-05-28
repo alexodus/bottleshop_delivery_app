@@ -18,6 +18,7 @@ import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/account_tab.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/favorites_tab.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/home_tab.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/notifications_tab.dart';
+import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/orders_tab.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,7 @@ class Routes {
     TabIndex.account: AccountTab(), // 1
     TabIndex.home: HomeTab(), // 2
     TabIndex.favorites: FavoritesTab(),
-    TabIndex.myOrders: OrdersScreen(currentTab: 0) // 3
+    TabIndex.orders: OrdersTab(currentTab: 0) // 3
   };
 
   static RouteArgument onTabSelection(TabIndex tab) {
@@ -71,10 +72,10 @@ class Routes {
             id: TabIndex.favorites.index,
             argumentsList: [FavoritesTab()]);
         break;
-      case TabIndex.myOrders:
+      case TabIndex.orders:
         return RouteArgument(
             title: 'My Orders',
-            id: TabIndex.myOrders.index,
+            id: TabIndex.orders.index,
             argumentsList: [
               OrdersScreen(currentTab: 0),
             ]);

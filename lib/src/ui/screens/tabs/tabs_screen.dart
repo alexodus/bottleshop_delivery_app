@@ -114,7 +114,7 @@ class TabsScreen extends StatelessWidget {
                 title: Container(height: 0.0),
               ),
               BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.listAlt),
+                icon: FaIcon(FontAwesomeIcons.inbox),
                 title: Container(height: 0.0),
               ),
             ],

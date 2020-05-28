@@ -4,4 +4,4 @@ enum Language {
   slovak,
 }
 
-enum TabIndex { notifications, account, home, favorites, myOrders }
+enum TabIndex { notifications, account, home, favorites, orders }

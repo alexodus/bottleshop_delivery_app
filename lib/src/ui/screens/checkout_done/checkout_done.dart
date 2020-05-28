@@ -1,6 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/core/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/core/enums/enums.dart';
 import 'package:bottleshopdeliveryapp/src/core/utils/app_config.dart';
+import 'package:bottleshopdeliveryapp/src/ui/screens/orders/orders.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/ShoppingCartButtonWidget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/profile_avatar_widget.dart';
@@ -117,8 +118,7 @@ class _CheckoutDoneScreenState extends State<CheckoutDoneScreen> {
               SizedBox(height: 50),
               FlatButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, TabsScreen.routeName,
-                      arguments: Routes.onTabSelection(TabIndex.home));
+                  Navigator.pushNamed(context, OrdersScreen.routeName);
                 },
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
                 color: Theme.of(context).focusColor.withOpacity(0.15),
