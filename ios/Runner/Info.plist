@@ -25,17 +25,17 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.356540900257-0jukb0nlue82ltta8c7hthfibg84p3lt</string>
-				<string>fb866418400492928</string>
+				<string>com.googleusercontent.apps.540936468411-32eqnks9pqj6tamosjq8t2uik97q2fth</string>
+				<string>fb2068030620008513</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
-	<string>866418400492928</string>
+	<string>2068030620008513</string>
 	<key>FacebookDisplayName</key>
-	<string>Bottleshop 3 Veze - DEV</string>
+	<string>Bottleshop3veze Delivery</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

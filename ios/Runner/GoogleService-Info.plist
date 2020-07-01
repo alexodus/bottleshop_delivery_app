@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>356540900257-0jukb0nlue82ltta8c7hthfibg84p3lt.apps.googleusercontent.com</string>
+	<string>540936468411-32eqnks9pqj6tamosjq8t2uik97q2fth.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.356540900257-0jukb0nlue82ltta8c7hthfibg84p3lt</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>356540900257-hv8g2d7ph3fh848lk6baadq8qaedcph5.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.540936468411-32eqnks9pqj6tamosjq8t2uik97q2fth</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBKCEjbf29Wkq5tHDjvQImtCQkyH_54J8E</string>
+	<string>AIzaSyBWdUFIdbwtIFlZ_fp7qOGIUOwKjeD6gtc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>356540900257</string>
+	<string>540936468411</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>sk.bottleshop3veze.bottleshopdeliveryapp</string>
 	<key>PROJECT_ID</key>
-	<string>bottleshop-delivery-app</string>
+	<string>bottleshop3veze-delivery</string>
 	<key>STORAGE_BUCKET</key>
-	<string>bottleshop-delivery-app.appspot.com</string>
+	<string>bottleshop3veze-delivery.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:356540900257:ios:be5720202859fb27d1e1e0</string>
+	<string>1:540936468411:ios:74b4bb86d789e402bff69e</string>
 	<key>DATABASE_URL</key>
-	<string>https://bottleshop-delivery-app.firebaseio.com</string>
+	<string>https://bottleshop3veze-delivery.firebaseio.com</string>
 </dict>
 </plist>
