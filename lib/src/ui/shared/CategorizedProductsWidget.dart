@@ -34,7 +34,7 @@ class CategorizedProductsWidget extends StatelessWidget {
             );
           },
 //              staggeredTileBuilder: (int index) =>  StaggeredTile.count(2, index.isEven ? 2 : 1),
-          staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+          staggeredTileBuilder: (index) => StaggeredTile.fit(2),
           mainAxisSpacing: 15.0,
           crossAxisSpacing: 15.0,
         ),

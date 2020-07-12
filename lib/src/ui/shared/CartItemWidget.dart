@@ -8,8 +8,7 @@ class CartItemWidget extends StatefulWidget {
   final Product product;
   int quantity;
 
-  CartItemWidget({Key key, this.product, this.heroTag, this.quantity = 1})
-      : super(key: key);
+  CartItemWidget({Key key, this.product, this.heroTag, this.quantity = 1}) : super(key: key);
 
   @override
   _CartItemWidgetState createState() => _CartItemWidgetState();
@@ -25,18 +24,14 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
         Navigator.pushNamed(context, ProductDetailScreen.routeName,
-            arguments:
-                RouteArgument(id: args.id, argumentsList: args.argumentsList));
+            arguments: RouteArgument(id: args.id, argumentsList: args.argumentsList));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).focusColor.withOpacity(0.1),
-                blurRadius: 5,
-                offset: Offset(0, 2)),
+            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -49,9 +44,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                 width: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                      image: AssetImage(widget.product.image),
-                      fit: BoxFit.cover),
+                  image: DecorationImage(image: AssetImage(widget.product.image), fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -68,25 +61,23 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           widget.product.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: Theme.of(context).textTheme.subhead,
+                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Text(
                           widget.product.getPrice(),
-                          style: Theme.of(context).textTheme.display1,
+                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],
                     ),
                   ),
                   SizedBox(width: 8),
                   Column(
-//                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            widget.quantity =
-                                this.incrementQuantity(widget.quantity);
+                            widget.quantity = this.incrementQuantity(widget.quantity);
                           });
                         },
                         iconSize: 30,
@@ -94,13 +85,11 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                         icon: Icon(Icons.add_circle_outline),
                         color: Theme.of(context).hintColor,
                       ),
-                      Text(widget.quantity.toString(),
-                          style: Theme.of(context).textTheme.subhead),
+                      Text(widget.quantity.toString(), style: Theme.of(context).textTheme.subtitle1),
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            widget.quantity =
-                                this.decrementQuantity(widget.quantity);
+                            widget.quantity = this.decrementQuantity(widget.quantity);
                           });
                         },
                         iconSize: 30,

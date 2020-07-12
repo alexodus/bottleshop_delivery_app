@@ -7,7 +7,7 @@ import 'package:bottleshopdeliveryapp/src/ui/screens/checkout/checkout.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/checkout_done/checkout_done.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/help/help.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/languages/languages.dart';
-import 'package:bottleshopdeliveryapp/src/ui/screens/onbboarding/on_boarding_screen.dart';
+import 'package:bottleshopdeliveryapp/src/ui/screens/onboarding/on_boarding_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/orders/orders.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/product_detail/product.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/reset_password/reset_password_screen.dart';
@@ -25,7 +25,7 @@ import 'package:flutter/material.dart';
 class Routes {
   Routes._(); //this is to prevent anyone from instantiating this object
   static final routes = <String, WidgetBuilder>{
-    CartScreen.routeName: (builder) => CartScreen(),
+    CartScreen.routeName: (context) => CartScreen(),
     CategoriesScreen.routeName: (builder) => CategoriesScreen(),
     CheckoutScreen.routeName: (builder) => CheckoutScreen(),
     CheckoutDoneScreen.routeName: (builder) => CheckoutDoneScreen(),
@@ -37,7 +37,7 @@ class Routes {
     SignUpScreen.routeName: (builder) => SignUpScreen(),
     ResetPasswordScreen.routeName: (builder) => ResetPasswordScreen(),
     TabsScreen.routeName: (builder) => TabsScreen(),
-    AppSplashScreen.routeName: (_) => AppSplashScreen(),
+    AppSplashScreen.routeName: (context) => AppSplashScreen(),
   };
 
   static final tabs = <TabIndex, Widget>{
@@ -52,37 +52,24 @@ class Routes {
     switch (tab) {
       case TabIndex.notifications:
         return RouteArgument(
-            title: 'Notifications',
-            id: TabIndex.notifications.index,
-            argumentsList: [NotificationsTab()]);
+            title: 'Notifications', id: TabIndex.notifications.index, argumentsList: [NotificationsTab()]);
         break;
       case TabIndex.account:
-        return RouteArgument(
-            title: 'Account',
-            id: TabIndex.account.index,
-            argumentsList: [AccountTab()]);
+        return RouteArgument(title: 'Account', id: TabIndex.account.index, argumentsList: [AccountTab()]);
         break;
       case TabIndex.home:
-        return RouteArgument(
-            title: 'Home', id: TabIndex.home.index, argumentsList: [HomeTab()]);
+        return RouteArgument(title: 'Home', id: TabIndex.home.index, argumentsList: [HomeTab()]);
         break;
       case TabIndex.favorites:
-        return RouteArgument(
-            title: 'Favorites',
-            id: TabIndex.favorites.index,
-            argumentsList: [FavoritesTab()]);
+        return RouteArgument(title: 'Favorites', id: TabIndex.favorites.index, argumentsList: [FavoritesTab()]);
         break;
       case TabIndex.orders:
-        return RouteArgument(
-            title: 'My Orders',
-            id: TabIndex.orders.index,
-            argumentsList: [
-              OrdersScreen(currentTab: 0),
-            ]);
+        return RouteArgument(title: 'My Orders', id: TabIndex.orders.index, argumentsList: [
+          OrdersScreen(currentTab: 0),
+        ]);
         break;
       default:
-        return RouteArgument(
-            title: 'Home', id: TabIndex.home.index, argumentsList: [HomeTab()]);
+        return RouteArgument(title: 'Home', id: TabIndex.home.index, argumentsList: [HomeTab()]);
     }
   }
 
@@ -90,16 +77,14 @@ class Routes {
     if (settings.name == CategoryDetailScreen.routeName) {
       final RouteArgument args = settings.arguments;
       return MaterialPageRoute(
-        builder: (context) {
-          return CategoryDetailScreen(routeArgument: args);
-        },
+        builder: (context) => CategoryDetailScreen(routeArgument: args),
+        settings: RouteSettings(name: CategoryDetailScreen.routeName),
       );
     } else if (settings.name == ProductDetailScreen.routeName) {
       final RouteArgument args = settings.arguments;
       return MaterialPageRoute(
-        builder: (context) {
-          return ProductDetailScreen(routeArgument: args);
-        },
+        builder: (context) => ProductDetailScreen(routeArgument: args),
+        settings: RouteSettings(name: ProductDetailScreen.routeName),
       );
     }
   }

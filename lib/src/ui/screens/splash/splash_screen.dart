@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AppSplashScreen extends StatefulWidget {
-  static final routeName = '/splash-screen';
+  static final routeName = '/splash';
   const AppSplashScreen({Key key}) : super(key: key);
 
   @override
@@ -17,24 +15,14 @@ class AppSplashScreen extends StatefulWidget {
 class _AppSplashScreenState extends State<AppSplashScreen> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      timer();
-    });
     super.initState();
-  }
-
-  Future<void> timer() async {
-    await Future.delayed(Duration(seconds: 1)).then((_) {
-      var state = Provider.of<Authentication>(context, listen: false);
-      state.currentUser();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: InkWell(
-        onTap: () => print('loading'),
+        onTap: () => debugPrint('click'),
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -57,8 +45,7 @@ class _AppSplashScreenState extends State<AppSplashScreen> {
                       children: <Widget>[
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          child:
-                              Image.asset('assets/images/bottleshop-logo.png'),
+                          child: Image.asset('assets/images/bottleshop-logo.png'),
                           radius: 100.0,
                         ),
                         Padding(
@@ -76,8 +63,7 @@ class _AppSplashScreenState extends State<AppSplashScreen> {
                       Platform.isIOS
                           ? CupertinoActivityIndicator(radius: 35)
                           : CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.amber.shade600),
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.amber.shade600),
                               strokeWidth: 2,
                             ),
                       Padding(

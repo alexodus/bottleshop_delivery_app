@@ -39,12 +39,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
             elevation: 0,
             title: Text(
               'My Orders',
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.headline4,
             ),
             actions: <Widget>[
               ShoppingCartButtonWidget(
-                  iconColor: Theme.of(context).hintColor,
-                  labelColor: Theme.of(context).accentColor),
+                  iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
               Container(
                   width: 30,
                   height: 30,
@@ -64,17 +63,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 unselectedLabelColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).primaryColor,
                 isScrollable: true,
-                indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Theme.of(context).accentColor),
+                indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Theme.of(context).accentColor),
                 tabs: [
                   Tab(
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                              color: Theme.of(context).accentColor, width: 1)),
+                          border: Border.all(color: Theme.of(context).accentColor, width: 1)),
                       child: Align(
                         alignment: Alignment.center,
                         child: Text("All"),
@@ -86,8 +82,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                              color: Theme.of(context).accentColor, width: 1)),
+                          border: Border.all(color: Theme.of(context).accentColor, width: 1)),
                       child: Align(
                         alignment: Alignment.center,
                         child: Text("Unpaid"),
@@ -99,8 +94,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                              color: Theme.of(context).accentColor, width: 1)),
+                          border: Border.all(color: Theme.of(context).accentColor, width: 1)),
                       child: Align(
                         alignment: Alignment.center,
                         child: Text("Shipped"),
@@ -112,8 +106,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                              color: Theme.of(context).accentColor, width: 1)),
+                          border: Border.all(color: Theme.of(context).accentColor, width: 1)),
                       child: Align(
                         alignment: Alignment.center,
                         child: Text("To be shipped"),
@@ -125,8 +118,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                              color: Theme.of(context).accentColor, width: 1)),
+                          border: Border.all(color: Theme.of(context).accentColor, width: 1)),
                       child: Align(
                         alignment: Alignment.center,
                         child: Text("In Dispute"),
@@ -138,22 +130,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
           body: TabBarView(children: [
             OrdersProductsScreen(ordersList: _orderList),
             OrdersProductsScreen(
-                ordersList: _orderList
-                    .where((order) => order.orderState == OrderState.unpaid)
-                    .toList()),
+                ordersList: _orderList.where((order) => order.orderState == OrderState.unpaid).toList()),
             OrdersProductsScreen(
-                ordersList: _orderList
-                    .where((order) => order.orderState == OrderState.shipped)
-                    .toList()),
+                ordersList: _orderList.where((order) => order.orderState == OrderState.shipped).toList()),
             OrdersProductsScreen(
-                ordersList: _orderList
-                    .where(
-                        (order) => order.orderState == OrderState.toBeShipped)
-                    .toList()),
+                ordersList: _orderList.where((order) => order.orderState == OrderState.toBeShipped).toList()),
             OrdersProductsScreen(
-                ordersList: _orderList
-                    .where((order) => order.orderState == OrderState.inDispute)
-                    .toList()),
+                ordersList: _orderList.where((order) => order.orderState == OrderState.inDispute).toList()),
           ]),
         ));
   }

@@ -27,16 +27,14 @@ class ProductDetailScreen extends StatefulWidget {
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen>
-    with SingleTickerProviderStateMixin {
+class _ProductDetailScreenState extends State<ProductDetailScreen> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _tabIndex = 0;
 
   @override
   void initState() {
-    _tabController =
-        TabController(length: 3, initialIndex: _tabIndex, vsync: this);
+    _tabController = TabController(length: 3, initialIndex: _tabIndex, vsync: this);
     _tabController.addListener(_handleTabSelection);
     super.initState();
   }
@@ -64,10 +62,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).focusColor.withOpacity(0.15),
-                blurRadius: 5,
-                offset: Offset(0, -2)),
+            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 5, offset: Offset(0, -2)),
           ],
         ),
         child: Row(
@@ -116,14 +111,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                         });
                       },
                       iconSize: 30,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                       icon: Icon(Icons.remove_circle_outline),
                       color: Theme.of(context).primaryColor,
                     ),
                     Text('2',
-                        style: Theme.of(context).textTheme.subtitle1.merge(
-                            TextStyle(color: Theme.of(context).primaryColor))),
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            .merge(TextStyle(color: Theme.of(context).primaryColor))),
                     IconButton(
                       onPressed: () {
                         setState(() {
@@ -131,8 +127,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                         });
                       },
                       iconSize: 30,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                       icon: Icon(Icons.add_circle_outline),
                       color: Theme.of(context).primaryColor,
                     )
@@ -150,14 +145,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
 //          pinned: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            icon: FaIcon(FontAwesomeIcons.backward,
-                color: Theme.of(context).hintColor),
+            icon: FaIcon(FontAwesomeIcons.backward, color: Theme.of(context).hintColor),
             onPressed: () => Navigator.of(context).pop(),
           ),
           actions: <Widget>[
-            ShoppingCartButtonWidget(
-                iconColor: Theme.of(context).hintColor,
-                labelColor: Theme.of(context).accentColor),
+            ShoppingCartButtonWidget(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
             Container(
                 width: 30,
                 height: 30,
@@ -217,18 +209,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               labelPadding: EdgeInsets.symmetric(horizontal: 10),
               unselectedLabelColor: Theme.of(context).accentColor,
               labelColor: Theme.of(context).primaryColor,
-              indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: Theme.of(context).accentColor),
+              indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Theme.of(context).accentColor),
               tabs: [
                 Tab(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      border: Border.all(
-                          color: Theme.of(context).accentColor.withOpacity(0.2),
-                          width: 1),
+                      border: Border.all(color: Theme.of(context).accentColor.withOpacity(0.2), width: 1),
                     ),
                     child: Align(
                       alignment: Alignment.center,
@@ -295,8 +283,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                     child: ListTile(
                       dense: true,
                       contentPadding: EdgeInsets.symmetric(vertical: 0),

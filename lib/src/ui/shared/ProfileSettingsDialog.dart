@@ -26,8 +26,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
             builder: (context) {
               return SimpleDialog(
                 contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                titlePadding:
-                    EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                titlePadding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 title: Row(
                   children: <Widget>[
                     FaIcon(FontAwesomeIcons.user),
@@ -46,31 +45,23 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                         TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.text,
-                          decoration: getInputDecoration(
-                              hintText: 'John Doe', labelText: 'Full Name'),
+                          decoration: getInputDecoration(hintText: 'John Doe', labelText: 'Full Name'),
                           initialValue: widget.user.name,
-                          validator: (input) => input.trim().length < 3
-                              ? 'Not a valid full name'
-                              : null,
+                          validator: (input) => input.trim().length < 3 ? 'Not a valid full name' : null,
                           onSaved: (input) {},
                         ),
                         TextFormField(
                           style: TextStyle(color: Theme.of(context).hintColor),
                           keyboardType: TextInputType.emailAddress,
-                          decoration: getInputDecoration(
-                              hintText: 'johndo@gmail.com',
-                              labelText: 'Email Address'),
+                          decoration: getInputDecoration(hintText: 'johndo@gmail.com', labelText: 'Email Address'),
                           initialValue: widget.user.email,
-                          validator: (input) =>
-                              !input.contains('@') ? 'Not a valid email' : null,
+                          validator: (input) => !input.contains('@') ? 'Not a valid email' : null,
                           onSaved: (input) {},
                         ),
                         FormField<String>(
                           builder: (state) {
                             return DateTimeField(
-                              decoration: getInputDecoration(
-                                  hintText: '1996-12-31',
-                                  labelText: 'Birth Date'),
+                              decoration: getInputDecoration(hintText: '1996-12-31', labelText: 'Birth Date'),
                               format: DateFormat('yyyy-MM-dd'),
                               initialValue: DateTime.parse('1996-12-31'),
                               onShowPicker: (context, currentValue) {
@@ -102,8 +93,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                         onPressed: _submit,
                         child: Text(
                           'Save',
-                          style:
-                              TextStyle(color: Theme.of(context).accentColor),
+                          style: TextStyle(color: Theme.of(context).accentColor),
                         ),
                       ),
                     ],
@@ -128,13 +118,10 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
       hintStyle: Theme.of(context).textTheme.body1.merge(
             TextStyle(color: Theme.of(context).focusColor),
           ),
-      enabledBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
-      focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).hintColor)),
-      hasFloatingPlaceholder: true,
-      labelStyle: Theme.of(context).textTheme.body1.merge(
+      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor.withOpacity(0.2))),
+      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).hintColor)),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      labelStyle: Theme.of(context).textTheme.bodyText2.merge(
             TextStyle(color: Theme.of(context).hintColor),
           ),
     );

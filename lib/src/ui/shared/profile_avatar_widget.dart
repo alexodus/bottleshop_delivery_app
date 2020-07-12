@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/src/core/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
@@ -9,7 +10,7 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageUrl = Provider.of<User>(context)?.avatar;
+    final imageUrl = context.select((User value) => value?.avatar);
     if (imageUrl != null) {
       return CachedNetworkImage(
         imageUrl: imageUrl,
@@ -23,12 +24,12 @@ class ProfileAvatar extends StatelessWidget {
         ),
         placeholder: (context, url) => CircularProgressIndicator(),
         errorWidget: (context, url, error) => CircleAvatar(
-          backgroundImage: AssetImage('assets/images/avatar.png'),
+          backgroundImage: AssetImage(Constants.defaultAvatar),
         ),
       );
     }
     return CircleAvatar(
-      backgroundImage: AssetImage('assets/images/avatar.png'),
+      backgroundImage: AssetImage(Constants.defaultAvatar),
     );
   }
 }

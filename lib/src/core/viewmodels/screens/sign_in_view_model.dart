@@ -1,59 +1,43 @@
-import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/core/viewmodels/base_view_model.dart';
+import 'package:bottleshopdeliveryapp/src/core/services/analytics/analytics.dart';
+import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SignInViewModel extends BaseViewModel {
-  SignInViewModel({@required BuildContext context}) : super(context: context);
+class SignInViewModel extends ChangeNotifier {
+  SignInViewModel(this.locator);
 
-  Future<bool> signInWithEmailAndPassword(String email, String password) async {
-    try {
-      loading = true;
-      User user =
-          await authentication.signInWithEmailAndPassword(email, password);
-      if (user != null) {
-        await analytics.logLogin('email');
-        notifyListeners();
-        return true;
-      }
-      return false;
-    } catch (e) {
-      print('error: $e');
-      return false;
-    }
+  final Locator locator;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void _setLoading() {
+    _isLoading = true;
+    notifyListeners();
   }
 
-  Future<bool> signInWithGoogle() async {
-    try {
-      loading = true;
-      User user = await authentication.signInWithGoogle();
-      if (user != null) {
-        await analytics.logLogin('google');
-        notifyListeners();
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
+  void _setNotLoading() {
+    _isLoading = false;
+    notifyListeners();
   }
 
-  Future<bool> signInWithFacebook() async {
-    try {
-      loading = true;
-      User user = await authentication.signInWithFacebook();
-      if (user != null) {
-        await analytics.logLogin('facebook');
-        notifyListeners();
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+    _setLoading();
+    await locator<Authentication>().signInWithEmailAndPassword(email, password);
+    await locator<Analytics>().logLogin('email');
+    _setNotLoading();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> signInWithGoogle() async {
+    _setLoading();
+    await locator<Authentication>().signInWithGoogle();
+    await locator<Analytics>().logLogin('google');
+    _setNotLoading();
+  }
+
+  Future<void> signInWithFacebook() async {
+    _setLoading();
+    await locator<Authentication>().signInWithFacebook();
+    await locator<Analytics>().logLogin('facebook');
+    _setNotLoading();
   }
 }

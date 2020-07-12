@@ -1,11 +1,12 @@
 import 'package:bottleshopdeliveryapp/src/core/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/core/enums/enums.dart';
 import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
+import 'package:bottleshopdeliveryapp/src/core/viewmodels/screens/tabs_screen_view_model.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/categories/categories.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/help/help.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/languages/languages.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/orders/orders.dart';
+import 'package:bottleshopdeliveryapp/src/ui/screens/sign_in/sign_in_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/profile_avatar_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,28 +18,24 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context, listen: false);
-    final auth = Provider.of<Authentication>(context, listen: false);
     return Drawer(
       child: ListView(
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, TabsScreen.routeName,
-                  arguments: Routes.onTabSelection(TabIndex.account));
+              Navigator.pushNamed(context, TabsScreen.routeName, arguments: Routes.onTabSelection(TabIndex.account));
             },
             child: UserAccountsDrawerHeader(
               decoration: BoxDecoration(
                 color: Theme.of(context).hintColor.withOpacity(0.1),
-                borderRadius:
-                    BorderRadius.only(bottomLeft: Radius.circular(35)),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
               ),
               accountName: Text(
-                user?.name ?? '',
+                context.select((User user) => user?.name ?? ''),
                 style: Theme.of(context).textTheme.headline6,
               ),
               accountEmail: Text(
-                user?.email ?? '',
+                context.select((User user) => user?.email ?? ''),
                 style: Theme.of(context).textTheme.caption,
               ),
               currentAccountPicture: ProfileAvatar(),
@@ -46,8 +43,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, TabsScreen.routeName,
-                  arguments: Routes.onTabSelection(TabIndex.home));
+              Navigator.pushNamed(context, TabsScreen.routeName, arguments: Routes.onTabSelection(TabIndex.home));
             },
             leading: Icon(
               Icons.home,
@@ -87,8 +83,7 @@ class DrawerWidget extends StatelessWidget {
             trailing: Chip(
               padding: EdgeInsets.symmetric(horizontal: 5),
               backgroundColor: Colors.transparent,
-              shape: StadiumBorder(
-                  side: BorderSide(color: Theme.of(context).focusColor)),
+              shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
               label: Text(
                 '8',
                 style: TextStyle(color: Theme.of(context).focusColor),
@@ -97,8 +92,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, TabsScreen.routeName,
-                  arguments: Routes.onTabSelection(TabIndex.favorites));
+              Navigator.pushNamed(context, TabsScreen.routeName, arguments: Routes.onTabSelection(TabIndex.favorites));
             },
             leading: FaIcon(
               FontAwesomeIcons.heart,
@@ -159,8 +153,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, TabsScreen.routeName,
-                  arguments: Routes.onTabSelection(TabIndex.account));
+              Navigator.pushNamed(context, TabsScreen.routeName, arguments: Routes.onTabSelection(TabIndex.account));
             },
             leading: FaIcon(
               FontAwesomeIcons.cog,
@@ -185,8 +178,9 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () {
-              auth.signOut();
+            onTap: () async {
+              await context.read<TabsScreenViewModel>().signOut();
+              await Navigator.pushReplacementNamed(context, SignInScreen.routeName);
             },
             leading: Icon(
               FontAwesomeIcons.signOutAlt,

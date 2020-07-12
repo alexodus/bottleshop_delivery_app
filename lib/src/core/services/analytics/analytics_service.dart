@@ -2,7 +2,6 @@ import 'package:bottleshopdeliveryapp/src/core/services/analytics/analytics.dart
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 class DebugLogPrinter extends LogPrinter {
@@ -18,38 +17,33 @@ class DebugLogPrinter extends LogPrinter {
 }
 
 class AnalyticsService implements Analytics {
-  final Crashlytics crashlytics;
-  final FirebaseAnalytics analytics;
+  final Crashlytics _crashlytics;
+  final FirebaseAnalytics _analytics;
 
-  AnalyticsService({@required this.crashlytics, @required this.analytics})
-      : assert(crashlytics != null),
-        assert(analytics != null);
+  AnalyticsService({FirebaseAnalytics firebaseAnalytics, Crashlytics crashlytics})
+      : _crashlytics = crashlytics ?? Crashlytics.instance,
+        _analytics = firebaseAnalytics ?? FirebaseAnalytics();
 
-  factory AnalyticsService.fromFirebase() {
-    return AnalyticsService(
-        analytics: FirebaseAnalytics(), crashlytics: Crashlytics.instance);
-  }
-
-  Function get recordError => crashlytics.recordError;
-  Function get recordFlutterError => crashlytics.recordFlutterError;
+  Function get recordError => _crashlytics.recordError;
+  Function get recordFlutterError => _crashlytics.recordFlutterError;
 
   @override
   Future<void> logAppOpen() async {
-    await analytics.logAppOpen();
+    await _analytics.logAppOpen();
   }
 
   @override
   Future<void> logLogin(String loginMethod) async {
-    await analytics.logLogin(loginMethod: loginMethod);
+    await _analytics.logLogin(loginMethod: loginMethod);
   }
 
   FirebaseAnalyticsObserver getAnalyticsObserver() {
-    return FirebaseAnalyticsObserver(analytics: analytics);
+    return FirebaseAnalyticsObserver(analytics: _analytics);
   }
 
   @override
   void logError(String msg) {
-    crashlytics.log(msg);
+    _crashlytics.log(msg);
   }
 
   @override
@@ -90,17 +84,17 @@ class AnalyticsService implements Analytics {
 
   @override
   Future<void> logSignUp(String method) async {
-    await analytics.logSignUp(signUpMethod: method);
+    await _analytics.logSignUp(signUpMethod: method);
   }
 
   @override
   Future<void> logTutorialBegin() async {
-    await analytics.logTutorialBegin();
+    await _analytics.logTutorialBegin();
   }
 
   @override
   Future<void> logTutorialComplete() async {
-    await analytics.logTutorialComplete();
+    await _analytics.logTutorialComplete();
   }
 
   @override
@@ -123,6 +117,6 @@ class AnalyticsService implements Analytics {
 
   @override
   Future<void> setCurrentScreen(String screenName) async {
-    await analytics.setCurrentScreen(screenName: screenName);
+    await _analytics.setCurrentScreen(screenName: screenName);
   }
 }

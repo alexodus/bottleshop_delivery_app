@@ -12,7 +12,7 @@ class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(
-      create: (context2) => model,
+      create: (context) => model,
       child: Consumer<T>(
         builder: (context, value, child) => builder(value),
       ),

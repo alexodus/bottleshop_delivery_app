@@ -24,9 +24,7 @@ class OnBoardingScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 20, top: 50),
                   child: FlatButton(
                     onPressed: () async {
-                      await model.skipOnboardingPermanently();
-                      await Navigator.pushReplacementNamed(
-                          context, SignUpScreen.routeName);
+                      await Navigator.pushReplacementNamed(context, SignUpScreen.routeName);
                     },
                     child: Text(
                       'Skip',
@@ -78,14 +76,12 @@ class OnBoardingScreen extends StatelessWidget {
                       return Container(
                         width: 25.0,
                         height: 3.0,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2.0),
+                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
                           ),
-                          color: model.currentIndex ==
-                                  model.screens.indexOf(boarding)
+                          color: model.currentIndex == model.screens.indexOf(boarding)
                               ? Theme.of(context).hintColor.withOpacity(0.8)
                               : Theme.of(context).hintColor.withOpacity(0.2),
                         ),
@@ -99,8 +95,7 @@ class OnBoardingScreen extends StatelessWidget {
                   child: FlatButton(
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, SignUpScreen.routeName);
+                      Navigator.pushReplacementNamed(context, SignUpScreen.routeName);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,8 +103,7 @@ class OnBoardingScreen extends StatelessWidget {
                         Text(
                           'Sign up',
                           style: Theme.of(context).textTheme.headline4.merge(
-                                TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                                TextStyle(color: Theme.of(context).primaryColor),
                               ),
                         ),
                         Icon(

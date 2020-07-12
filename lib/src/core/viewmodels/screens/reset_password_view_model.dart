@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/src/core/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/core/viewmodels/base_view_model.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -8,7 +9,6 @@ class ResetPasswordViewModel extends BaseViewModel {
     try {
       loading = true;
       await authentication.sendPasswordResetEmail(email);
-      notifyListeners();
     } finally {
       loading = false;
     }
@@ -16,6 +16,7 @@ class ResetPasswordViewModel extends BaseViewModel {
 
   @override
   void dispose() {
+    Analytics.getLogger('ResetPasswordViewModel').d('disposed');
     super.dispose();
   }
 }

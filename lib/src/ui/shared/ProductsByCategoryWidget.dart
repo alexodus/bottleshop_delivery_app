@@ -13,8 +13,7 @@ class ProductsByCategoryWidget extends StatefulWidget {
   ProductsByCategoryWidget({Key key, this.subCategory}) : super(key: key);
 
   @override
-  _ProductsByCategoryWidgetState createState() =>
-      _ProductsByCategoryWidgetState();
+  _ProductsByCategoryWidgetState createState() => _ProductsByCategoryWidgetState();
 }
 
 class _ProductsByCategoryWidgetState extends State<ProductsByCategoryWidget> {
@@ -53,9 +52,7 @@ class _ProductsByCategoryWidgetState extends State<ProductsByCategoryWidget> {
                   },
                   icon: Icon(
                     Icons.format_list_bulleted,
-                    color: this.layout == 'list'
-                        ? Theme.of(context).accentColor
-                        : Theme.of(context).focusColor,
+                    color: this.layout == 'list' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
                   ),
                 ),
                 IconButton(
@@ -66,9 +63,7 @@ class _ProductsByCategoryWidgetState extends State<ProductsByCategoryWidget> {
                   },
                   icon: Icon(
                     Icons.apps,
-                    color: this.layout == 'grid'
-                        ? Theme.of(context).accentColor
-                        : Theme.of(context).focusColor,
+                    color: this.layout == 'grid' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
                   ),
                 )
               ],
@@ -116,7 +111,7 @@ class _ProductsByCategoryWidgetState extends State<ProductsByCategoryWidget> {
                 );
               },
 //                  staggeredTileBuilder: (int index) =>  StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
-              staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+              staggeredTileBuilder: (index) => StaggeredTile.fit(2),
               mainAxisSpacing: 15.0,
               crossAxisSpacing: 15.0,
             ),

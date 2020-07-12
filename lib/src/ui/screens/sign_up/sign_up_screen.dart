@@ -1,15 +1,16 @@
 import 'package:bottleshopdeliveryapp/src/core/utils/validator.dart';
 import 'package:bottleshopdeliveryapp/src/core/viewmodels/screens/sign_up_view_model.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/sign_in/sign_in_screen.dart';
+import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/form_input_field_with_icon.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/loader_widget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/social_media.dart';
-import 'package:bottleshopdeliveryapp/src/ui/view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
-  static const String routeName = '/sign-up';
+  static const String routeName = '/signUp';
   SignUpScreen({Key key}) : super(key: key);
 
   @override
@@ -27,13 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _formAutoValidOn = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    print('signUpScreen dispose');
     _email.dispose();
     _password.dispose();
     _passwordRepeat.dispose();
@@ -42,14 +37,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<SignUpViewModel>(
-      model: SignUpViewModel(context: context),
-      builder: (model) {
+    return ChangeNotifierProvider<SignUpViewModel>(
+      create: (_) => SignUpViewModel(context.read),
+      builder: (context, child) {
         return Scaffold(
           backgroundColor: Theme.of(context).accentColor,
           key: _scaffoldKey,
           body: Loader(
-            inAsyncCall: model.isBusy,
+            inAsyncCall: context.watch<SignUpViewModel>().isLoading,
             child: Form(
               key: _formKey,
               autovalidate: _formAutoValidOn,
@@ -66,30 +61,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: <Widget>[
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 30, horizontal: 20),
-                          margin: EdgeInsets.symmetric(
-                              vertical: 65, horizontal: 50),
+                          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                          margin: EdgeInsets.symmetric(vertical: 65, horizontal: 50),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.6),
+                            color: Theme.of(context).primaryColor.withOpacity(0.6),
                           ),
                         ),
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 30, horizontal: 30),
-                          margin: EdgeInsets.symmetric(
-                              vertical: 85, horizontal: 20),
+                          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                          margin: EdgeInsets.symmetric(vertical: 85, horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: Theme.of(context).primaryColor,
                             boxShadow: [
                               BoxShadow(
-                                  color: Theme.of(context)
-                                      .hintColor
-                                      .withOpacity(0.2),
+                                  color: Theme.of(context).hintColor.withOpacity(0.2),
                                   offset: Offset(0, 10),
                                   blurRadius: 20)
                             ],
@@ -97,31 +85,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Column(
                             children: <Widget>[
                               SizedBox(height: 25),
-                              Text('Sign Up',
-                                  style: Theme.of(context).textTheme.headline2),
+                              Text('Sign Up', style: Theme.of(context).textTheme.headline2),
                               SizedBox(height: 20),
                               FormInputFieldWithIcon(
-                                style: TextStyle(
-                                    color: Theme.of(context).accentColor),
+                                style: TextStyle(color: Theme.of(context).accentColor),
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                     hintText: 'Email Address',
-                                    hintStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .merge(
-                                          TextStyle(
-                                              color: Theme.of(context)
-                                                  .accentColor),
+                                    hintStyle: Theme.of(context).textTheme.bodyText2.merge(
+                                          TextStyle(color: Theme.of(context).accentColor),
                                         ),
                                     enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .accentColor
-                                                .withOpacity(0.2))),
+                                        borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
                                     focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context).accentColor),
+                                      borderSide: BorderSide(color: Theme.of(context).accentColor),
                                     ),
                                     prefixIcon: FaIcon(
                                       FontAwesomeIcons.envelope,
@@ -134,26 +111,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               SizedBox(height: 20),
                               FormInputFieldWithIcon(
-                                style: TextStyle(
-                                    color: Theme.of(context).accentColor),
+                                style: TextStyle(color: Theme.of(context).accentColor),
                                 decoration: InputDecoration(
                                   hintText: 'Password',
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      .merge(
-                                        TextStyle(
-                                            color:
-                                                Theme.of(context).accentColor),
+                                  hintStyle: Theme.of(context).textTheme.bodyText2.merge(
+                                        TextStyle(color: Theme.of(context).accentColor),
                                       ),
                                   enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .accentColor
-                                              .withOpacity(0.2))),
+                                      borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).accentColor),
+                                    borderSide: BorderSide(color: Theme.of(context).accentColor),
                                   ),
                                   prefixIcon: FaIcon(
                                     FontAwesomeIcons.lock,
@@ -165,12 +132,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         _showPassword = !_showPassword;
                                       });
                                     },
-                                    color: Theme.of(context)
-                                        .accentColor
-                                        .withOpacity(0.4),
-                                    icon: Icon(_showPassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off),
+                                    color: Theme.of(context).accentColor.withOpacity(0.4),
+                                    icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
                                   ),
                                 ),
                                 controller: _password,
@@ -191,26 +154,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               SizedBox(height: 20),
                               FormInputFieldWithIcon(
-                                style: TextStyle(
-                                    color: Theme.of(context).accentColor),
+                                style: TextStyle(color: Theme.of(context).accentColor),
                                 decoration: InputDecoration(
                                   hintText: 'Password',
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      .merge(
-                                        TextStyle(
-                                            color:
-                                                Theme.of(context).accentColor),
+                                  hintStyle: Theme.of(context).textTheme.bodyText2.merge(
+                                        TextStyle(color: Theme.of(context).accentColor),
                                       ),
                                   enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .accentColor
-                                              .withOpacity(0.2))),
+                                      borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).accentColor),
+                                    borderSide: BorderSide(color: Theme.of(context).accentColor),
                                   ),
                                   prefixIcon: FaIcon(
                                     FontAwesomeIcons.lock,
@@ -222,12 +175,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         _showPassword = !_showPassword;
                                       });
                                     },
-                                    color: Theme.of(context)
-                                        .accentColor
-                                        .withOpacity(0.4),
-                                    icon: Icon(_showPassword
-                                        ? Icons.visibility
-                                        : Icons.visibility_off),
+                                    color: Theme.of(context).accentColor.withOpacity(0.4),
+                                    icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
                                   ),
                                 ),
                                 controller: _passwordRepeat,
@@ -248,32 +197,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               SizedBox(height: 40),
                               FlatButton(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 70),
+                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {
-                                    var status =
-                                        await model.signUpWithEmailAndPassword(
-                                            _email.text, _password.text);
-                                    if (!status) {
-                                      model.loading = false;
-                                      _scaffoldKey.currentState
-                                          .showSnackBar(SnackBar(
-                                        content: Text(
-                                            'Sing in failed, please try again'),
-                                      ));
-                                    }
+                                    await context
+                                        .read<SignUpViewModel>()
+                                        .signUpWithEmailAndPassword(_email.text, _password.text);
+                                    Navigator.pushReplacementNamed(context, TabsScreen.routeName);
                                   }
                                 },
                                 child: Text(
                                   'Sign Up',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6
-                                      .merge(
-                                        TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
+                                  style: Theme.of(context).textTheme.headline6.merge(
+                                        TextStyle(color: Theme.of(context).primaryColor),
                                       ),
                                 ),
                                 color: Theme.of(context).accentColor,
@@ -287,26 +223,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               SizedBox(height: 20),
                               SocialMediaWidget(
                                 signInWithGoogle: () async {
-                                  var status = await model.signUpWithGoogle();
-                                  if (!status) {
-                                    model.loading = false;
-                                    _scaffoldKey.currentState
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                          'Sing in failed, please try again'),
-                                    ));
-                                  }
+                                  await context.read<SignUpViewModel>().signUpWithGoogle();
+                                  Navigator.pushReplacementNamed(context, TabsScreen.routeName);
                                 },
                                 signInWithFacebook: () async {
-                                  var status = await model.signUpWithFacebook();
-                                  if (!status) {
-                                    model.loading = false;
-                                    _scaffoldKey.currentState
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                          'Sing in failed, please try again'),
-                                    ));
-                                  }
+                                  await context.read<SignUpViewModel>().signUpWithFacebook();
+                                  Navigator.pushReplacementNamed(context, TabsScreen.routeName);
                                 },
                               ),
                             ],
@@ -316,20 +238,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     FlatButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, SignInScreen.routeName);
+                        Navigator.pushReplacementNamed(context, SignInScreen.routeName);
                       },
                       child: RichText(
                         text: TextSpan(
                           style: Theme.of(context).textTheme.headline6.merge(
-                                TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                                TextStyle(color: Theme.of(context).primaryColor),
                               ),
                           children: [
                             TextSpan(text: 'Already have an account ?'),
-                            TextSpan(
-                                text: ' Sign In',
-                                style: TextStyle(fontWeight: FontWeight.w700)),
+                            TextSpan(text: ' Sign In', style: TextStyle(fontWeight: FontWeight.w700)),
                           ],
                         ),
                       ),

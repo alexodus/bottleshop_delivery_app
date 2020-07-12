@@ -7,10 +7,6 @@ class OnBoardingViewModel extends BaseViewModel {
   int _pageIndex = 0;
   OnBoardingViewModel({BuildContext context}) : super(context: context);
 
-  Future<void> skipOnboardingPermanently() async {
-    await userPreferences.setOnBoardingShown(true);
-  }
-
   dynamic pageChanged(int index, CarouselPageChangedReason reason) {
     print('changed: $index');
     _pageIndex = index;
@@ -22,15 +18,13 @@ class OnBoardingViewModel extends BaseViewModel {
   List<OnBoarding> get screens => [
         OnBoarding(
             image: 'assets/images/onboarding0.png',
-            description:
-                'Don\'t cry because it\'s over, smile because it happened.'),
-        OnBoarding(
-            image: 'assets/images/onboarding1.png',
-            description: 'Be yourself, everyone else is already taken.'),
+            description: 'Don\'t cry because it\'s over, smile because it happened.'),
+        OnBoarding(image: 'assets/images/onboarding1.png', description: 'Be yourself, everyone else is already taken.'),
       ];
 
   @override
   void dispose() {
+    debugPrint('onBoardingViewModel disposed');
     super.dispose();
   }
 }

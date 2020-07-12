@@ -2,15 +2,16 @@ import 'package:bottleshopdeliveryapp/src/core/utils/validator.dart';
 import 'package:bottleshopdeliveryapp/src/core/viewmodels/screens/sign_in_view_model.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/reset_password/reset_password_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/screens/sign_up/sign_up_screen.dart';
+import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/form_input_field_with_icon.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/loader_widget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/social_media.dart';
-import 'package:bottleshopdeliveryapp/src/ui/view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
-  static const String routeName = '/sign-in';
+  static const String routeName = '/signIn';
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -37,14 +38,14 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<SignInViewModel>(
-      model: SignInViewModel(context: context),
-      builder: (model) {
+    return ChangeNotifierProvider<SignInViewModel>(
+      create: (_) => SignInViewModel(context.read),
+      builder: (context, child) {
         return Scaffold(
           backgroundColor: Theme.of(context).accentColor,
           key: _scaffoldKey,
           body: Loader(
-            inAsyncCall: model.isBusy,
+            inAsyncCall: context.watch<SignInViewModel>().isLoading,
             child: Form(
               key: _formKey,
               autovalidate: _formAutoValidOn,
@@ -65,50 +66,44 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: buildFormFields(
                             context: context,
                             onFacebookClicked: () async {
-                              var status = await model.signInWithFacebook();
-                              if (!status) {
+                              await context.read<SignInViewModel>().signInWithFacebook();
+                              Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+                              /*if (!status) {
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content:
-                                      Text('Sing in failed, please try again'),
+                                  content: Text('Sing in failed, please try again'),
                                 ));
-                              }
+                              }*/
                             },
                             onGoogleClicked: () async {
-                              var status = await model.signInWithGoogle();
-                              if (!status) {
+                              await context.read<SignInViewModel>().signInWithGoogle();
+                              Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+                              /*if (!status) {
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content:
-                                      Text('Sing in failed, please try again'),
+                                  content: Text('Sing in failed, please try again'),
                                 ));
-                              }
+                              }*/
                             },
                             onLoginClicked: () async {
                               _formKey.currentState.reset();
                               if (_formKey.currentState.validate()) {
-                                var status =
-                                    await model.signInWithEmailAndPassword(
-                                        _email.text, _password.text);
-                                if (!status) {
-                                  _scaffoldKey.currentState
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                        'Sing in failed, please try again'),
+                                await context
+                                    .read<SignInViewModel>()
+                                    .signInWithEmailAndPassword(_email.text, _password.text);
+                                Navigator.pushReplacementNamed(context, TabsScreen.routeName);
+                                /*if (!status) {
+                                  _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text('Sing in failed, please try again'),
                                   ));
-                                }
+                                }*/
                               }
                             },
-                            onResetClicked: () => Navigator.pushNamed(
-                                context, ResetPasswordScreen.routeName),
+                            onResetClicked: () => Navigator.pushNamed(context, ResetPasswordScreen.routeName),
                           ),
                         ),
                       ],
                     ),
-                    buildPrimaryButton(
-                        context,
-                        'Don\'t have an account ?',
-                        ' Sign Up',
-                        () => Navigator.pushReplacementNamed(
-                            context, SignUpScreen.routeName)),
+                    buildPrimaryButton(context, 'Don\'t have an account ?', ' Sign Up',
+                        () => Navigator.pushReplacementNamed(context, SignUpScreen.routeName)),
                   ],
                 ),
               ),
@@ -138,9 +133,8 @@ class _SignInScreenState extends State<SignInScreen> {
               hintStyle: Theme.of(context).textTheme.bodyText2.merge(
                     TextStyle(color: Theme.of(context).accentColor),
                   ),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).accentColor.withOpacity(0.2))),
+              enabledBorder:
+                  UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).accentColor),
               ),
@@ -161,9 +155,8 @@ class _SignInScreenState extends State<SignInScreen> {
             hintStyle: Theme.of(context).textTheme.bodyText2.merge(
                   TextStyle(color: Theme.of(context).accentColor),
                 ),
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context).accentColor.withOpacity(0.2))),
+            enabledBorder:
+                UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).accentColor),
             ),
@@ -178,8 +171,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 });
               },
               color: Theme.of(context).accentColor.withOpacity(0.4),
-              icon:
-                  Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+              icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
             ),
           ),
           controller: _password,
@@ -216,15 +208,12 @@ class _SignInScreenState extends State<SignInScreen> {
           style: Theme.of(context).textTheme.bodyText2,
         ),
         SizedBox(height: 20),
-        SocialMediaWidget(
-            signInWithFacebook: onFacebookClicked,
-            signInWithGoogle: onGoogleClicked)
+        SocialMediaWidget(signInWithFacebook: onFacebookClicked, signInWithGoogle: onGoogleClicked)
       ],
     );
   }
 
-  Widget buildPrimaryButton(
-      BuildContext context, String label, String title, Function onPress) {
+  Widget buildPrimaryButton(BuildContext context, String label, String title, Function onPress) {
     return FlatButton(
       onPressed: onPress,
       child: RichText(
@@ -234,8 +223,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
           children: [
             TextSpan(text: label),
-            TextSpan(
-                text: title, style: TextStyle(fontWeight: FontWeight.w700)),
+            TextSpan(text: title, style: TextStyle(fontWeight: FontWeight.w700)),
           ],
         ),
       ),
@@ -263,10 +251,7 @@ class _SignInScreenState extends State<SignInScreen> {
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).primaryColor,
         boxShadow: [
-          BoxShadow(
-              color: Theme.of(context).hintColor.withOpacity(0.2),
-              offset: Offset(0, 10),
-              blurRadius: 20)
+          BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.2), offset: Offset(0, 10), blurRadius: 20)
         ],
       ),
       child: child,

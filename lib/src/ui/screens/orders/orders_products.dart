@@ -54,9 +54,7 @@ class _OrdersProductsScreenState extends State<OrdersProductsScreen> {
                       },
                       icon: Icon(
                         Icons.format_list_bulleted,
-                        color: this.layout == 'list'
-                            ? Theme.of(context).accentColor
-                            : Theme.of(context).focusColor,
+                        color: this.layout == 'list' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
                       ),
                     ),
                     IconButton(
@@ -67,9 +65,7 @@ class _OrdersProductsScreenState extends State<OrdersProductsScreen> {
                       },
                       icon: Icon(
                         Icons.apps,
-                        color: this.layout == 'grid'
-                            ? Theme.of(context).accentColor
-                            : Theme.of(context).focusColor,
+                        color: this.layout == 'grid' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
                       ),
                     )
                   ],
@@ -117,7 +113,7 @@ class _OrdersProductsScreenState extends State<OrdersProductsScreen> {
                   );
                 },
 //                  staggeredTileBuilder: (int index) =>  StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
-                staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+                staggeredTileBuilder: (index) => StaggeredTile.fit(2),
                 mainAxisSpacing: 15.0,
                 crossAxisSpacing: 15.0,
               ),

@@ -59,8 +59,7 @@ class _AccountTabState extends State<AccountTab> {
                     borderRadius: BorderRadius.circular(300),
                     onTap: () {
                       Navigator.pushNamed(context, TabsScreen.routeName,
-                          arguments:
-                              Routes.onTabSelection(TabIndex.notifications));
+                          arguments: Routes.onTabSelection(TabIndex.notifications));
                     },
                     child: ProfileAvatar(),
                   ),
@@ -74,10 +73,7 @@ class _AccountTabState extends State<AccountTab> {
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(6),
               boxShadow: [
-                BoxShadow(
-                    color: Theme.of(context).hintColor.withOpacity(0.15),
-                    offset: Offset(0, 3),
-                    blurRadius: 10)
+                BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), offset: Offset(0, 3), blurRadius: 10)
               ],
             ),
             child: Row(
@@ -87,8 +83,7 @@ class _AccountTabState extends State<AccountTab> {
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                     onPressed: () {
                       Navigator.pushNamed(context, TabsScreen.routeName,
-                          arguments:
-                              Routes.onTabSelection(TabIndex.notifications));
+                          arguments: Routes.onTabSelection(TabIndex.notifications));
                     },
                     child: Column(
                       children: <Widget>[
@@ -128,10 +123,7 @@ class _AccountTabState extends State<AccountTab> {
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(6),
               boxShadow: [
-                BoxShadow(
-                    color: Theme.of(context).hintColor.withOpacity(0.15),
-                    offset: Offset(0, 3),
-                    blurRadius: 10)
+                BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), offset: Offset(0, 3), blurRadius: 10)
               ],
             ),
             child: ListView(
@@ -171,8 +163,7 @@ class _AccountTabState extends State<AccountTab> {
                   trailing: Chip(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     backgroundColor: Colors.transparent,
-                    shape: StadiumBorder(
-                        side: BorderSide(color: Theme.of(context).focusColor)),
+                    shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
                     label: Text(
                       '1',
                       style: TextStyle(color: Theme.of(context).focusColor),
@@ -191,8 +182,7 @@ class _AccountTabState extends State<AccountTab> {
                   trailing: Chip(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     backgroundColor: Colors.transparent,
-                    shape: StadiumBorder(
-                        side: BorderSide(color: Theme.of(context).focusColor)),
+                    shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
                     label: Text(
                       '5',
                       style: TextStyle(color: Theme.of(context).focusColor),
@@ -202,18 +192,16 @@ class _AccountTabState extends State<AccountTab> {
                 ListTile(
                   onTap: () {
                     Navigator.pushNamed(context, OrdersScreen.routeName);
-                    ;
                   },
                   dense: true,
                   title: Text(
                     'Shipped',
-                    style: Theme.of(context).textTheme.body1,
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                   trailing: Chip(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     backgroundColor: Colors.transparent,
-                    shape: StadiumBorder(
-                        side: BorderSide(color: Theme.of(context).focusColor)),
+                    shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
                     label: Text(
                       '3',
                       style: TextStyle(color: Theme.of(context).focusColor),
@@ -239,10 +227,7 @@ class _AccountTabState extends State<AccountTab> {
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(6),
               boxShadow: [
-                BoxShadow(
-                    color: Theme.of(context).hintColor.withOpacity(0.15),
-                    offset: Offset(0, 3),
-                    blurRadius: 10)
+                BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), offset: Offset(0, 3), blurRadius: 10)
               ],
             ),
             child: ListView(
@@ -312,10 +297,7 @@ class _AccountTabState extends State<AccountTab> {
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(6),
               boxShadow: [
-                BoxShadow(
-                    color: Theme.of(context).hintColor.withOpacity(0.15),
-                    offset: Offset(0, 3),
-                    blurRadius: 10)
+                BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.15), offset: Offset(0, 3), blurRadius: 10)
               ],
             ),
             child: ListView(

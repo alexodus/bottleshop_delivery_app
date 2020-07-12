@@ -1,23 +1,34 @@
 import 'package:bottleshopdeliveryapp/src/core/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/core/enums/enums.dart';
 import 'package:bottleshopdeliveryapp/src/core/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/core/viewmodels/base_view_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class TabsScreenViewModel extends BaseViewModel {
+class TabsScreenViewModel extends ChangeNotifier {
+  TabsScreenViewModel(this.locator, this.args)
+      : _currentTab = args.argumentsList[0],
+        _currentTabId = args.id,
+        _currentTabTitle = args.title;
+
+  final RouteArgument args;
+  final Locator locator;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void _setLoading() {
+    _isLoading = true;
+    notifyListeners();
+  }
+
+  void _setNotLoading() {
+    _isLoading = false;
+    notifyListeners();
+  }
+
   String _currentTabTitle;
   int _currentTabId;
   Widget _currentTab;
-
-  TabsScreenViewModel({BuildContext context, RouteArgument args})
-      : _currentTab = args.argumentsList[0],
-        _currentTabId = args.id,
-        _currentTabTitle = args.title,
-        super(context: context);
-
-  void selectTabFrom(RouteArgument routeArgument) {
-    selectTab(routeArgument.id);
-  }
 
   void selectTab(int index) {
     TabIndex newTab = TabIndex.values[index];
@@ -33,13 +44,8 @@ class TabsScreenViewModel extends BaseViewModel {
   Widget get tab => _currentTab;
 
   Future<void> signOut() async {
-    loading = true;
-    await authentication.signOut();
-  }
-
-  @override
-  void dispose() {
-    print('signUpViewModel dispose');
-    super.dispose();
+    _setLoading();
+    await locator<Authentication>().signOut();
+    _setNotLoading();
   }
 }

@@ -6,9 +6,9 @@ import 'package:bottleshopdeliveryapp/src/ui/shared/DrawerWidget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/FilterWidget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/ShoppingCartButtonWidget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/shared/profile_avatar_widget.dart';
-import 'package:bottleshopdeliveryapp/src/ui/view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class TabsScreen extends StatelessWidget {
   static const String routeName = '/tabs';
@@ -20,11 +20,10 @@ class TabsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final RouteArgument args = ModalRoute.of(context).settings.arguments ??
-        Routes.onTabSelection(TabIndex.home);
-    return ViewModelProvider<TabsScreenViewModel>(
-      model: TabsScreenViewModel(context: context, args: args),
-      builder: (model) {
+    final RouteArgument args = ModalRoute.of(context).settings.arguments ?? Routes.onTabSelection(TabIndex.home);
+    return ChangeNotifierProvider<TabsScreenViewModel>(
+      create: (_) => TabsScreenViewModel(context.read, args),
+      builder: (context, child) {
         return Scaffold(
           key: _scaffoldKey,
           drawer: DrawerWidget(),
@@ -38,13 +37,12 @@ class TabsScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text(
-              model.title,
+              context.select((TabsScreenViewModel viewModel) => viewModel.title),
               style: Theme.of(context).textTheme.headline4,
             ),
             actions: <Widget>[
               ShoppingCartButtonWidget(
-                  iconColor: Theme.of(context).hintColor,
-                  labelColor: Theme.of(context).accentColor),
+                  iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
               Container(
                   width: 30,
                   height: 30,
@@ -59,7 +57,7 @@ class TabsScreen extends StatelessWidget {
                   )),
             ],
           ),
-          body: model.tab,
+          body: context.select((TabsScreenViewModel viewModel) => viewModel.tab),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Theme.of(context).accentColor,
@@ -70,18 +68,16 @@ class TabsScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             selectedIconTheme: IconThemeData(size: 25),
             unselectedItemColor: Theme.of(context).hintColor.withOpacity(1),
-            currentIndex: model.id,
+            currentIndex: context.select((TabsScreenViewModel viewModel) => viewModel.id),
             onTap: (i) {
-              model.selectTab(i);
+              context.read<TabsScreenViewModel>().selectTab(i);
             },
             items: [
               BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.bell),
                 title: Container(height: 0.0),
               ),
-              BottomNavigationBarItem(
-                  title: Container(height: 0.0),
-                  icon: FaIcon(FontAwesomeIcons.user)),
+              BottomNavigationBarItem(title: Container(height: 0.0), icon: FaIcon(FontAwesomeIcons.user)),
               BottomNavigationBarItem(
                   title: Container(height: 5.0),
                   icon: Container(
@@ -95,19 +91,14 @@ class TabsScreen extends StatelessWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                            color:
-                                Theme.of(context).accentColor.withOpacity(0.4),
+                            color: Theme.of(context).accentColor.withOpacity(0.4),
                             blurRadius: 40,
                             offset: Offset(0, 15)),
                         BoxShadow(
-                            color:
-                                Theme.of(context).accentColor.withOpacity(0.4),
-                            blurRadius: 13,
-                            offset: Offset(0, 3))
+                            color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 13, offset: Offset(0, 3))
                       ],
                     ),
-                    child:
-                        Icon(Icons.home, color: Theme.of(context).primaryColor),
+                    child: Icon(Icons.home, color: Theme.of(context).primaryColor),
                   )),
               BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.heart),

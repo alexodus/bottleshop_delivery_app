@@ -18,7 +18,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _isButtonDisabled = false;
   String email = '';
   @override
   void initState() {
@@ -60,8 +59,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               if (_formKey.currentState.validate()) {
                                 await model.sendResetPasswordEmail(_email.text);
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text(
-                                      'Check your email and follow the instructions to reset your password'),
+                                  content: Text('Check your email and follow the instructions to reset your password'),
                                 ));
                               }
                             },
@@ -99,9 +97,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               hintStyle: Theme.of(context).textTheme.bodyText2.merge(
                     TextStyle(color: Theme.of(context).accentColor),
                   ),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).accentColor.withOpacity(0.2))),
+              enabledBorder:
+                  UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).accentColor),
               ),
@@ -132,8 +129,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  Widget buildPrimaryButton(
-      BuildContext context, String label, String title, Function onPress) {
+  Widget buildPrimaryButton(BuildContext context, String label, String title, Function onPress) {
     return FlatButton(
       onPressed: onPress,
       child: RichText(
@@ -143,8 +139,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
           children: [
             TextSpan(text: label),
-            TextSpan(
-                text: title, style: TextStyle(fontWeight: FontWeight.w700)),
+            TextSpan(text: title, style: TextStyle(fontWeight: FontWeight.w700)),
           ],
         ),
       ),
@@ -172,10 +167,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).primaryColor,
         boxShadow: [
-          BoxShadow(
-              color: Theme.of(context).hintColor.withOpacity(0.2),
-              offset: Offset(0, 10),
-              blurRadius: 20)
+          BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.2), offset: Offset(0, 10), blurRadius: 20)
         ],
       ),
       child: child,
@@ -185,8 +177,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   signInLink() {
     if ((email == '') || (email == null)) {
       return FlatButton(
-        onPressed: () =>
-            Navigator.pushReplacementNamed(context, SignInScreen.routeName),
+        onPressed: () => Navigator.pushReplacementNamed(context, SignInScreen.routeName),
         child: Text('Sign in'),
       );
     }
