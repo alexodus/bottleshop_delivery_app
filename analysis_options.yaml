@@ -13,7 +13,6 @@ errors:
 
 linter:
   rules:
-    - avoid_types_on_closure_parameters
     - avoid_void_async
     - await_only_futures
     - camel_case_types

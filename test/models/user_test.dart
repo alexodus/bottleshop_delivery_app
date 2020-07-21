@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
+import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

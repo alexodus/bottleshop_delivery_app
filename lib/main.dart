@@ -1,56 +1,66 @@
-import 'package:bottleshopdeliveryapp/src/core/constants/app_theme.dart';
-import 'package:bottleshopdeliveryapp/src/core/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/core/constants/strings.dart';
-import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/analytics/analytics.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/analytics/analytics_service.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication_service.dart';
-import 'package:bottleshopdeliveryapp/src/ui/screens/onboarding/on_boarding_screen.dart';
-import 'package:bottleshopdeliveryapp/src/ui/screens/tabs/tabs_screen.dart';
+import 'dart:async';
+
+import 'package:bottleshopdeliveryapp/src/constants/app_theme.dart';
+import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
+import 'package:bottleshopdeliveryapp/src/constants/strings.dart';
+import 'package:bottleshopdeliveryapp/src/models/user.dart';
+import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
+import 'package:bottleshopdeliveryapp/src/services/analytics/analytics_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
+import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
+import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(
-      MultiProvider(
-        providers: [
-          Provider<Authentication>(
-            create: (_) => AuthenticationService(),
-          ),
-          StreamProvider<User>(
-            create: (context) => context.read<Authentication>().onAuthStateChanged,
-            initialData: null,
-          ),
-          Provider<Analytics>(
-            create: (_) => AnalyticsService(),
-          ),
-        ],
-        child: MyApp(),
-      ),
-    );
+void main() {
+  Crashlytics.instance.enableInDevMode = true;
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  Analytics.setLogLevel(Level.verbose);
+  runZoned(() {
+    runApp(MultiProvider(
+      providers: [
+        Provider<Authentication>(
+          create: (_) => AuthenticationService(),
+        ),
+        Provider<FirestoreService>(
+          create: (_) => FirestoreService(),
+        ),
+        StreamProvider<User>(
+          create: (context) => context.read<Authentication>().onAuthStateChanged,
+        ),
+        Provider<Analytics>(
+          create: (_) => AnalyticsService(),
+        ),
+      ],
+      child: MyApp(),
+    ));
+  }, onError: Crashlytics.instance.recordError);
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Analytics.setLogLevel(Level.verbose);
     final logger = Analytics.getLogger('MyApp');
-    final NavigatorObserver observer = Provider.of<Analytics>(context, listen: false).getAnalyticsObserver();
+    final observer = context.select((Analytics analytics) => analytics.analyticsObserver);
     return MaterialApp(
-      navigatorObservers: [observer],
-      debugShowCheckedModeBanner: false,
+      navigatorObservers: <NavigatorObserver>[observer],
       title: Strings.appName,
-      routes: Routes.routes,
-      onUnknownRoute: Routes.onUnknownRoute,
       onGenerateRoute: Routes.onGenerateRoute,
       theme: appThemeDark,
       home: Consumer<User>(
         builder: (_, user, __) {
           logger.v('current user: $user');
           if (user == null) {
-            return OnBoardingScreen();
+            observer.analytics.logTutorialBegin();
+            return OnBoardingView();
           } else {
-            return TabsScreen();
+            observer.analytics.setUserId(user.uid);
+            return TabsView();
           }
         },
       ),

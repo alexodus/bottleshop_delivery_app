@@ -1,6 +1,6 @@
-import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication_service.dart';
+import 'package:bottleshopdeliveryapp/src/models/user.dart';
+import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
+import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,10 +30,7 @@ void main() {
 
     setUp(() {
       TestWidgetsFlutterBinding.ensureInitialized();
-      sut = AuthenticationService(
-          googleSignIn: googleSignIn,
-          firebaseAuth: firebaseAuth,
-          facebookLogin: facebookLogin);
+      sut = AuthenticationService(googleSignIn: googleSignIn, firebaseAuth: firebaseAuth, facebookLogin: facebookLogin);
     });
 
     test('should sign out user from all providers', () async {
@@ -54,10 +51,8 @@ void main() {
 
     test('should notify when user state changes', () {
       var userStates = [null, firebaseUser, null];
-      when(firebaseAuth.signInAnonymously())
-          .thenAnswer((_) => Future.value(authResult));
-      when(firebaseAuth.onAuthStateChanged)
-          .thenAnswer((_) => Stream<FirebaseUser>.fromIterable(userStates));
+      when(firebaseAuth.signInAnonymously()).thenAnswer((_) => Future.value(authResult));
+      when(firebaseAuth.onAuthStateChanged).thenAnswer((_) => Stream<FirebaseUser>.fromIterable(userStates));
 
       var stream = sut.onAuthStateChanged;
 
