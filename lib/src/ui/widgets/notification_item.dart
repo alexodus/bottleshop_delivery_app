@@ -2,20 +2,21 @@ import 'package:bottleshopdeliveryapp/src/models/shop_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class NotificationItem extends StatefulWidget {
-  NotificationItem({Key key, this.notification, this.onDismissed}) : super(key: key);
+class NotificationItem extends StatelessWidget {
   final ShopNotification notification;
   final ValueChanged<ShopNotification> onDismissed;
 
-  @override
-  _NotificationItemState createState() => _NotificationItemState();
-}
-
-class _NotificationItemState extends State<NotificationItem> {
+  const NotificationItem({
+    Key key,
+    @required this.notification,
+    @required this.onDismissed,
+  })  : assert(notification != null),
+        assert(onDismissed != null),
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(this.widget.notification.hashCode.toString()),
+      key: Key(notification.hashCode.toString()),
       background: Container(
         color: Colors.red,
         child: Align(
@@ -29,15 +30,9 @@ class _NotificationItemState extends State<NotificationItem> {
           ),
         ),
       ),
-      onDismissed: (direction) {
-        // Remove the item from the data source.
-        setState(() {
-          widget.onDismissed(widget.notification);
-        });
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text("${widget.notification.title} dismissed")));
-      },
+      onDismissed: (direction) => onDismissed(notification),
       child: Container(
-        color: this.widget.notification.read ? Colors.transparent : Theme.of(context).focusColor.withOpacity(0.15),
+        color: notification.read ? Colors.transparent : Theme.of(context).focusColor.withOpacity(0.15),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -47,7 +42,7 @@ class _NotificationItemState extends State<NotificationItem> {
               width: 75,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                image: DecorationImage(image: AssetImage(this.widget.notification.image), fit: BoxFit.cover),
+                image: DecorationImage(image: AssetImage(notification.image), fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 15),
@@ -57,14 +52,17 @@ class _NotificationItemState extends State<NotificationItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Text(
-                    this.widget.notification.title,
+                    notification.title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: Theme.of(context).textTheme.bodyText2.merge(
-                        TextStyle(fontWeight: this.widget.notification.read ? FontWeight.w300 : FontWeight.w600)),
+                          TextStyle(
+                            fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600,
+                          ),
+                        ),
                   ),
                   Text(
-                    this.widget.notification.time,
+                    notification.time,
                     style: Theme.of(context).textTheme.caption,
                   )
                 ],

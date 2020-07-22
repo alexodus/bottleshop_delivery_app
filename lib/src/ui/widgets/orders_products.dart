@@ -11,7 +11,11 @@ class OrdersProducts extends StatefulWidget {
   @override
   _OrdersProductsState createState() => _OrdersProductsState();
 
-  OrdersProducts({Key key, this.ordersList}) : super(key: key);
+  OrdersProducts({
+    Key key,
+    @required this.ordersList,
+  })  : assert(ordersList != null),
+        super(key: key);
 }
 
 class _OrdersProductsState extends State<OrdersProducts> {

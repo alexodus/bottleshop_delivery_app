@@ -4,23 +4,26 @@ import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class OrderListItem extends StatefulWidget {
+class OrderListItem extends StatelessWidget {
   final String heroTag;
   final Order order;
   final VoidCallback onDismissed;
 
-  OrderListItem({Key key, this.heroTag, this.order, this.onDismissed}) : super(key: key);
+  const OrderListItem({
+    Key key,
+    @required this.heroTag,
+    @required this.order,
+    @required this.onDismissed,
+  })  : assert(heroTag != null),
+        assert(order != null),
+        assert(onDismissed != null),
+        super(key: key);
 
-  @override
-  _OrderListItemState createState() => _OrderListItemState();
-}
-
-class _OrderListItemState extends State<OrderListItem> {
   @override
   Widget build(BuildContext context) {
     final RouteArgument args = ModalRoute.of(context).settings.arguments;
     return Dismissible(
-      key: Key(this.widget.order.hashCode.toString()),
+      key: Key(order.hashCode.toString()),
       background: Container(
         color: Colors.red,
         child: Align(
@@ -35,14 +38,9 @@ class _OrderListItemState extends State<OrderListItem> {
         ),
       ),
       onDismissed: (direction) {
-        // Remove the item from the data source.
-        setState(() {
-          widget.onDismissed();
-        });
-
-        // Then show a snackbar.
+        onDismissed();
         Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("The ${widget.order.product.name} order is removed from wish list")));
+            .showSnackBar(SnackBar(content: Text("The ${order.product.name} order is removed from wish list")));
       },
       child: InkWell(
         splashColor: Theme.of(context).accentColor,
@@ -63,13 +61,13 @@ class _OrderListItemState extends State<OrderListItem> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Hero(
-                tag: widget.heroTag + widget.order.product.documentID,
+                tag: heroTag + order.product.documentID,
                 child: Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(image: AssetImage(widget.order.product.image), fit: BoxFit.cover),
+                    image: DecorationImage(image: AssetImage(order.product.image), fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -83,7 +81,7 @@ class _OrderListItemState extends State<OrderListItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            widget.order.product.name,
+                            order.product.name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.subhead,
@@ -95,13 +93,13 @@ class _OrderListItemState extends State<OrderListItem> {
                               Row(
                                 children: <Widget>[
                                   Icon(
-                                    FontAwesomeIcons.calendar,
+                                    Icons.calendar_today,
                                     color: Theme.of(context).focusColor,
                                     size: 20,
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    widget.order.getDateTime(),
+                                    order.getDateTime(),
                                     style: Theme.of(context).textTheme.body1,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
@@ -117,7 +115,7 @@ class _OrderListItemState extends State<OrderListItem> {
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    widget.order.trackingNumber,
+                                    order.trackingNumber,
                                     style: Theme.of(context).textTheme.body1,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
@@ -134,15 +132,14 @@ class _OrderListItemState extends State<OrderListItem> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text(widget.order.product.price.toStringAsFixed(2),
-                            style: Theme.of(context).textTheme.headline4),
+                        Text(order.product.price.toStringAsFixed(2), style: Theme.of(context).textTheme.headline4),
                         SizedBox(height: 6),
                         Chip(
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           backgroundColor: Colors.transparent,
                           shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
                           label: Text(
-                            'x ${widget.order.quantity}',
+                            'x ${order.quantity}',
                             style: TextStyle(color: Theme.of(context).focusColor),
                           ),
                         ),

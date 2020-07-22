@@ -9,9 +9,11 @@ class FlashSalesCarousel extends StatelessWidget {
 
   const FlashSalesCarousel({
     Key key,
-    this.productsList,
-    this.heroTag,
-  }) : super(key: key);
+    @required this.productsList,
+    @required this.heroTag,
+  })  : assert(productsList != null),
+        assert(heroTag != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

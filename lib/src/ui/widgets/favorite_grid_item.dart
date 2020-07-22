@@ -8,7 +8,10 @@ class FavoriteGridItem extends StatelessWidget {
   final Product product;
   final String heroTag;
 
-  const FavoriteGridItem({this.heroTag, this.product});
+  const FavoriteGridItem({Key key, @required this.heroTag, @required this.product})
+      : assert(heroTag != null),
+        assert(product != null),
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class FilterDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final categories = context.select((TabsViewModel viewModel) => viewModel.allCategories);
+    final categories = context.select((TabsViewModel viewModel) => viewModel.allCategories) ?? [];
     return Drawer(
       child: SafeArea(
         child: Column(

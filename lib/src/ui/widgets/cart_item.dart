@@ -1,22 +1,26 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
+import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
-class CartItem extends StatefulWidget {
+class CartItem extends StatelessWidget {
   final String heroTag;
   final Product product;
-  int quantity;
+  final int quantity;
 
-  CartItem({Key key, this.product, this.heroTag, this.quantity = 1}) : super(key: key);
+  const CartItem({
+    Key key,
+    @required this.product,
+    @required this.heroTag,
+    this.quantity = 1,
+  })  : assert(heroTag != null),
+        assert(product != null),
+        super(key: key);
 
-  @override
-  _CartItemState createState() => _CartItemState();
-}
-
-class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
+    final logger = Analytics.getLogger('CartItem');
     final RouteArgument args = ModalRoute.of(context).settings.arguments;
     return InkWell(
       splashColor: Theme.of(context).accentColor,
@@ -38,13 +42,13 @@ class _CartItemState extends State<CartItem> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: widget.heroTag + widget.product.documentID,
+              tag: heroTag + product.documentID,
               child: Container(
                 height: 90,
                 width: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: AssetImage(widget.product.image), fit: BoxFit.cover),
+                  image: DecorationImage(image: AssetImage(product.image), fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -58,13 +62,13 @@ class _CartItemState extends State<CartItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.product.name,
+                          product.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Text(
-                          widget.product.price.toStringAsFixed(2),
+                          product.price.toStringAsFixed(2),
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],
@@ -76,21 +80,23 @@ class _CartItemState extends State<CartItem> {
                     children: <Widget>[
                       IconButton(
                         onPressed: () {
-                          setState(() {
+                          logger.d('quantity: $incrementQuantity(quantity)');
+                          /*setState(() {
                             widget.quantity = this.incrementQuantity(widget.quantity);
-                          });
+                          });*/
                         },
                         iconSize: 30,
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         icon: Icon(Icons.add_circle_outline),
                         color: Theme.of(context).hintColor,
                       ),
-                      Text(widget.quantity.toString(), style: Theme.of(context).textTheme.subtitle1),
+                      Text(quantity.toString(), style: Theme.of(context).textTheme.subtitle1),
                       IconButton(
                         onPressed: () {
-                          setState(() {
+                          logger.d('quantity: $decrementQuantity(quantity)');
+                          /*setState(() {
                             widget.quantity = this.decrementQuantity(widget.quantity);
-                          });
+                          });*/
                         },
                         iconSize: 30,
                         padding: EdgeInsets.symmetric(horizontal: 5),
@@ -122,11 +128,5 @@ class _CartItemState extends State<CartItem> {
     } else {
       return quantity;
     }
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
   }
 }

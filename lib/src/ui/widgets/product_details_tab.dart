@@ -1,20 +1,20 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/flash_sales_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'flash_sales_carousel.dart';
-
-class ProductDetailsTab extends StatefulWidget {
+class ProductDetailsTab extends StatelessWidget {
   final Product product;
-  final List<Product> _flashSaleList = [];
+  final List<Product> flashSaleList;
 
-  ProductDetailsTab({this.product});
+  ProductDetailsTab({
+    Key key,
+    @required this.product,
+    @required this.flashSaleList,
+  })  : assert(product != null),
+        assert(flashSaleList != null),
+        super(key: key);
 
-  @override
-  ProductDetailsTabState createState() => ProductDetailsTabState();
-}
-
-class ProductDetailsTabState extends State<ProductDetailsTab> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,7 +31,7 @@ class ProductDetailsTabState extends State<ProductDetailsTab> {
             ),
             title: Text(
               'Description',
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.headline4,
             ),
           ),
         ),
@@ -51,13 +51,13 @@ class ProductDetailsTabState extends State<ProductDetailsTab> {
             ),
             title: Text(
               'Related Poducts',
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.headline4,
             ),
           ),
         ),
         FlashSalesCarousel(
           heroTag: 'product_details_related_products',
-          productsList: widget._flashSaleList,
+          productsList: flashSaleList,
         ),
       ],
     );

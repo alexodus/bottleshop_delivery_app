@@ -9,7 +9,8 @@ class CategorizedProducts extends StatelessWidget {
   const CategorizedProducts({
     Key key,
     @required this.animationOpacity,
-  }) : super(key: key);
+  })  : assert(animationOpacity != null),
+        super(key: key);
 
   final Animation animationOpacity;
 

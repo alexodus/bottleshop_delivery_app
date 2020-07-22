@@ -9,7 +9,15 @@ class FavoriteListItem extends StatelessWidget {
   final Product product;
   final VoidCallback onDismissed;
 
-  const FavoriteListItem({this.heroTag, this.product, this.onDismissed});
+  const FavoriteListItem({
+    Key key,
+    @required this.heroTag,
+    @required this.product,
+    this.onDismissed,
+  })  : assert(heroTag != null),
+        assert(product != null),
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final RouteArgument args = ModalRoute.of(context).settings.arguments;

@@ -8,7 +8,11 @@ import 'package:provider/provider.dart';
 
 class CategoriesIconsCarousel extends StatelessWidget {
   final TickerProvider tickerProvider;
-  const CategoriesIconsCarousel({Key key, this.tickerProvider}) : super(key: key);
+  const CategoriesIconsCarousel({
+    Key key,
+    @required this.tickerProvider,
+  })  : assert(tickerProvider != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

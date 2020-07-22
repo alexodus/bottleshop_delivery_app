@@ -5,8 +5,9 @@ class SearchBar extends StatelessWidget {
   final bool showFilter;
   const SearchBar({
     Key key,
-    this.showFilter,
-  }) : super(key: key);
+    @required this.showFilter,
+  })  : assert(showFilter != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

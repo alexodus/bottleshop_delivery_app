@@ -1,4 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
+import 'package:bottleshopdeliveryapp/src/models/layout.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -6,12 +7,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductsByCategory extends StatelessWidget {
   final Category subCategory;
-  final void Function(String style) changeLayout;
+  final LayoutMode layout;
+  final ValueChanged<LayoutMode> changeLayout;
 
-  const ProductsByCategory({Key key, this.subCategory, this.changeLayout}) : super(key: key);
+  const ProductsByCategory({
+    Key key,
+    @required this.subCategory,
+    @required this.changeLayout,
+    this.layout = LayoutMode.list,
+  })  : assert(subCategory != null),
+        assert(changeLayout != null),
+        super(key: key);
   @override
   Widget build(BuildContext context) {
-    var layout = 'list';
     return Wrap(
       children: <Widget>[
         Padding(
@@ -39,17 +47,17 @@ class ProductsByCategory extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconButton(
-                  onPressed: () => changeLayout('list'),
+                  onPressed: () => changeLayout(LayoutMode.list),
                   icon: Icon(
                     Icons.format_list_bulleted,
-                    color: layout == 'list' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                    color: layout == LayoutMode.list ? Theme.of(context).accentColor : Theme.of(context).focusColor,
                   ),
                 ),
                 IconButton(
-                  onPressed: () => changeLayout('grid'),
+                  onPressed: () => changeLayout(LayoutMode.grid),
                   icon: Icon(
                     Icons.apps,
-                    color: layout == 'grid' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                    color: layout == LayoutMode.grid ? Theme.of(context).accentColor : Theme.of(context).focusColor,
                   ),
                 )
               ],
@@ -57,7 +65,7 @@ class ProductsByCategory extends StatelessWidget {
           ),
         ),
         Offstage(
-          offstage: true, //layout != 'list',
+          offstage: layout != LayoutMode.list,
           child: ListView.separated(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,

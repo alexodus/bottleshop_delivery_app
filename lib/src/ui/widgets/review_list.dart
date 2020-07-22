@@ -7,8 +7,9 @@ class ReviewList extends StatelessWidget {
 
   const ReviewList({
     Key key,
-    this.reviewsList,
-  }) : super(key: key);
+    @required this.reviewsList,
+  })  : assert(reviewsList != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

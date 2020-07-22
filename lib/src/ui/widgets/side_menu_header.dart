@@ -4,14 +4,16 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart'
 import 'package:flutter/material.dart';
 
 class SideMenuHeader extends StatelessWidget {
+  final String userName;
+  final String userEmail;
+
   const SideMenuHeader({
     Key key,
     @required this.userName,
     @required this.userEmail,
-  }) : super(key: key);
-
-  final String userName;
-  final String userEmail;
+  })  : assert(userEmail != null),
+        assert(userName != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,14 +3,16 @@ import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:flutter/material.dart';
 
 class OrderGridItem extends StatelessWidget {
+  final Order order;
+  final String heroTag;
+
   const OrderGridItem({
     Key key,
     @required this.order,
     @required this.heroTag,
-  }) : super(key: key);
-
-  final Order order;
-  final String heroTag;
+  })  : assert(order != null),
+        assert(heroTag != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

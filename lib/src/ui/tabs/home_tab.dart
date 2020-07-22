@@ -73,7 +73,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
               ),
             ),
             StickyHeader(
-              header: CategoriesIconsCarousel(),
+              header: CategoriesIconsCarousel(tickerProvider: this),
               content: CategorizedProducts(animationOpacity: animationOpacity),
             ),
           ],

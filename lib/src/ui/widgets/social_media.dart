@@ -6,9 +6,12 @@ class SocialMediaWidget extends StatelessWidget {
   final VoidCallback signInWithGoogle;
 
   const SocialMediaWidget({
+    Key key,
     @required this.signInWithFacebook,
     @required this.signInWithGoogle,
-  });
+  })  : assert(signInWithFacebook != null),
+        assert(signInWithGoogle != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

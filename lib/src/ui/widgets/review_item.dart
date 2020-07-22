@@ -6,7 +6,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class ReviewItem extends StatelessWidget {
   final Review review;
 
-  const ReviewItem({Key key, this.review}) : super(key: key);
+  const ReviewItem({
+    Key key,
+    @required this.review,
+  })  : assert(review != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +48,7 @@ class ReviewItem extends StatelessWidget {
                               maxLines: 2,
                               style: Theme.of(context)
                                   .textTheme
-                                  .title
+                                  .headline6
                                   .merge(TextStyle(color: Theme.of(context).hintColor)),
                             ),
                             Row(

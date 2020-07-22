@@ -7,7 +7,13 @@ class ProductHomeTab extends StatelessWidget {
   final Product product;
   final List<Product> flashSalesList;
 
-  const ProductHomeTab({Key key, this.product, this.flashSalesList}) : super(key: key);
+  const ProductHomeTab({
+    Key key,
+    @required this.product,
+    @required this.flashSalesList,
+  })  : assert(product != null),
+        assert(flashSalesList != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

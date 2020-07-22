@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FaqItem extends StatelessWidget {
-  const FaqItem({this.index = 1});
   final index;
+
+  const FaqItem({Key key, this.index = 1}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

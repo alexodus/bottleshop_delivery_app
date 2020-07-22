@@ -12,8 +12,8 @@ class SideMenuItem extends StatelessWidget {
     this.leading,
     this.title,
     this.trailing,
-    this.dense = false,
     this.handler,
+    this.dense = false,
   }) : super(key: key);
 
   @override

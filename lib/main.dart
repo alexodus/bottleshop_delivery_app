@@ -19,7 +19,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  Crashlytics.instance.enableInDevMode = true;
+  Crashlytics.instance.enableInDevMode = false;
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   Analytics.setLogLevel(Level.verbose);
   runZoned(() {

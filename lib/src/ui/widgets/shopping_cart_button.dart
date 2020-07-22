@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ShoppingCartButton extends StatelessWidget {
-  const ShoppingCartButton({
-    this.iconColor,
-    this.labelColor,
-    this.labelCount = 0,
-    Key key,
-  }) : super(key: key);
-
   final Color iconColor;
   final Color labelColor;
   final int labelCount;
+
+  const ShoppingCartButton({
+    Key key,
+    @required this.iconColor,
+    @required this.labelColor,
+    this.labelCount = 0,
+  })  : assert(iconColor != null),
+        assert(labelColor != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

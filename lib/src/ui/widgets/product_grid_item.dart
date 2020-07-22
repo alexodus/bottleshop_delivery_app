@@ -4,14 +4,16 @@ import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class ProductGridItem extends StatelessWidget {
+  final Product product;
+  final String heroTag;
+
   const ProductGridItem({
     Key key,
     @required this.product,
     @required this.heroTag,
-  }) : super(key: key);
-
-  final Product product;
-  final String heroTag;
+  })  : assert(product != null),
+        assert(heroTag != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
