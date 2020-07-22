@@ -1,27 +1,27 @@
 import 'dart:io';
 
+import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PushNotificationService {
+  final logger = Analytics.getLogger('MyApp');
   final FirebaseMessaging _fcm;
 
   PushNotificationService({FirebaseMessaging fcm}) : _fcm = fcm ?? FirebaseMessaging();
 
-  Future initialise() async {
+  Future<void> initialise() async {
     if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
+      await _fcm.requestNotificationPermissions(IosNotificationSettings());
     }
+    final token = await _fcm.getToken();
+    logger.d('fcm registered: $token');
 
-    _fcm.configure(
-      onMessage: (message) async {
-        print('onMessage: $message');
-      },
-      onLaunch: (message) async {
-        print('onLaunch: $message');
-      },
-      onResume: (message) async {
-        print('onResume: $message');
-      },
-    );
+    _fcm.configure(onMessage: (Map<String, dynamic> message) async {
+      print('on message $message');
+    }, onResume: (Map<String, dynamic> message) async {
+      print('on resume $message');
+    }, onLaunch: (Map<String, dynamic> message) async {
+      print('on launch $message');
+    });
   }
 }

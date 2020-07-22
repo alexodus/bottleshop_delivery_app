@@ -9,6 +9,7 @@ import 'package:bottleshopdeliveryapp/src/services/analytics/analytics_service.d
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/fcm/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -29,6 +30,9 @@ void main() {
         ),
         Provider<FirestoreService>(
           create: (_) => FirestoreService(),
+        ),
+        Provider<PushNotificationService>(
+          create: (_) => PushNotificationService(),
         ),
         StreamProvider<User>(
           create: (context) => context.read<Authentication>().onAuthStateChanged,
@@ -60,6 +64,11 @@ class MyApp extends StatelessWidget {
             return OnBoardingView();
           } else {
             observer.analytics.setUserId(user.uid);
+            context
+                .read<PushNotificationService>()
+                .initialise()
+                .then((_) => logger.d('fcm init OK'))
+                .catchError((err) => logger.e('fcm init failed $err'));
             return TabsView();
           }
         },

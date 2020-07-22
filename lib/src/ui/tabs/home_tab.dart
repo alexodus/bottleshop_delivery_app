@@ -52,7 +52,10 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
             ),
             HomeSlider(),
             FlashSalesHeader(),
-            FlashSalesCarousel(heroTag: 'home_flash_sales'),
+            FlashSalesCarousel(
+              heroTag: 'home_flash_sales',
+              productsList: [],
+            ),
             // Heading (Recommended for you)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
