@@ -37,21 +37,21 @@ class ProductGridItem extends StatelessWidget {
           children: <Widget>[
             Hero(
               tag: this.heroTag + product.documentID,
-              child: Image.asset(product.image),
+              child: Image.asset(product.imageUrl),
             ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Text(
                 product.name,
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
                 product.price.toStringAsFixed(2),
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline6,
               ),
             ),
             Padding(
@@ -62,7 +62,7 @@ class ProductGridItem extends StatelessWidget {
                   Expanded(
                     child: Text(
                       '5 Sales',
-                      style: Theme.of(context).textTheme.body1,
+                      style: Theme.of(context).textTheme.bodyText2,
                       overflow: TextOverflow.fade,
                       softWrap: false,
                     ),
@@ -74,7 +74,7 @@ class ProductGridItem extends StatelessWidget {
                   ),
                   Text(
                     '5.0',
-                    style: Theme.of(context).textTheme.body2,
+                    style: Theme.of(context).textTheme.bodyText1,
                   )
                 ],
                 crossAxisAlignment: CrossAxisAlignment.center,

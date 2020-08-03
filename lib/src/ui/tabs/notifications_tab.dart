@@ -11,7 +11,7 @@ class NotificationsTab extends StatefulWidget {
 }
 
 class _NotificationsTabState extends State<NotificationsTab> {
-  List<ShopNotification> _notificationList;
+  List<ShopNotification> _notificationList = [];
 
   @override
   void initState() {

@@ -68,7 +68,7 @@ class EmptyNotification extends StatelessWidget {
             child: Text(
               'D\'ont have any notification',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.display2.merge(TextStyle(fontWeight: FontWeight.w300)),
+              style: Theme.of(context).textTheme.headline3.merge(TextStyle(fontWeight: FontWeight.w300)),
             ),
           ),
           SizedBox(height: 50),
@@ -82,7 +82,7 @@ class EmptyNotification extends StatelessWidget {
             child: Text(
               'Start Exploring',
 //                        textAlign: TextAlign.ce,
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
           ),
         ],

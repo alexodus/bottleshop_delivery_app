@@ -48,7 +48,11 @@ class CartItem extends StatelessWidget {
                 width: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: AssetImage(product.image), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: AssetImage(
+                        product.imageUrl,
+                      ),
+                      fit: BoxFit.cover),
                 ),
               ),
             ),

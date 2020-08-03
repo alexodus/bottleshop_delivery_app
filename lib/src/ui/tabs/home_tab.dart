@@ -6,7 +6,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/home_slider.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/home_tab_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
@@ -62,8 +61,8 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
               child: ListTile(
                 dense: true,
                 contentPadding: EdgeInsets.symmetric(vertical: 0),
-                leading: FaIcon(
-                  FontAwesomeIcons.star,
+                leading: Icon(
+                  Icons.star,
                   color: Theme.of(context).hintColor,
                 ),
                 title: Text(

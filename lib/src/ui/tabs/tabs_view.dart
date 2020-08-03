@@ -41,7 +41,10 @@ class TabsView extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4,
             ),
             actions: <Widget>[
-              ShoppingCartButton(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+              ShoppingCartButton(
+                iconColor: Theme.of(context).hintColor,
+                labelColor: Theme.of(context).accentColor,
+              ),
               Container(
                   width: 30,
                   height: 30,

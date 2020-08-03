@@ -1,7 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/user_data_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -11,19 +11,17 @@ class AuthenticationService implements Authentication {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final FacebookLogin _facebookLogin;
-  final Firestore _firestoreInstance;
+  final UserDataService _userDataService;
 
   AuthenticationService(
-      {FirebaseAuth firebaseAuth, GoogleSignIn googleSignIn, FacebookLogin facebookLogin, Firestore firestore})
+      {FirebaseAuth firebaseAuth,
+      GoogleSignIn googleSignIn,
+      FacebookLogin facebookLogin,
+      UserDataService userDataService})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ??
-            GoogleSignIn(scopes: [
-              'https://www.googleapis.com/auth/userinfo.email',
-              'https://www.googleapis.com/auth/userinfo.profile',
-              'openid'
-            ]),
+        _googleSignIn = googleSignIn ?? GoogleSignIn(scopes: Constants.googleSignInScopes),
         _facebookLogin = facebookLogin ?? FacebookLogin(),
-        _firestoreInstance = firestore ?? Firestore.instance;
+        _userDataService = userDataService ?? UserDataService();
 
   User _userFromFirebase(FirebaseUser user, [AdditionalUserInfo additionalData]) {
     if (user == null) {
@@ -55,7 +53,7 @@ class AuthenticationService implements Authentication {
     );
     final authResult = await _firebaseAuth.signInWithCredential(credential);
     final user = _userFromFirebase(authResult.user);
-    await _firestoreInstance.collection('users').document(user.uid).setData(user.toJson(), merge: true);
+    await _userDataService.setUser(user);
     return user;
   }
 
@@ -63,7 +61,7 @@ class AuthenticationService implements Authentication {
   Future<User> createUserWithEmailAndPassword(String email, String password) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     final user = _userFromFirebase(authResult.user, authResult.additionalUserInfo);
-    await _firestoreInstance.collection('users').document(user.uid).setData(user.toJson(), merge: true);
+    await _userDataService.setUser(user);
     return user;
   }
 
@@ -83,7 +81,7 @@ class AuthenticationService implements Authentication {
       );
       final authResult = await _firebaseAuth.signInWithCredential(credential);
       final user = _userFromFirebase(authResult.user, authResult.additionalUserInfo);
-      await _firestoreInstance.collection('users').document(user.uid).setData(user.toJson(), merge: true);
+      await _userDataService.setUser(user);
       return user;
     } else {
       throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
@@ -98,7 +96,7 @@ class AuthenticationService implements Authentication {
       final credential = FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
       final AuthResult authResult = await _firebaseAuth.signInWithCredential(credential);
       final user = _userFromFirebase(authResult.user, authResult.additionalUserInfo);
-      await _firestoreInstance.collection('users').document(user.uid).setData(user.toJson(), merge: true);
+      await _userDataService.setUser(user);
       return user;
     } else {
       throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
@@ -110,7 +108,7 @@ class AuthenticationService implements Authentication {
     final FirebaseUser firebaseUser = await _firebaseAuth.currentUser();
     if (firebaseUser != null) {
       final user = _userFromFirebase(firebaseUser);
-      final userSnapshot = await _firestoreInstance.collection('users').document(user.uid).get();
+      final userSnapshot = await _userDataService.getUser(user.uid);
       if (userSnapshot.exists) {
         return User.fromMap(userSnapshot.data);
       } else {
@@ -119,11 +117,6 @@ class AuthenticationService implements Authentication {
     } else {
       return null;
     }
-  }
-
-  Future<bool> isLoggedIn() async {
-    var user = await currentUser();
-    return user != null;
   }
 
   @override
@@ -137,7 +130,7 @@ class AuthenticationService implements Authentication {
   Future<User> signInAnonymously() async {
     final authResult = await _firebaseAuth.signInAnonymously();
     final user = _userFromFirebase(authResult.user);
-    await _firestoreInstance.collection('users').document(user.uid).setData(user.toJson(), merge: true);
+    await _userDataService.setUser(user);
     return user;
   }
 }

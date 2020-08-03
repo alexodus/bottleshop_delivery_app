@@ -64,11 +64,6 @@ class MyApp extends StatelessWidget {
             return OnBoardingView();
           } else {
             observer.analytics.setUserId(user.uid);
-            context
-                .read<PushNotificationService>()
-                .initialise()
-                .then((_) => logger.d('fcm init OK'))
-                .catchError((err) => logger.e('fcm init failed $err'));
             return TabsView();
           }
         },

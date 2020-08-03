@@ -11,12 +11,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoryDetailView extends StatefulWidget {
   static const String routeName = '/categoryDetail';
-  RouteArgument routeArgument;
-  Category _category;
+  final RouteArgument routeArgument;
+  final Category _category;
 
-  CategoryDetailView({Key key, this.routeArgument}) {
-    _category = this.routeArgument.argumentsList[0] as Category;
-  }
+  CategoryDetailView({Key key, this.routeArgument}) : _category = routeArgument.argumentsList[0] as Category;
 
   @override
   _CategoryDetailViewState createState() => _CategoryDetailViewState();
@@ -25,7 +23,7 @@ class CategoryDetailView extends StatefulWidget {
 class _CategoryDetailViewState extends State<CategoryDetailView> with SingleTickerProviderStateMixin {
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Category> _subCategoriesList = [];
+  List<SubCategory> _subCategoriesList = [];
 
   @override
   void initState() {
@@ -163,6 +161,7 @@ class _CategoryDetailViewState extends State<CategoryDetailView> with SingleTick
         SliverToBoxAdapter(
           child: ProductsByCategory(
             subCategory: _subCategoriesList.elementAt(widget.routeArgument.id),
+            changeLayout: (newLayoutMode) => debugPrint('Layout changed to ${newLayoutMode.toString()}'),
           ),
         ),
       ]),

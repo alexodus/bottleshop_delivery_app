@@ -40,7 +40,9 @@ class FlashSalesCarouselItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(product.image),
+                    image: AssetImage(
+                      product.imageUrl,
+                    ),
                   ),
                 ),
               ),
@@ -55,7 +57,7 @@ class FlashSalesCarouselItem extends StatelessWidget {
                 alignment: AlignmentDirectional.topEnd,
                 child: Text(
                   '${product.discount} %',
-                  style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                  style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(color: Theme.of(context).primaryColor)),
                 ),
               ),
             ),
@@ -76,7 +78,7 @@ class FlashSalesCarouselItem extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     product.name,
-                    style: Theme.of(context).textTheme.body2,
+                    style: Theme.of(context).textTheme.bodyText1,
                     maxLines: 1,
                     softWrap: false,
                     overflow: TextOverflow.fade,
@@ -87,7 +89,7 @@ class FlashSalesCarouselItem extends StatelessWidget {
                       Expanded(
                         child: Text(
                           '5 Sales',
-                          style: Theme.of(context).textTheme.body1,
+                          style: Theme.of(context).textTheme.bodyText2,
                           overflow: TextOverflow.fade,
                           softWrap: false,
                         ),
@@ -107,7 +109,7 @@ class FlashSalesCarouselItem extends StatelessWidget {
                   SizedBox(height: 7),
                   Text(
                     '${product.amount.toString()} Available',
-                    style: Theme.of(context).textTheme.body1,
+                    style: Theme.of(context).textTheme.bodyText2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   AvailableProgressBar(available: product.amount.toDouble())

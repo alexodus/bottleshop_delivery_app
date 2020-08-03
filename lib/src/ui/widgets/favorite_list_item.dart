@@ -66,7 +66,11 @@ class FavoriteListItem extends StatelessWidget {
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(image: AssetImage(product.image), fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: AssetImage(
+                          product.imageUrl,
+                        ),
+                        fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -83,14 +87,14 @@ class FavoriteListItem extends StatelessWidget {
                             product.name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                            style: Theme.of(context).textTheme.subhead,
+                            style: Theme.of(context).textTheme.subtitle1,
                           ),
                           Row(
                             children: <Widget>[
                               // The title of the product
                               Text(
                                 '5 Sales',
-                                style: Theme.of(context).textTheme.body1,
+                                style: Theme.of(context).textTheme.bodyText2,
                                 overflow: TextOverflow.fade,
                                 softWrap: false,
                               ),

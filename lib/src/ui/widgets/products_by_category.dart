@@ -6,7 +6,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductsByCategory extends StatelessWidget {
-  final Category subCategory;
+  final SubCategory subCategory;
   final LayoutMode layout;
   final ValueChanged<LayoutMode> changeLayout;
 

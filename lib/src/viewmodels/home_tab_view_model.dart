@@ -1,23 +1,39 @@
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/models/slider.dart';
 import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/fcm/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class HomeTabViewModel extends BaseViewModel {
-  HomeTabViewModel(Locator locator) : super(locator: locator);
+  HomeTabViewModel(Locator locator) : super(locator: locator) {
+    this.init();
+  }
 
   List<Product> _flashSales = [];
-  List<Product> _products;
-  List<Category> _categories;
-  List<SubCategory> _subCategories;
+  List<Product> _products = [];
+  List<Category> _categories = [];
+  List<SubCategory> _subCategories = [];
+  List<Slider> _sliderList = [];
   String _selectedCategoryId;
+  int _currentSlider = 0;
 
   String get selectedCategory => _selectedCategoryId;
   List<Product> get products => _products;
   List<Category> get categories => _categories;
   List<SubCategory> get subCategories => _subCategories;
   List<Product> get flashSales => _flashSales;
+  List<Slider> get sliders => _sliderList;
+  int get currentSlider => _currentSlider;
+
+  void init() {
+    var fcmInit = locator<PushNotificationService>().initialise();
+    fcmInit.then((_) => debugPrint('fcm init OK')).catchError((err) => debugPrint('fcm init failed $err'));
+  }
+
+  void setCurrentSlider(int index) => _currentSlider = index;
 
   void selectCategory(String id) {
     _selectedCategoryId = id;
@@ -39,8 +55,6 @@ class HomeTabViewModel extends BaseViewModel {
       setNotLoading();
     });
   }
-
-  void fetchCategories() => locator<FirestoreService>().requestCategories().then((value) => _categories = value);
 
   void requestMoreData() => locator<FirestoreService>().requestMoreData();
 }

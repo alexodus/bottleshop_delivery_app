@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 @immutable
 class User {
@@ -33,13 +32,25 @@ class User {
       {'uid': uid, 'email': email, 'name': name, 'avatar': avatar, 'phoneNumber': phoneNumber, 'addresses': addresses};
 }
 
+enum AddressType { shipping, billing }
+
 @immutable
 class Address {
   final String streetName;
   final String streetNumber;
   final String city;
   final String zipCode;
-  final bool isBillingAddress;
+  final AddressType addressType;
 
-  Address({this.streetName, this.streetNumber, this.city, this.zipCode, this.isBillingAddress});
+  const Address({this.streetName, this.streetNumber, this.city, this.zipCode, this.addressType});
+
+  factory Address.fromMap(Map<String, dynamic> data) {
+    return Address(
+        streetName: data['streetName'],
+        streetNumber: data['streetNumber'],
+        city: data['city'],
+        zipCode: data['zipCode'],
+        addressType:
+            data['addressType'] == AddressType.billing.toString() ? AddressType.billing : AddressType.shipping);
+  }
 }

@@ -4,7 +4,7 @@ import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
-enum OrderState { unpaid, toBeShipped, shipped, inDispute }
+enum OrderState { toBeShipped, shipped, delivered, inDispute }
 
 class Track {
   String id = UniqueKey().toString();
@@ -34,6 +34,8 @@ class Order {
   List<Track> tracking = Track.getTrackingList();
 
   Order(this.product, this.trackingNumber, this.orderState);
+
+  get totalValue => null;
 
   getDateTime() {
     return DateFormat('yyyy-MM-dd HH:mm').format(this.dateTime);

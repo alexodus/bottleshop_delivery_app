@@ -27,15 +27,6 @@ class AppColors {
   }
 }
 
-final appThemeCupertino = CupertinoThemeData(
-  brightness: Brightness.dark,
-  primaryColor: AppColors.mainDarkColor(1),
-  primaryContrastingColor: AppColors.accentDarkColor(1),
-  barBackgroundColor: AppColors.primaryDarkColor(1),
-  scaffoldBackgroundColor: AppColors.primaryDarkColor(1),
-  textTheme: CupertinoTextThemeData().copyWith(textStyle: GoogleFonts.poppins()),
-);
-
 final appThemeDark = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,
   fontFamily: 'Poppins',

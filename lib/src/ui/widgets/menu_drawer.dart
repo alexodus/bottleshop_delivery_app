@@ -1,5 +1,4 @@
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/categories_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/help_view.dart';
@@ -18,7 +17,6 @@ class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentUser = context.select((TabsViewModel viewModel) => viewModel.currentUser);
-    final logger = Analytics.getLogger('MenuDrawer');
     final userName = currentUser?.name ?? '';
     final userEmail = currentUser?.email ?? '';
     return Drawer(

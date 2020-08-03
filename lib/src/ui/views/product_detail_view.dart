@@ -13,14 +13,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductDetailView extends StatefulWidget {
   static const String routeName = '/productDetail';
-  RouteArgument routeArgument;
-  Product _product;
-  String _heroTag;
+  final RouteArgument routeArgument;
+  final Product _product;
+  final String _heroTag;
 
-  ProductDetailView({Key key, this.routeArgument}) {
-    _product = this.routeArgument.argumentsList[0] as Product;
-    _heroTag = this.routeArgument.argumentsList[1] as String;
-  }
+  ProductDetailView({Key key, this.routeArgument})
+      : _product = routeArgument.argumentsList[0] as Product,
+        _heroTag = routeArgument.argumentsList[1] as String;
 
   @override
   _ProductDetailViewState createState() => _ProductDetailViewState();
@@ -178,7 +177,9 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(widget._product.image),
+                        image: AssetImage(
+                          widget._product.imageUrl,
+                        ),
                       ),
                     ),
                   ),
@@ -263,7 +264,10 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
               offstage: 0 != _tabIndex,
               child: Column(
                 children: <Widget>[
-                  ProductHomeTab(product: widget._product),
+                  ProductHomeTab(
+                    product: widget._product,
+                    flashSalesList: [],
+                  ),
                 ],
               ),
             ),
@@ -273,6 +277,7 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
                 children: <Widget>[
                   ProductDetailsTab(
                     product: widget._product,
+                    flashSaleList: [],
                   )
                 ],
               ),
@@ -298,7 +303,9 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
                       ),
                     ),
                   ),
-                  ReviewList()
+                  ReviewList(
+                    reviewsList: [],
+                  )
                 ],
               ),
             )

@@ -112,6 +112,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
           validator: Validator().email,
           onChanged: (value) => null,
           onSaved: (value) => _email.text = value,
+          maxLines: 1,
         ),
         SizedBox(height: 70),
         FlatButton(

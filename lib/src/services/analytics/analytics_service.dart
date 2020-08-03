@@ -1,7 +1,8 @@
+import 'package:bottleshopdeliveryapp/src/models/order.dart';
+import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 
 class DebugLogPrinter extends LogPrinter {
@@ -19,88 +20,73 @@ class DebugLogPrinter extends LogPrinter {
 class AnalyticsService implements Analytics {
   final FirebaseAnalytics _analytics;
 
-  AnalyticsService({FirebaseAnalytics firebaseAnalytics}) : _analytics = firebaseAnalytics ?? FirebaseAnalytics() {
-    _analytics.setAnalyticsCollectionEnabled(true);
+  AnalyticsService({FirebaseAnalytics firebaseAnalytics, bool enableAnalyticsCollection = true})
+      : _analytics = firebaseAnalytics ?? FirebaseAnalytics() {
+    _analytics.setAnalyticsCollectionEnabled(enableAnalyticsCollection);
+  }
+
+  @override
+  FirebaseAnalyticsObserver get analyticsObserver => FirebaseAnalyticsObserver(analytics: _analytics);
+
+  @override
+  Future<void> logAddToCart(Product product, [int quantity = 1]) async {
+    return _analytics.logAddToCart(
+        itemId: product.documentID, itemName: product.name, itemCategory: product.category, quantity: quantity);
+  }
+
+  @override
+  Future<void> logAddToWishlist(Product product, [int quantity = 1]) async {
+    return _analytics.logAddToWishlist(
+        itemId: product.documentID, itemName: product.name, itemCategory: product.category, quantity: quantity);
+  }
+
+  @override
+  Future<void> logLogin(String loginMethod) async {
+    return _analytics.logLogin(loginMethod: loginMethod);
   }
 
   @override
   Future<void> logAppOpen() async {
-    await _analytics.logAppOpen();
-  }
-
-  Future<void> setUserId(String id) async {}
-
-  @override
-  Future<void> logLogin(String loginMethod) async {
-    await _analytics.logLogin(loginMethod: loginMethod);
-  }
-
-  FirebaseAnalyticsObserver get analyticsObserver {
-    return FirebaseAnalyticsObserver(analytics: _analytics);
-  }
-
-  @override
-  Future<void> logAddToCart(
-      {@required String itemId,
-      @required String itemName,
-      @required String itemCategory,
-      @required int quantity}) async {
-    return _analytics.logAddToCart(itemId: itemId, itemName: itemName, itemCategory: itemCategory, quantity: quantity);
-  }
-
-  @override
-  Future<void> logAddToWishlist() {
-    // TODO: implement logAddToWishlist
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> logBeginCheckout() {
-    // TODO: implement logBeginCheckout
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> logEcommercePurchase() {
-    // TODO: implement logEcommercePurchase
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> logRemoveFromCart() {
-    // TODO: implement logRemoveFromCart
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> logSearch() {
-    // TODO: implement logSearch
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> logSignUp(String method) async {
-    await _analytics.logSignUp(signUpMethod: method);
-  }
-
-  @override
-  Future<void> logTutorialBegin() async {
-    await _analytics.logTutorialBegin();
-  }
-
-  @override
-  Future<void> logTutorialComplete() async {
-    await _analytics.logTutorialComplete();
-  }
-
-  @override
-  Future<void> logViewItem() {
-    // TODO: implement logViewItem
-    throw UnimplementedError();
+    return _analytics.logAppOpen();
   }
 
   @override
   Future<void> setCurrentScreen(String screenName) async {
     await _analytics.setCurrentScreen(screenName: screenName);
+  }
+
+  @override
+  Future<void> setUserId(String id) async {
+    return _analytics.setUserId(id);
+  }
+
+  @override
+  Future<void> logSignUp(String method) async {
+    return _analytics.logSignUp(signUpMethod: method);
+  }
+
+  @override
+  Future<void> logTutorialBegin() async {
+    return _analytics.logTutorialBegin();
+  }
+
+  @override
+  Future<void> logTutorialComplete() async {
+    return _analytics.logTutorialComplete();
+  }
+
+  @override
+  Future<void> logEcommercePurchase(Order order) async {
+    return _analytics.logEcommercePurchase(transactionId: order.id, value: order.totalValue);
+  }
+
+  @override
+  Future<void> logSearch(String searchTerm) async {
+    return _analytics.logSearch(searchTerm: searchTerm);
+  }
+
+  @override
+  Future<void> logViewItem(Product product) async {
+    return _analytics.logViewItem(itemId: product.documentID, itemName: product.name, itemCategory: product.category);
   }
 }

@@ -102,10 +102,10 @@ class _OrdersTabState extends State<OrdersTab> {
           ),
           body: TabBarView(children: [
             OrdersProducts(ordersList: _orderList),
-            OrdersProducts(ordersList: _orderList.where((order) => order.orderState == OrderState.unpaid).toList()),
-            OrdersProducts(ordersList: _orderList.where((order) => order.orderState == OrderState.shipped).toList()),
             OrdersProducts(
                 ordersList: _orderList.where((order) => order.orderState == OrderState.toBeShipped).toList()),
+            OrdersProducts(ordersList: _orderList.where((order) => order.orderState == OrderState.shipped).toList()),
+            OrdersProducts(ordersList: _orderList.where((order) => order.orderState == OrderState.delivered).toList()),
             OrdersProducts(ordersList: _orderList.where((order) => order.orderState == OrderState.inDispute).toList()),
           ]),
         ),

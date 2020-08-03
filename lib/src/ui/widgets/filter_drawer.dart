@@ -48,18 +48,20 @@ class FilterDrawer extends StatelessWidget {
             ),
             SizedBox(height: 15),
             FlatButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  CategoryDetailView.routeName,
-                  arguments: RouteArgument(
-                    id: 2,
-                    argumentsList: [
-                      categories.elementAt(0),
-                    ],
-                  ),
-                );
-              },
+              onPressed: categories.isEmpty
+                  ? null
+                  : () {
+                      Navigator.pushNamed(
+                        context,
+                        CategoryDetailView.routeName,
+                        arguments: RouteArgument(
+                          id: 2,
+                          argumentsList: [
+                            categories.elementAt(0),
+                          ],
+                        ),
+                      );
+                    },
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               color: Theme.of(context).accentColor,
               shape: StadiumBorder(),

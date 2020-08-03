@@ -32,7 +32,11 @@ class FavoriteGridItem extends StatelessWidget {
                   tag: heroTag + product.documentID,
                   child: Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: AssetImage(this.product.image), fit: BoxFit.cover),
+                      image: DecorationImage(
+                          image: AssetImage(
+                            this.product.imageUrl,
+                          ),
+                          fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),

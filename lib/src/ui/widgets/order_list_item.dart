@@ -67,7 +67,7 @@ class OrderListItem extends StatelessWidget {
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(image: AssetImage(order.product.image), fit: BoxFit.cover),
+                    image: DecorationImage(image: AssetImage(order.product.imageUrl), fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -84,7 +84,7 @@ class OrderListItem extends StatelessWidget {
                             order.product.name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                            style: Theme.of(context).textTheme.subhead,
+                            style: Theme.of(context).textTheme.subtitle1,
                           ),
                           SizedBox(height: 12),
                           Wrap(
@@ -100,7 +100,7 @@ class OrderListItem extends StatelessWidget {
                                   SizedBox(width: 10),
                                   Text(
                                     order.getDateTime(),
-                                    style: Theme.of(context).textTheme.body1,
+                                    style: Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
                                   ),
@@ -116,7 +116,7 @@ class OrderListItem extends StatelessWidget {
                                   SizedBox(width: 10),
                                   Text(
                                     order.trackingNumber,
-                                    style: Theme.of(context).textTheme.body1,
+                                    style: Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
                                   ),

@@ -79,7 +79,7 @@ class ReviewItem extends StatelessWidget {
                             Text(review.rate.toString(),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .body2
+                                    .bodyText1
                                     .merge(TextStyle(color: Theme.of(context).primaryColor))),
                             Icon(
                               Icons.star_border,
@@ -100,7 +100,7 @@ class ReviewItem extends StatelessWidget {
         ),
         Text(
           review.review,
-          style: Theme.of(context).textTheme.body1,
+          style: Theme.of(context).textTheme.bodyText2,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
           maxLines: 3,

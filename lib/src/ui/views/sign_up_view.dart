@@ -108,6 +108,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 validator: Validator().email,
                                 onChanged: (value) => null,
                                 onSaved: (value) => _email.text = value,
+                                maxLines: 1,
                               ),
                               SizedBox(height: 20),
                               FormInputFieldWithIcon(
@@ -203,7 +204,7 @@ class _SignUpViewState extends State<SignUpView> {
                                     await context
                                         .read<SignUpViewModel>()
                                         .signUpWithEmailAndPassword(_email.text, _password.text);
-                                    Navigator.pushReplacementNamed(context, TabsView.routeName);
+                                    return Navigator.pushReplacementNamed(context, TabsView.routeName);
                                   }
                                 },
                                 child: Text(
@@ -235,7 +236,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 },
                                 signInWithFacebook: () async {
                                   await context.read<SignUpViewModel>().signUpWithFacebook();
-                                  Navigator.pushReplacementNamed(context, TabsView.routeName);
+                                  return Navigator.pushReplacementNamed(context, TabsView.routeName);
                                 },
                               ),
                             ],

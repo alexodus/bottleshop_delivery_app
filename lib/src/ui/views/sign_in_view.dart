@@ -67,7 +67,7 @@ class _SignInViewState extends State<SignInView> {
                             context: context,
                             onFacebookClicked: () async {
                               await context.read<SignInViewModel>().signInWithFacebook();
-                              Navigator.pushReplacementNamed(context, TabsView.routeName);
+                              return Navigator.pushReplacementNamed(context, TabsView.routeName);
                               /*if (!status) {
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content: Text('Sing in failed, please try again'),
@@ -91,7 +91,7 @@ class _SignInViewState extends State<SignInView> {
                                 await context
                                     .read<SignInViewModel>()
                                     .signInWithEmailAndPassword(_email.text, _password.text);
-                                Navigator.pushReplacementNamed(context, TabsView.routeName);
+                                return Navigator.pushReplacementNamed(context, TabsView.routeName);
                                 /*if (!status) {
                                   _scaffoldKey.currentState.showSnackBar(SnackBar(
                                     content: Text('Sing in failed, please try again'),
@@ -148,6 +148,7 @@ class _SignInViewState extends State<SignInView> {
           validator: Validator().email,
           onChanged: (value) => null,
           onSaved: (value) => _email.text = value,
+          maxLines: 1,
         ),
         SizedBox(height: 20),
         FormInputFieldWithIcon(

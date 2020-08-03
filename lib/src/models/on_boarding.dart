@@ -1,6 +1,10 @@
-class OnBoarding {
-  String image;
-  String description;
+import 'package:flutter/foundation.dart';
 
-  OnBoarding({this.image, this.description});
+class OnBoarding {
+  final String image;
+  final String description;
+
+  const OnBoarding({@required this.image, @required this.description})
+      : assert(image != null),
+        assert(description != null);
 }
