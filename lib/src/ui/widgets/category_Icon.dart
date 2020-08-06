@@ -37,7 +37,9 @@ class CategoryIcon extends StatelessWidget {
           curve: Curves.easeInOut,
           padding: EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
-            color: context.read<HomeTabViewModel>().isCategorySelected(category.documentID)
+            color: context
+                    .read<HomeTabViewModel>()
+                    .isCategorySelected(category.documentID)
                 ? Theme.of(context).primaryColor
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(50),
@@ -48,7 +50,9 @@ class CategoryIcon extends StatelessWidget {
                 tag: heroTag + category.documentID,
                 child: Icon(
                   Icons.widgets,
-                  color: context.read<HomeTabViewModel>().isCategorySelected(category.documentID)
+                  color: context
+                          .read<HomeTabViewModel>()
+                          .isCategorySelected(category.documentID)
                       ? Theme.of(context).accentColor
                       : Theme.of(context).primaryColor,
                   size: 32,
@@ -60,8 +64,13 @@ class CategoryIcon extends StatelessWidget {
                 curve: Curves.easeInOut,
                 vsync: tickerProvider,
                 child: Text(
-                  context.read<HomeTabViewModel>().isCategorySelected(category.documentID) ? category.name : '',
-                  style: TextStyle(fontSize: 14, color: Theme.of(context).accentColor),
+                  context
+                          .read<HomeTabViewModel>()
+                          .isCategorySelected(category.documentID)
+                      ? category.name
+                      : '',
+                  style: TextStyle(
+                      fontSize: 14, color: Theme.of(context).accentColor),
                 ),
               )
             ],

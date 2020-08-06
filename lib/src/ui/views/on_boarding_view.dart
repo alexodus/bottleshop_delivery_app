@@ -24,7 +24,8 @@ class OnBoardingView extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 20, top: 50),
                   child: FlatButton(
                     onPressed: () async {
-                      await Navigator.pushReplacementNamed(context, SignUpView.routeName);
+                      await Navigator.pushReplacementNamed(
+                          context, SignUpView.routeName);
                       return context.read<Analytics>().logTutorialComplete();
                     },
                     child: Text(
@@ -39,9 +40,12 @@ class OnBoardingView extends StatelessWidget {
                   options: CarouselOptions(
                     height: 500.0,
                     viewportFraction: 1.0,
-                    onPageChanged: context.select((OnBoardingViewModel value) => value.pageChanged),
+                    onPageChanged: context.select(
+                        (OnBoardingViewModel value) => value.pageChanged),
                   ),
-                  items: context.select((OnBoardingViewModel value) => value.screens).map((boarding) {
+                  items: context
+                      .select((OnBoardingViewModel value) => value.screens)
+                      .map((boarding) {
                     return Builder(
                       builder: (context) {
                         return Column(
@@ -73,17 +77,24 @@ class OnBoardingView extends StatelessWidget {
                   width: AppConfig(context).appWidth(75),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: context.select((OnBoardingViewModel value) => value.screens).map((boarding) {
+                    children: context
+                        .select((OnBoardingViewModel value) => value.screens)
+                        .map((boarding) {
                       return Container(
                         width: 25.0,
                         height: 3.0,
-                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 2.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
                           ),
-                          color: context.select((OnBoardingViewModel value) => value.currentIndex) ==
-                                  context.select((OnBoardingViewModel value) => value.screens).indexOf(boarding)
+                          color: context.select((OnBoardingViewModel value) =>
+                                      value.currentIndex) ==
+                                  context
+                                      .select((OnBoardingViewModel value) =>
+                                          value.screens)
+                                      .indexOf(boarding)
                               ? Theme.of(context).hintColor.withOpacity(0.8)
                               : Theme.of(context).hintColor.withOpacity(0.2),
                         ),
@@ -98,7 +109,8 @@ class OnBoardingView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
                     onPressed: () {
                       context.read<Analytics>().logTutorialComplete();
-                      Navigator.pushReplacementNamed(context, SignUpView.routeName);
+                      Navigator.pushReplacementNamed(
+                          context, SignUpView.routeName);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +118,8 @@ class OnBoardingView extends StatelessWidget {
                         Text(
                           'Sign up',
                           style: Theme.of(context).textTheme.headline4.merge(
-                                TextStyle(color: Theme.of(context).primaryColor),
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               ),
                         ),
                         Icon(

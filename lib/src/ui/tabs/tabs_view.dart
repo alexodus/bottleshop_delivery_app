@@ -1,37 +1,36 @@
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/filter_drawer.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/menu_drawer.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class TabsView extends StatelessWidget {
   static const String routeName = '/tabs';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final List<dynamic> routeArguments;
 
   TabsView({
     Key key,
+    this.routeArguments,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final RouteArgument args = ModalRoute.of(context).settings.arguments ?? Routes.onTabSelection(TabIndex.home);
+    final RouteArgument args = ModalRoute.of(context).settings.arguments ??
+        Routes.onTabSelection(TabIndex.home);
     return ChangeNotifierProvider<TabsViewModel>(
       create: (_) => TabsViewModel(context.read, args),
       builder: (context, child) {
-        return Scaffold(
-          key: _scaffoldKey,
-          drawer: MenuDrawer(),
-          endDrawer: FilterDrawer(),
+        return AppScaffold(
+          scaffoldKey: _scaffoldKey,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             leading: IconButton(
-              icon: Icon(Icons.sort, color: Theme.of(context).hintColor),
+              icon: Icon(Icons.menu, color: Theme.of(context).hintColor),
               onPressed: () => _scaffoldKey.currentState.openDrawer(),
             ),
             backgroundColor: Colors.transparent,
@@ -45,20 +44,9 @@ class TabsView extends StatelessWidget {
                 iconColor: Theme.of(context).hintColor,
                 labelColor: Theme.of(context).accentColor,
               ),
-              Container(
-                  width: 30,
-                  height: 30,
-                  margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(300),
-                    onTap: () {
-                      Navigator.pushNamed(context, TabsView.routeName,
-                          arguments: Routes.onTabSelection(TabIndex.account));
-                    },
-                    child: const ProfileAvatar(),
-                  )),
             ],
           ),
+          endDrawer: FilterDrawer(),
           body: context.select((TabsViewModel viewModel) => viewModel.tab),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
@@ -70,16 +58,16 @@ class TabsView extends StatelessWidget {
             backgroundColor: Colors.transparent,
             selectedIconTheme: IconThemeData(size: 25),
             unselectedItemColor: Theme.of(context).hintColor.withOpacity(1),
-            currentIndex: context.select((TabsViewModel viewModel) => viewModel.id),
+            currentIndex:
+                context.select((TabsViewModel viewModel) => viewModel.id),
             onTap: (i) {
               context.read<TabsViewModel>().selectTab(i);
             },
             items: [
               BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.bell),
+                icon: Icon(Icons.favorite_border),
                 title: Container(height: 0.0),
               ),
-              BottomNavigationBarItem(title: Container(height: 0.0), icon: FaIcon(FontAwesomeIcons.user)),
               BottomNavigationBarItem(
                   title: Container(height: 5.0),
                   icon: Container(
@@ -93,7 +81,8 @@ class TabsView extends StatelessWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                            color: Theme.of(context).accentColor.withOpacity(0.4),
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
                             blurRadius: 40,
                             offset: Offset(0, 15)),
                         BoxShadow(
@@ -103,14 +92,11 @@ class TabsView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Icon(Icons.home, color: Theme.of(context).primaryColor),
+                    child:
+                        Icon(Icons.home, color: Theme.of(context).primaryColor),
                   )),
               BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.heart),
-                title: Container(height: 0.0),
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.inbox),
+                icon: Icon(Icons.subscriptions),
                 title: Container(height: 0.0),
               ),
             ],

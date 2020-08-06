@@ -20,15 +20,19 @@ class OrderGridItem extends StatelessWidget {
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.of(context)
-            .pushNamed('/Order', arguments: RouteArgument(argumentsList: [this.heroTag], id: this.order.id));
+        Navigator.of(context).pushNamed('/Order',
+            arguments: RouteArgument(
+                argumentsList: [this.heroTag], id: this.order.id));
       },
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(6),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+            BoxShadow(
+                color: Theme.of(context).hintColor.withOpacity(0.10),
+                offset: Offset(0, 4),
+                blurRadius: 10)
           ],
         ),
         child: Column(

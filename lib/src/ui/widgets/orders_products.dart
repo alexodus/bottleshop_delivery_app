@@ -1,10 +1,8 @@
 import 'package:bottleshopdeliveryapp/src/models/order.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/empty_orders_products.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/order_grid_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/order_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class OrdersProducts extends StatefulWidget {
   final List<Order> ordersList;
@@ -36,8 +34,8 @@ class _OrdersProductsState extends State<OrdersProducts> {
               padding: const EdgeInsets.only(left: 20, right: 10),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: 0),
-                leading: FaIcon(
-                  FontAwesomeIcons.inbox,
+                leading: Icon(
+                  Icons.subscriptions,
                   color: Theme.of(context).hintColor,
                 ),
                 title: Text(
@@ -57,7 +55,9 @@ class _OrdersProductsState extends State<OrdersProducts> {
                       },
                       icon: Icon(
                         Icons.format_list_bulleted,
-                        color: this.layout == 'list' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                        color: this.layout == 'list'
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).focusColor,
                       ),
                     ),
                     IconButton(
@@ -68,7 +68,9 @@ class _OrdersProductsState extends State<OrdersProducts> {
                       },
                       icon: Icon(
                         Icons.apps,
-                        color: this.layout == 'grid' ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                        color: this.layout == 'grid'
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).focusColor,
                       ),
                     )
                   ],
@@ -122,10 +124,6 @@ class _OrdersProductsState extends State<OrdersProducts> {
               ),
             ),
           ),
-          Offstage(
-            offstage: widget.ordersList.isNotEmpty,
-            child: EmptyOrdersProducts(),
-          )
         ],
       ),
     );

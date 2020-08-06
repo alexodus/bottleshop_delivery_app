@@ -29,8 +29,10 @@ class HomeTabViewModel extends BaseViewModel {
   int get currentSlider => _currentSlider;
 
   void init() {
-    var fcmInit = locator<PushNotificationService>().initialise();
-    fcmInit.then((_) => debugPrint('fcm init OK')).catchError((err) => debugPrint('fcm init failed $err'));
+    locator<PushNotificationService>()
+        .initialise()
+        .then((_) => debugPrint('fcm init OK'))
+        .catchError((err) => debugPrint('fcm init failed $err'));
   }
 
   void setCurrentSlider(int index) => _currentSlider = index;
@@ -46,7 +48,9 @@ class HomeTabViewModel extends BaseViewModel {
 
   void listenToProducts() {
     setLoading();
-    locator<FirestoreService>().listenToProductsRealTime().listen((productData) {
+    locator<FirestoreService>()
+        .listenToProductsRealTime()
+        .listen((productData) {
       List<Product> updatedProducts = productData;
       if (updatedProducts != null && updatedProducts.isNotEmpty) {
         _products = updatedProducts;

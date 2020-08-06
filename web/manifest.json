@@ -1,11 +1,11 @@
 {
-    "name": "Bottleshop 3 Veže Delivery",
+    "name": "Bottleshop 3 Veže",
     "short_name": "Bottleshop",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Bottleshop 3 Veže Delivery app",
+    "description": "Bottleshop 3 Veže E-Shop",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

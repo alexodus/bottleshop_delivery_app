@@ -9,7 +9,8 @@ class CloudStorageService implements CloudStorage {
     FirebaseStorage firebaseStorage,
   }) : _storageInstance = firebaseStorage ?? FirebaseStorage.instance;
 
-  Future<String> getDownloadUrl({@required String fileName, String folder = 'warehouse'}) async {
+  Future<String> getDownloadUrl(
+      {@required String fileName, String folder = 'warehouse'}) async {
     final StorageReference reference = _storageInstance.ref();
     return reference.child('/$folder/$fileName').getDownloadURL();
   }

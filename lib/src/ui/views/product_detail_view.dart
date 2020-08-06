@@ -1,7 +1,6 @@
-import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/menu_drawer.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_details_tab.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_home_tab.dart';
@@ -9,7 +8,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart'
 import 'package:bottleshopdeliveryapp/src/ui/widgets/review_list.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductDetailView extends StatefulWidget {
   static const String routeName = '/productDetail';
@@ -25,14 +23,16 @@ class ProductDetailView extends StatefulWidget {
   _ProductDetailViewState createState() => _ProductDetailViewState();
 }
 
-class _ProductDetailViewState extends State<ProductDetailView> with SingleTickerProviderStateMixin {
+class _ProductDetailViewState extends State<ProductDetailView>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _tabIndex = 0;
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, initialIndex: _tabIndex, vsync: this);
+    _tabController =
+        TabController(length: 3, initialIndex: _tabIndex, vsync: this);
     _tabController.addListener(_handleTabSelection);
     super.initState();
   }
@@ -60,7 +60,10 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 5, offset: Offset(0, -2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.15),
+                blurRadius: 5,
+                offset: Offset(0, -2)),
           ],
         ),
         child: Row(
@@ -75,8 +78,8 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
                   padding: EdgeInsets.symmetric(vertical: 14),
                   color: Theme.of(context).accentColor,
                   shape: StadiumBorder(),
-                  child: FaIcon(
-                    FontAwesomeIcons.heart,
+                  child: Icon(
+                    Icons.favorite_border,
                     color: Theme.of(context).primaryColor,
                   )),
             ),
@@ -109,15 +112,14 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
                         });
                       },
                       iconSize: 30,
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                       icon: Icon(Icons.remove_circle_outline),
                       color: Theme.of(context).primaryColor,
                     ),
                     Text('2',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            .merge(TextStyle(color: Theme.of(context).primaryColor))),
+                        style: Theme.of(context).textTheme.subtitle1.merge(
+                            TextStyle(color: Theme.of(context).primaryColor))),
                     IconButton(
                       onPressed: () {
                         setState(() {
@@ -125,7 +127,8 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
                         });
                       },
                       iconSize: 30,
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                       icon: Icon(Icons.add_circle_outline),
                       color: Theme.of(context).primaryColor,
                     )
@@ -143,11 +146,13 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
 //          pinned: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            icon: FaIcon(FontAwesomeIcons.backward, color: Theme.of(context).hintColor),
+            icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
             onPressed: () => Navigator.of(context).pop(),
           ),
           actions: <Widget>[
-            ShoppingCartButton(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+            ShoppingCartButton(
+                iconColor: Theme.of(context).hintColor,
+                labelColor: Theme.of(context).accentColor),
             Container(
                 width: 30,
                 height: 30,
@@ -155,8 +160,7 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
                 child: InkWell(
                   borderRadius: BorderRadius.circular(300),
                   onTap: () {
-                    Navigator.pushNamed(context, TabsView.routeName,
-                        arguments: Routes.onTabSelection(TabIndex.account));
+                    Navigator.pushNamed(context, AccountView.routeName);
                   },
                   child: ProfileAvatar(),
                 )),
@@ -209,14 +213,18 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
               labelPadding: EdgeInsets.symmetric(horizontal: 10),
               unselectedLabelColor: Theme.of(context).accentColor,
               labelColor: Theme.of(context).primaryColor,
-              indicator: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Theme.of(context).accentColor),
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: Theme.of(context).accentColor),
               tabs: [
                 Tab(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: Theme.of(context).accentColor.withOpacity(0.2), width: 1),
+                      border: Border.all(
+                          color: Theme.of(context).accentColor.withOpacity(0.2),
+                          width: 1),
                     ),
                     child: Align(
                       alignment: Alignment.center,
@@ -287,12 +295,13 @@ class _ProductDetailViewState extends State<ProductDetailView> with SingleTicker
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                     child: ListTile(
                       dense: true,
                       contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: FaIcon(
-                        FontAwesomeIcons.commentDots,
+                      leading: Icon(
+                        Icons.comment,
                         color: Theme.of(context).hintColor,
                       ),
                       title: Text(

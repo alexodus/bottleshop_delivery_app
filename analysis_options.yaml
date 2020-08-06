@@ -1,4 +1,4 @@
-include: package:pedantic/analysis_options.1.8.0.yaml
+include: package:pedantic/analysis_options.yaml
 
 analyzer:
   strong-mode:
@@ -6,13 +6,13 @@ analyzer:
     implicit-dynamic: true
 
 errors:
-  # treat missing required parameters as an error (not a hint)
   missing_required_param: error
-  # treat missing returns as an error (not a hint)
   missing_return: error
+  deprecated_member_use_from_same_package: ignore
 
 linter:
   rules:
+    - avoid_types_on_closure_parameters
     - avoid_void_async
     - await_only_futures
     - camel_case_types

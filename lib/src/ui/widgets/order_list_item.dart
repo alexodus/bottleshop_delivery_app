@@ -2,7 +2,6 @@ import 'package:bottleshopdeliveryapp/src/models/order.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class OrderListItem extends StatelessWidget {
   final String heroTag;
@@ -30,8 +29,8 @@ class OrderListItem extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: FaIcon(
-              FontAwesomeIcons.trash,
+            child: Icon(
+              Icons.delete_forever,
               color: Colors.white,
             ),
           ),
@@ -39,22 +38,27 @@ class OrderListItem extends StatelessWidget {
       ),
       onDismissed: (direction) {
         onDismissed();
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("The ${order.product.name} order is removed from wish list")));
+        Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(
+                "The ${order.product.name} order is removed from wish list")));
       },
       child: InkWell(
         splashColor: Theme.of(context).accentColor,
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.pushNamed(context, ProductDetailView.routeName, arguments: args);
+          Navigator.pushNamed(context, ProductDetailView.routeName,
+              arguments: args);
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.9),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
             ],
           ),
           child: Row(
@@ -67,7 +71,9 @@ class OrderListItem extends StatelessWidget {
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(image: AssetImage(order.product.imageUrl), fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: AssetImage(order.product.imageUrl),
+                        fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -100,7 +106,8 @@ class OrderListItem extends StatelessWidget {
                                   SizedBox(width: 10),
                                   Text(
                                     order.getDateTime(),
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
                                   ),
@@ -108,15 +115,16 @@ class OrderListItem extends StatelessWidget {
                               ),
                               Row(
                                 children: <Widget>[
-                                  FaIcon(
-                                    FontAwesomeIcons.chartLine,
+                                  Icon(
+                                    Icons.show_chart,
                                     color: Theme.of(context).focusColor,
                                     size: 20,
                                   ),
                                   SizedBox(width: 10),
                                   Text(
                                     order.trackingNumber,
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
                                   ),
@@ -132,15 +140,19 @@ class OrderListItem extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text(order.product.price.toStringAsFixed(2), style: Theme.of(context).textTheme.headline4),
+                        Text(order.product.price.toStringAsFixed(2),
+                            style: Theme.of(context).textTheme.headline4),
                         SizedBox(height: 6),
                         Chip(
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           backgroundColor: Colors.transparent,
-                          shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
+                          shape: StadiumBorder(
+                              side: BorderSide(
+                                  color: Theme.of(context).focusColor)),
                           label: Text(
                             'x ${order.quantity}',
-                            style: TextStyle(color: Theme.of(context).focusColor),
+                            style:
+                                TextStyle(color: Theme.of(context).focusColor),
                           ),
                         ),
                       ],

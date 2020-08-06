@@ -7,7 +7,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/social_media.dart';
 import 'package:bottleshopdeliveryapp/src/utils/validator.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/sign_in_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SignInView extends StatefulWidget {
@@ -66,46 +65,59 @@ class _SignInViewState extends State<SignInView> {
                           child: buildFormFields(
                             context: context,
                             onFacebookClicked: () async {
-                              await context.read<SignInViewModel>().signInWithFacebook();
-                              return Navigator.pushReplacementNamed(context, TabsView.routeName);
-                              /*if (!status) {
-                                _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Sing in failed, please try again'),
-                                ));
-                              }*/
+                              await context
+                                  .read<SignInViewModel>()
+                                  .signInWithFacebook();
+                              return Navigator.pushReplacementNamed(
+                                  context, TabsView.routeName);
                             },
                             onGoogleClicked: () async {
                               try {
-                                await context.read<SignInViewModel>().signInWithGoogle();
-                                return Navigator.pushReplacementNamed(context, TabsView.routeName);
+                                await context
+                                    .read<SignInViewModel>()
+                                    .signInWithGoogle();
+                                return Navigator.pushReplacementNamed(
+                                    context, TabsView.routeName);
                               } catch (e) {
                                 context.read<SignInViewModel>().setNotLoading();
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Sing in failed, please try again'),
+                                  content:
+                                      Text('Sing in failed, please try again'),
                                 ));
                               }
                             },
+                            onAnonymousClicked: () async {
+                              await context
+                                  .read<SignInViewModel>()
+                                  .signInAnonymously();
+                              return Navigator.pushReplacementNamed(
+                                  context, TabsView.routeName);
+                            },
+                            onAppleClicked: () =>
+                                debugPrint('apple sign in clicked'),
                             onLoginClicked: () async {
                               _formKey.currentState.reset();
                               if (_formKey.currentState.validate()) {
                                 await context
                                     .read<SignInViewModel>()
-                                    .signInWithEmailAndPassword(_email.text, _password.text);
-                                return Navigator.pushReplacementNamed(context, TabsView.routeName);
-                                /*if (!status) {
-                                  _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                    content: Text('Sing in failed, please try again'),
-                                  ));
-                                }*/
+                                    .signInWithEmailAndPassword(
+                                        _email.text, _password.text);
+                                return Navigator.pushReplacementNamed(
+                                    context, TabsView.routeName);
                               }
                             },
-                            onResetClicked: () => Navigator.pushNamed(context, ResetPasswordView.routeName),
+                            onResetClicked: () => Navigator.pushNamed(
+                                context, ResetPasswordView.routeName),
                           ),
                         ),
                       ],
                     ),
-                    buildPrimaryButton(context, 'Don\'t have an account ?', ' Sign Up',
-                        () => Navigator.pushReplacementNamed(context, SignUpView.routeName)),
+                    buildPrimaryButton(
+                        context,
+                        'Don\'t have an account ?',
+                        ' Sign Up',
+                        () => Navigator.pushReplacementNamed(
+                            context, SignUpView.routeName)),
                   ],
                 ),
               ),
@@ -121,7 +133,9 @@ class _SignInViewState extends State<SignInView> {
       Function onResetClicked,
       Function onLoginClicked,
       Function onFacebookClicked,
-      Function onGoogleClicked}) {
+      Function onGoogleClicked,
+      Function onAnonymousClicked,
+      Function onAppleClicked}) {
     return Column(
       children: <Widget>[
         SizedBox(height: 25),
@@ -135,13 +149,14 @@ class _SignInViewState extends State<SignInView> {
               hintStyle: Theme.of(context).textTheme.bodyText2.merge(
                     TextStyle(color: Theme.of(context).accentColor),
                   ),
-              enabledBorder:
-                  UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).accentColor.withOpacity(0.2))),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).accentColor),
               ),
-              prefixIcon: FaIcon(
-                FontAwesomeIcons.envelope,
+              prefixIcon: Icon(
+                Icons.mail_outline,
                 color: Theme.of(context).accentColor,
               )),
           controller: _email,
@@ -158,13 +173,14 @@ class _SignInViewState extends State<SignInView> {
             hintStyle: Theme.of(context).textTheme.bodyText2.merge(
                   TextStyle(color: Theme.of(context).accentColor),
                 ),
-            enabledBorder:
-                UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).accentColor.withOpacity(0.2))),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Theme.of(context).accentColor),
             ),
-            prefixIcon: FaIcon(
-              FontAwesomeIcons.lock,
+            prefixIcon: Icon(
+              Icons.lock,
               color: Theme.of(context).accentColor,
             ),
             suffixIcon: IconButton(
@@ -174,7 +190,8 @@ class _SignInViewState extends State<SignInView> {
                 });
               },
               color: Theme.of(context).accentColor.withOpacity(0.4),
-              icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+              icon:
+                  Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
             ),
           ),
           controller: _password,
@@ -211,12 +228,18 @@ class _SignInViewState extends State<SignInView> {
           style: Theme.of(context).textTheme.bodyText2,
         ),
         SizedBox(height: 20),
-        SocialMediaWidget(signInWithFacebook: onFacebookClicked, signInWithGoogle: onGoogleClicked)
+        SocialMediaWidget(
+          signInWithFacebook: onFacebookClicked,
+          signInWithGoogle: onGoogleClicked,
+          signInWithApple: onAppleClicked,
+          signInAnonymously: onAnonymousClicked,
+        )
       ],
     );
   }
 
-  Widget buildPrimaryButton(BuildContext context, String label, String title, Function onPress) {
+  Widget buildPrimaryButton(
+      BuildContext context, String label, String title, Function onPress) {
     return FlatButton(
       onPressed: onPress,
       child: RichText(
@@ -226,7 +249,8 @@ class _SignInViewState extends State<SignInView> {
               ),
           children: [
             TextSpan(text: label),
-            TextSpan(text: title, style: TextStyle(fontWeight: FontWeight.w700)),
+            TextSpan(
+                text: title, style: TextStyle(fontWeight: FontWeight.w700)),
           ],
         ),
       ),
@@ -254,7 +278,10 @@ class _SignInViewState extends State<SignInView> {
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).primaryColor,
         boxShadow: [
-          BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.2), offset: Offset(0, 10), blurRadius: 20)
+          BoxShadow(
+              color: Theme.of(context).hintColor.withOpacity(0.2),
+              offset: Offset(0, 10),
+              blurRadius: 20)
         ],
       ),
       child: child,

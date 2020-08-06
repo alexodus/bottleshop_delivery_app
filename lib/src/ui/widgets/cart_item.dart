@@ -28,14 +28,18 @@ class CartItem extends StatelessWidget {
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
         Navigator.pushNamed(context, ProductDetailView.routeName,
-            arguments: RouteArgument(id: args.id, argumentsList: args.argumentsList));
+            arguments:
+                RouteArgument(id: args.id, argumentsList: args.argumentsList));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -94,7 +98,8 @@ class CartItem extends StatelessWidget {
                         icon: Icon(Icons.add_circle_outline),
                         color: Theme.of(context).hintColor,
                       ),
-                      Text(quantity.toString(), style: Theme.of(context).textTheme.subtitle1),
+                      Text(quantity.toString(),
+                          style: Theme.of(context).textTheme.subtitle1),
                       IconButton(
                         onPressed: () {
                           logger.d('quantity: $decrementQuantity(quantity)');

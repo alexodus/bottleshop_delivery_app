@@ -1,21 +1,20 @@
-import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/checkout_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/cart_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CartView extends StatelessWidget {
   static const String routeName = '/cart';
   @override
   Widget build(BuildContext context) {
-    final products = []; //context.select((HomeTabViewModel viewModel) => viewModel.products);
+    final products =
+        []; //context.select((HomeTabViewModel viewModel) => viewModel.products);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: FaIcon(FontAwesomeIcons.longArrowAltLeft, color: Theme.of(context).hintColor),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
           onPressed: () => Navigator.pop(context),
         ),
         backgroundColor: Colors.transparent,
@@ -32,7 +31,7 @@ class CartView extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(300),
               onTap: () {
-                Navigator.pushNamed(context, TabsView.routeName, arguments: Routes.onTabSelection(TabIndex.account));
+                Navigator.pushNamed(context, AccountView.routeName);
               },
               child: ProfileAvatar(),
             ),
@@ -56,8 +55,8 @@ class CartView extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 20, right: 10),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: FaIcon(
-                        FontAwesomeIcons.shoppingCart,
+                      leading: Icon(
+                        Icons.shopping_cart,
                         color: Theme.of(context).hintColor,
                       ),
                       title: Text(
@@ -84,7 +83,8 @@ class CartView extends StatelessWidget {
                       return SizedBox(height: 15);
                     },
                     itemBuilder: (context, index) {
-                      return CartItem(product: products.elementAt(index), heroTag: 'cart');
+                      return CartItem(
+                          product: products.elementAt(index), heroTag: 'cart');
                     },
                   ),
                 ],
@@ -98,10 +98,14 @@ class CartView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20)),
                   boxShadow: [
                     BoxShadow(
-                        color: Theme.of(context).focusColor.withOpacity(0.15), offset: Offset(0, -2), blurRadius: 5.0)
+                        color: Theme.of(context).focusColor.withOpacity(0.15),
+                        offset: Offset(0, -2),
+                        blurRadius: 5.0)
                   ]),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width - 40,
@@ -117,7 +121,8 @@ class CartView extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
-                        Text('\$50.23', style: Theme.of(context).textTheme.subtitle2),
+                        Text('\$50.23',
+                            style: Theme.of(context).textTheme.subtitle2),
                       ],
                     ),
                     SizedBox(height: 5),
@@ -129,7 +134,8 @@ class CartView extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
-                        Text('\$13.23', style: Theme.of(context).textTheme.subtitle2),
+                        Text('\$13.23',
+                            style: Theme.of(context).textTheme.subtitle2),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -140,14 +146,16 @@ class CartView extends StatelessWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width - 40,
                           child: FlatButton(
-                            onPressed: () => Navigator.pushNamed(context, CheckoutView.routeName),
+                            onPressed: () => Navigator.pushNamed(
+                                context, CheckoutView.routeName),
                             padding: EdgeInsets.symmetric(vertical: 14),
                             color: Theme.of(context).accentColor,
                             shape: StadiumBorder(),
                             child: Text(
                               'Checkout',
                               textAlign: TextAlign.start,
-                              style: TextStyle(color: Theme.of(context).primaryColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
                             ),
                           ),
                         ),
@@ -155,10 +163,9 @@ class CartView extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
                             '\$55.36',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline4
-                                .merge(TextStyle(color: Theme.of(context).primaryColor)),
+                            style: Theme.of(context).textTheme.headline4.merge(
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor)),
                           ),
                         )
                       ],

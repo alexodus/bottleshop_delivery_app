@@ -1,6 +1,8 @@
+import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class EmptyOrdersProducts extends StatelessWidget {
   const EmptyOrdersProducts({
@@ -24,12 +26,15 @@ class EmptyOrdersProducts extends StatelessWidget {
                 height: 150,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                      Theme.of(context).focusColor,
-                      Theme.of(context).focusColor.withOpacity(0.1),
-                    ])),
-                child: FaIcon(
-                  FontAwesomeIcons.inbox,
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Theme.of(context).focusColor,
+                          Theme.of(context).accentColor,
+                        ])),
+                child: Icon(
+                  Icons.inbox,
                   color: Theme.of(context).primaryColor,
                   size: 70,
                 ),
@@ -62,20 +67,22 @@ class EmptyOrdersProducts extends StatelessWidget {
           ),
           SizedBox(height: 15),
           Opacity(
-            opacity: 0.4,
+            opacity: 0.8,
             child: Text(
-              'D\'ont have any orderd item',
+              'D\'ont have any ordered item',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline3.merge(TextStyle(fontWeight: FontWeight.w300)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline3
+                  .merge(TextStyle(fontWeight: FontWeight.w300)),
             ),
           ),
           SizedBox(height: 50),
           FlatButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/Tabs', arguments: 2);
-            },
+            onPressed: () =>
+                context.read<TabsViewModel>().selectTab(TabIndex.home.index),
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
-            color: Theme.of(context).focusColor.withOpacity(0.15),
+            color: Theme.of(context).focusColor.withOpacity(0.55),
             shape: StadiumBorder(),
             child: Text(
               'Start Shopping',

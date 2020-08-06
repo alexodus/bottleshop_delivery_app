@@ -26,4 +26,11 @@ class SignInViewModel extends BaseViewModel {
     await locator<Analytics>().logLogin('facebook');
     setNotLoading();
   }
+
+  Future<void> signInAnonymously() async {
+    setLoading();
+    await locator<Authentication>().signInAnonymously();
+    await locator<Analytics>().logSignUp('anonymously');
+    setNotLoading();
+  }
 }

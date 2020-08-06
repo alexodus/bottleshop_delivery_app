@@ -2,7 +2,6 @@ import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EmptyNotification extends StatelessWidget {
   const EmptyNotification({
@@ -26,12 +25,15 @@ class EmptyNotification extends StatelessWidget {
                 height: 150,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                      Theme.of(context).focusColor,
-                      Theme.of(context).focusColor.withOpacity(0.1),
-                    ])),
-                child: FaIcon(
-                  FontAwesomeIcons.bell,
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Theme.of(context).focusColor,
+                          Theme.of(context).focusColor.withOpacity(0.1),
+                        ])),
+                child: Icon(
+                  Icons.notifications_none,
                   color: Theme.of(context).primaryColor,
                   size: 70,
                 ),
@@ -68,13 +70,17 @@ class EmptyNotification extends StatelessWidget {
             child: Text(
               'D\'ont have any notification',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline3.merge(TextStyle(fontWeight: FontWeight.w300)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline3
+                  .merge(TextStyle(fontWeight: FontWeight.w300)),
             ),
           ),
           SizedBox(height: 50),
           FlatButton(
             onPressed: () {
-              Navigator.pushNamed(context, TabsView.routeName, arguments: Routes.onTabSelection(TabIndex.home));
+              Navigator.pushNamed(context, TabsView.routeName,
+                  arguments: Routes.onTabSelection(TabIndex.home));
             },
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
             color: Theme.of(context).focusColor.withOpacity(0.15),

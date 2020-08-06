@@ -22,14 +22,19 @@ class ProductGridItem extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
         Navigator.pushNamed(context, ProductDetailView.routeName,
-            arguments: RouteArgument(argumentsList: [this.product, this.heroTag], id: this.product.documentID));
+            arguments: RouteArgument(
+                argumentsList: [this.product, this.heroTag],
+                id: this.product.documentID));
       },
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(6),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+            BoxShadow(
+                color: Theme.of(context).hintColor.withOpacity(0.10),
+                offset: Offset(0, 4),
+                blurRadius: 10)
           ],
         ),
         child: Column(

@@ -30,7 +30,10 @@ void main() {
 
     setUp(() {
       TestWidgetsFlutterBinding.ensureInitialized();
-      sut = AuthenticationService(googleSignIn: googleSignIn, firebaseAuth: firebaseAuth, facebookLogin: facebookLogin);
+      sut = AuthenticationService(
+          googleSignIn: googleSignIn,
+          firebaseAuth: firebaseAuth,
+          facebookLogin: facebookLogin);
     });
 
     test('should sign out user from all providers', () async {
@@ -51,8 +54,10 @@ void main() {
 
     test('should notify when user state changes', () {
       var userStates = [null, firebaseUser, null];
-      when(firebaseAuth.signInAnonymously()).thenAnswer((_) => Future.value(authResult));
-      when(firebaseAuth.onAuthStateChanged).thenAnswer((_) => Stream<FirebaseUser>.fromIterable(userStates));
+      when(firebaseAuth.signInAnonymously())
+          .thenAnswer((_) => Future.value(authResult));
+      when(firebaseAuth.onAuthStateChanged)
+          .thenAnswer((_) => Stream<FirebaseUser>.fromIterable(userStates));
 
       var stream = sut.onAuthStateChanged;
 

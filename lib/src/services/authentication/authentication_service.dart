@@ -19,11 +19,13 @@ class AuthenticationService implements Authentication {
       FacebookLogin facebookLogin,
       UserDataService userDataService})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn(scopes: Constants.googleSignInScopes),
+        _googleSignIn =
+            googleSignIn ?? GoogleSignIn(scopes: Constants.googleSignInScopes),
         _facebookLogin = facebookLogin ?? FacebookLogin(),
         _userDataService = userDataService ?? UserDataService();
 
-  User _userFromFirebase(FirebaseUser user, [AdditionalUserInfo additionalData]) {
+  User _userFromFirebase(FirebaseUser user,
+      [AdditionalUserInfo additionalData]) {
     if (user == null) {
       return null;
     }
@@ -37,7 +39,11 @@ class AuthenticationService implements Authentication {
     }
 
     return User(
-        uid: user.uid, email: email, name: user.displayName, avatar: user.photoUrl, phoneNumber: user.phoneNumber);
+        uid: user.uid,
+        email: email,
+        name: user.displayName,
+        avatar: user.photoUrl,
+        phoneNumber: user.phoneNumber);
   }
 
   @override
@@ -58,9 +64,12 @@ class AuthenticationService implements Authentication {
   }
 
   @override
-  Future<User> createUserWithEmailAndPassword(String email, String password) async {
-    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-    final user = _userFromFirebase(authResult.user, authResult.additionalUserInfo);
+  Future<User> createUserWithEmailAndPassword(
+      String email, String password) async {
+    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    final user =
+        _userFromFirebase(authResult.user, authResult.additionalUserInfo);
     await _userDataService.setUser(user);
     return user;
   }
@@ -74,17 +83,20 @@ class AuthenticationService implements Authentication {
   Future<User> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     if (googleUser != null) {
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.getCredential(
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
       final authResult = await _firebaseAuth.signInWithCredential(credential);
-      final user = _userFromFirebase(authResult.user, authResult.additionalUserInfo);
+      final user =
+          _userFromFirebase(authResult.user, authResult.additionalUserInfo);
       await _userDataService.setUser(user);
       return user;
     } else {
-      throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
+      throw PlatformException(
+          code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
   }
 
@@ -93,13 +105,17 @@ class AuthenticationService implements Authentication {
     _facebookLogin.loginBehavior = FacebookLoginBehavior.nativeWithFallback;
     final result = await _facebookLogin.logIn(Constants.facebookPermissions);
     if (result.accessToken != null) {
-      final credential = FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
-      final AuthResult authResult = await _firebaseAuth.signInWithCredential(credential);
-      final user = _userFromFirebase(authResult.user, authResult.additionalUserInfo);
+      final credential = FacebookAuthProvider.getCredential(
+          accessToken: result.accessToken.token);
+      final AuthResult authResult =
+          await _firebaseAuth.signInWithCredential(credential);
+      final user =
+          _userFromFirebase(authResult.user, authResult.additionalUserInfo);
       await _userDataService.setUser(user);
       return user;
     } else {
-      throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
+      throw PlatformException(
+          code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
   }
 

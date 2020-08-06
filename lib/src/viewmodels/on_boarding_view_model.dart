@@ -16,7 +16,11 @@ class OnBoardingViewModel extends BaseViewModel {
   int get currentIndex => _pageIndex;
 
   List<OnBoarding> get screens => [
-        OnBoarding(image: 'assets/images/onboarding0.png', description: Strings.onboardingLabels[0]),
-        OnBoarding(image: 'assets/images/onboarding1.png', description: Strings.onboardingLabels[1]),
+        OnBoarding(
+            image: 'assets/images/onboarding0.png',
+            description: Strings.onboardingLabels[0]),
+        OnBoarding(
+            image: 'assets/images/onboarding1.png',
+            description: Strings.onboardingLabels[1]),
       ];
 }

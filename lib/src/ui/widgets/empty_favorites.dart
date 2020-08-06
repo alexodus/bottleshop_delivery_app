@@ -1,7 +1,8 @@
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EmptyFavorites extends StatelessWidget {
   const EmptyFavorites({
@@ -25,10 +26,13 @@ class EmptyFavorites extends StatelessWidget {
                 height: 150,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                      Theme.of(context).focusColor,
-                      Theme.of(context).focusColor.withOpacity(0.1),
-                    ])),
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Theme.of(context).focusColor,
+                          Theme.of(context).accentColor,
+                        ])),
                 child: Icon(
                   Icons.favorite,
                   color: Theme.of(context).primaryColor,
@@ -63,7 +67,7 @@ class EmptyFavorites extends StatelessWidget {
           ),
           SizedBox(height: 15),
           Opacity(
-            opacity: 0.4,
+            opacity: 0.8,
             child: Text(
               'D\'ont have any item in the wish list',
               textAlign: TextAlign.center,
@@ -74,15 +78,14 @@ class EmptyFavorites extends StatelessWidget {
           ),
           SizedBox(height: 50),
           FlatButton(
-            onPressed: () {
-              Navigator.pushNamed(context, TabsView.routeName, arguments: Routes.onTabSelection(TabIndex.home));
-            },
+            onPressed: () =>
+                context.read<TabsViewModel>().selectTab(TabIndex.home.index),
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
-            color: Theme.of(context).focusColor.withOpacity(0.15),
+            color: Theme.of(context).focusColor.withOpacity(0.55),
             shape: StadiumBorder(),
             child: Text(
               'Start Exploring',
-//                        textAlign: TextAlign.ce,
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline6,
             ),
           ),

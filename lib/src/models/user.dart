@@ -7,6 +7,7 @@ class User {
   final String email;
   final String avatar;
   final String phoneNumber;
+  final DateTime dayOfBirth;
   final List<Address> addresses;
 
   const User({
@@ -16,6 +17,7 @@ class User {
     this.avatar,
     this.phoneNumber,
     this.addresses,
+    this.dayOfBirth,
   }) : assert(uid != null);
 
   factory User.fromMap(Map<String, dynamic> data) {
@@ -25,11 +27,20 @@ class User {
         name: data['name'],
         avatar: data['photoUrl'],
         phoneNumber: data['phoneNumber'],
+        dayOfBirth: data['dayOfBirth'] != null
+            ? DateTime.tryParse(data['dayOfBirth'])
+            : null,
         addresses: data['addresses']);
   }
 
-  Map<String, dynamic> toJson() =>
-      {'uid': uid, 'email': email, 'name': name, 'avatar': avatar, 'phoneNumber': phoneNumber, 'addresses': addresses};
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'email': email,
+        'name': name,
+        'avatar': avatar,
+        'phoneNumber': phoneNumber,
+        'addresses': addresses
+      };
 }
 
 enum AddressType { shipping, billing }
@@ -42,7 +53,12 @@ class Address {
   final String zipCode;
   final AddressType addressType;
 
-  const Address({this.streetName, this.streetNumber, this.city, this.zipCode, this.addressType});
+  const Address(
+      {this.streetName,
+      this.streetNumber,
+      this.city,
+      this.zipCode,
+      this.addressType});
 
   factory Address.fromMap(Map<String, dynamic> data) {
     return Address(
@@ -50,7 +66,8 @@ class Address {
         streetNumber: data['streetNumber'],
         city: data['city'],
         zipCode: data['zipCode'],
-        addressType:
-            data['addressType'] == AddressType.billing.toString() ? AddressType.billing : AddressType.shipping);
+        addressType: data['addressType'] == AddressType.billing.toString()
+            ? AddressType.billing
+            : AddressType.shipping);
   }
 }

@@ -8,7 +8,8 @@ class SignUpViewModel extends BaseViewModel {
 
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
     setLoading();
-    await locator<Authentication>().createUserWithEmailAndPassword(email, password);
+    await locator<Authentication>()
+        .createUserWithEmailAndPassword(email, password);
     await locator<Authentication>().signInWithEmailAndPassword(email, password);
     await locator<Analytics>().logSignUp('email');
     setNotLoading();
@@ -25,6 +26,13 @@ class SignUpViewModel extends BaseViewModel {
     setLoading();
     await locator<Authentication>().signInWithFacebook();
     await locator<Analytics>().logSignUp('facebook');
+    setNotLoading();
+  }
+
+  Future<void> signUpAnonymously() async {
+    setLoading();
+    await locator<Authentication>().signInAnonymously();
+    await locator<Analytics>().logSignUp('anonymously');
     setNotLoading();
   }
 }

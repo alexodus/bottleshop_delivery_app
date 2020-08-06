@@ -17,15 +17,22 @@ class TabsViewModel extends BaseViewModel {
   int _currentTabId;
   Widget _currentTab;
   List<Category> _categories;
+  OrderTabIndex _initialOrderTabIndex = OrderTabIndex.all;
 
   TabsViewModel(Locator locator, RouteArgument args)
       : _currentTab = args.argumentsList[0],
         _currentTabId = args.id,
+        _initialOrderTabIndex = args.argumentsList.length > 1
+            ? args.argumentsList[1] ?? OrderTabIndex.all
+            : OrderTabIndex.all,
         _currentTabTitle = args.title,
         super(locator: locator) {
-    locator<Authentication>().currentUser().then((value) => _currentUser = value);
+    locator<Authentication>()
+        .currentUser()
+        .then((value) => _currentUser = value);
   }
 
+  OrderTabIndex get initialOrderTabIndex => _initialOrderTabIndex;
   String get selectedCategory => _selectedCategoryId;
   List<String> get selectedSubCategories => _selectedSubCategoryIds;
   User get currentUser => _currentUser;
@@ -43,7 +50,8 @@ class TabsViewModel extends BaseViewModel {
       _currentTabId = routeArg.id;
       _currentTabTitle = routeArg.title;
       _currentTab = routeArg.argumentsList[0];
-      locator<Analytics>().setCurrentScreen('${TabsView.routeName}/tab$_currentTabTitle');
+      locator<Analytics>()
+          .setCurrentScreen('${TabsView.routeName}/tab$_currentTabTitle');
       notifyListeners();
     }
   }
@@ -66,7 +74,9 @@ class TabsViewModel extends BaseViewModel {
   }
 
   List<SubCategory> getSubCategories(String parentCategoryId) {
-    return _categories.firstWhere((element) => element.documentID == parentCategoryId).subCategories;
+    return _categories
+        .firstWhere((element) => element.documentID == parentCategoryId)
+        .subCategories;
   }
 
   Future<void> signOut() async {

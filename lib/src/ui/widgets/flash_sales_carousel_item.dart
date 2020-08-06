@@ -24,7 +24,8 @@ class FlashSalesCarouselItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context).pushNamed(ProductDetailView.routeName,
-            arguments: RouteArgument(id: product.documentID, argumentsList: [product, heroTag]));
+            arguments: RouteArgument(
+                id: product.documentID, argumentsList: [product, heroTag]));
       },
       child: Container(
         margin: EdgeInsets.only(left: this.marginLeft, right: 20),
@@ -53,11 +54,15 @@ class FlashSalesCarouselItem extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)), color: Theme.of(context).accentColor),
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    color: Theme.of(context).accentColor),
                 alignment: AlignmentDirectional.topEnd,
                 child: Text(
                   '${product.discount} %',
-                  style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .merge(TextStyle(color: Theme.of(context).primaryColor)),
                 ),
               ),
             ),
@@ -71,7 +76,9 @@ class FlashSalesCarouselItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
-                        color: Theme.of(context).hintColor.withOpacity(0.15), offset: Offset(0, 3), blurRadius: 10)
+                        color: Theme.of(context).hintColor.withOpacity(0.15),
+                        offset: Offset(0, 3),
+                        blurRadius: 10)
                   ]),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

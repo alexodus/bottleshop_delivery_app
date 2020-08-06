@@ -5,7 +5,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/loader_widget.dart';
 import 'package:bottleshopdeliveryapp/src/utils/validator.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/reset_password_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ResetPasswordView extends StatefulWidget {
@@ -58,10 +57,13 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                             context: context,
                             onResetClicked: () async {
                               if (_formKey.currentState.validate()) {
-                                await context.read<Authentication>().sendPasswordResetEmail(_email.text);
+                                await context
+                                    .read<Authentication>()
+                                    .sendPasswordResetEmail(_email.text);
                                 _email.clear();
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Check your email and follow the instructions to reset your password'),
+                                  content: Text(
+                                      'Check your email and follow the instructions to reset your password'),
                                 ));
                               }
                             },
@@ -99,13 +101,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               hintStyle: Theme.of(context).textTheme.bodyText2.merge(
                     TextStyle(color: Theme.of(context).accentColor),
                   ),
-              enabledBorder:
-                  UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).accentColor.withOpacity(0.2))),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).accentColor),
               ),
-              prefixIcon: FaIcon(
-                FontAwesomeIcons.envelope,
+              prefixIcon: Icon(
+                Icons.mail_outline,
                 color: Theme.of(context).accentColor,
               )),
           controller: _email,
@@ -132,7 +135,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     );
   }
 
-  Widget buildPrimaryButton(BuildContext context, String label, String title, Function onPress) {
+  Widget buildPrimaryButton(
+      BuildContext context, String label, String title, Function onPress) {
     return FlatButton(
       onPressed: onPress,
       child: RichText(
@@ -142,7 +146,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               ),
           children: [
             TextSpan(text: label),
-            TextSpan(text: title, style: TextStyle(fontWeight: FontWeight.w700)),
+            TextSpan(
+                text: title, style: TextStyle(fontWeight: FontWeight.w700)),
           ],
         ),
       ),
@@ -170,7 +175,10 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).primaryColor,
         boxShadow: [
-          BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.2), offset: Offset(0, 10), blurRadius: 20)
+          BoxShadow(
+              color: Theme.of(context).hintColor.withOpacity(0.2),
+              offset: Offset(0, 10),
+              blurRadius: 20)
         ],
       ),
       child: child,
@@ -180,7 +188,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   signInLink() {
     if ((email == '') || (email == null)) {
       return FlatButton(
-        onPressed: () => Navigator.pushReplacementNamed(context, SignInView.routeName),
+        onPressed: () =>
+            Navigator.pushReplacementNamed(context, SignInView.routeName),
         child: Text('Sign in'),
       );
     }

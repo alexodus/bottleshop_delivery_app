@@ -23,10 +23,14 @@ class FaqItem extends StatelessWidget {
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5))),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5), topRight: Radius.circular(5))),
             child: Text(
               'Gluten-free spaghetti with tomatoes ?',
-              style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(color: Theme.of(context).primaryColor)),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .merge(TextStyle(color: Theme.of(context).primaryColor)),
             ),
           ),
           Container(
@@ -34,7 +38,9 @@ class FaqItem extends StatelessWidget {
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(5), bottomLeft: Radius.circular(5))),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(5),
+                    bottomLeft: Radius.circular(5))),
             child: Text(
               'Gluten-free spaghetti with tomatoes Gluten-free spaghetti with tomatoes',
               style: Theme.of(context).textTheme.bodyText2,

@@ -8,8 +8,12 @@ class CategoryDataService {
   CategoryDataService() : _firestoreInstance = Firestore.instance;
 
   Future<List<Category>> getAllCategories() async {
-    var categorySnapShot =
-        await _firestoreInstance.collection(Constants.categoriesCollection).orderBy('name').getDocuments();
-    return categorySnapShot.documents.map((snapshot) => Category.fromMap(snapshot.data, snapshot.documentID)).toList();
+    var categorySnapShot = await _firestoreInstance
+        .collection(Constants.categoriesCollection)
+        .orderBy('name')
+        .getDocuments();
+    return categorySnapShot.documents
+        .map((snapshot) => Category.fromMap(snapshot.data, snapshot.documentID))
+        .toList();
   }
 }

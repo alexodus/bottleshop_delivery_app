@@ -6,7 +6,8 @@ class PushNotificationService {
   final FirebaseMessaging _fcm;
   bool _isInitialized = false;
 
-  PushNotificationService({FirebaseMessaging fcm}) : _fcm = fcm ?? FirebaseMessaging();
+  PushNotificationService({FirebaseMessaging fcm})
+      : _fcm = fcm ?? FirebaseMessaging();
 
   Future<void> initialise() async {
     if (!_isInitialized) {
@@ -21,8 +22,8 @@ class PushNotificationService {
           print("onResume: $message");
         },
       );
-      _fcm.requestNotificationPermissions(
-          const IosNotificationSettings(sound: true, badge: true, alert: true, provisional: true));
+      _fcm.requestNotificationPermissions(const IosNotificationSettings(
+          sound: true, badge: true, alert: true, provisional: true));
       _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
         print("Settings registered: $settings");
       });

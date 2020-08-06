@@ -6,7 +6,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/social_media.dart';
 import 'package:bottleshopdeliveryapp/src/utils/validator.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SignUpView extends StatefulWidget {
@@ -61,23 +60,30 @@ class _SignUpViewState extends State<SignUpView> {
                       children: <Widget>[
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                          margin: EdgeInsets.symmetric(vertical: 65, horizontal: 50),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 30, horizontal: 20),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 65, horizontal: 50),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Theme.of(context).primaryColor.withOpacity(0.6),
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.6),
                           ),
                         ),
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                          margin: EdgeInsets.symmetric(vertical: 85, horizontal: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 30, horizontal: 30),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 85, horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: Theme.of(context).primaryColor,
                             boxShadow: [
                               BoxShadow(
-                                  color: Theme.of(context).hintColor.withOpacity(0.2),
+                                  color: Theme.of(context)
+                                      .hintColor
+                                      .withOpacity(0.2),
                                   offset: Offset(0, 10),
                                   blurRadius: 20)
                             ],
@@ -85,23 +91,34 @@ class _SignUpViewState extends State<SignUpView> {
                           child: Column(
                             children: <Widget>[
                               SizedBox(height: 25),
-                              Text('Sign Up', style: Theme.of(context).textTheme.headline2),
+                              Text('Sign Up',
+                                  style: Theme.of(context).textTheme.headline2),
                               SizedBox(height: 20),
                               FormInputFieldWithIcon(
-                                style: TextStyle(color: Theme.of(context).accentColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor),
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                     hintText: 'Email Address',
-                                    hintStyle: Theme.of(context).textTheme.bodyText2.merge(
-                                          TextStyle(color: Theme.of(context).accentColor),
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .merge(
+                                          TextStyle(
+                                              color: Theme.of(context)
+                                                  .accentColor),
                                         ),
                                     enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .accentColor
+                                                .withOpacity(0.2))),
                                     focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).accentColor),
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).accentColor),
                                     ),
-                                    prefixIcon: FaIcon(
-                                      FontAwesomeIcons.envelope,
+                                    prefixIcon: Icon(
+                                      Icons.mail_outline,
                                       color: Theme.of(context).accentColor,
                                     )),
                                 controller: _email,
@@ -112,19 +129,29 @@ class _SignUpViewState extends State<SignUpView> {
                               ),
                               SizedBox(height: 20),
                               FormInputFieldWithIcon(
-                                style: TextStyle(color: Theme.of(context).accentColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor),
                                 decoration: InputDecoration(
                                   hintText: 'Password',
-                                  hintStyle: Theme.of(context).textTheme.bodyText2.merge(
-                                        TextStyle(color: Theme.of(context).accentColor),
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .merge(
+                                        TextStyle(
+                                            color:
+                                                Theme.of(context).accentColor),
                                       ),
                                   enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .accentColor
+                                              .withOpacity(0.2))),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Theme.of(context).accentColor),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).accentColor),
                                   ),
-                                  prefixIcon: FaIcon(
-                                    FontAwesomeIcons.lock,
+                                  prefixIcon: Icon(
+                                    Icons.lock,
                                     color: Theme.of(context).accentColor,
                                   ),
                                   suffixIcon: IconButton(
@@ -133,8 +160,12 @@ class _SignUpViewState extends State<SignUpView> {
                                         _showPassword = !_showPassword;
                                       });
                                     },
-                                    color: Theme.of(context).accentColor.withOpacity(0.4),
-                                    icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+                                    color: Theme.of(context)
+                                        .accentColor
+                                        .withOpacity(0.4),
+                                    icon: Icon(_showPassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off),
                                   ),
                                 ),
                                 controller: _password,
@@ -155,19 +186,29 @@ class _SignUpViewState extends State<SignUpView> {
                               ),
                               SizedBox(height: 20),
                               FormInputFieldWithIcon(
-                                style: TextStyle(color: Theme.of(context).accentColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor),
                                 decoration: InputDecoration(
                                   hintText: 'Password',
-                                  hintStyle: Theme.of(context).textTheme.bodyText2.merge(
-                                        TextStyle(color: Theme.of(context).accentColor),
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .merge(
+                                        TextStyle(
+                                            color:
+                                                Theme.of(context).accentColor),
                                       ),
                                   enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Theme.of(context).accentColor.withOpacity(0.2))),
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .accentColor
+                                              .withOpacity(0.2))),
                                   focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Theme.of(context).accentColor),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).accentColor),
                                   ),
-                                  prefixIcon: FaIcon(
-                                    FontAwesomeIcons.lock,
+                                  prefixIcon: Icon(
+                                    Icons.lock,
                                     color: Theme.of(context).accentColor,
                                   ),
                                   suffixIcon: IconButton(
@@ -176,8 +217,12 @@ class _SignUpViewState extends State<SignUpView> {
                                         _showPassword = !_showPassword;
                                       });
                                     },
-                                    color: Theme.of(context).accentColor.withOpacity(0.4),
-                                    icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off),
+                                    color: Theme.of(context)
+                                        .accentColor
+                                        .withOpacity(0.4),
+                                    icon: Icon(_showPassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off),
                                   ),
                                 ),
                                 controller: _passwordRepeat,
@@ -198,19 +243,27 @@ class _SignUpViewState extends State<SignUpView> {
                               ),
                               SizedBox(height: 40),
                               FlatButton(
-                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 12, horizontal: 70),
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {
                                     await context
                                         .read<SignUpViewModel>()
-                                        .signUpWithEmailAndPassword(_email.text, _password.text);
-                                    return Navigator.pushReplacementNamed(context, TabsView.routeName);
+                                        .signUpWithEmailAndPassword(
+                                            _email.text, _password.text);
+                                    return Navigator.pushReplacementNamed(
+                                        context, TabsView.routeName);
                                   }
                                 },
                                 child: Text(
                                   'Sign Up',
-                                  style: Theme.of(context).textTheme.headline6.merge(
-                                        TextStyle(color: Theme.of(context).primaryColor),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      .merge(
+                                        TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                 ),
                                 color: Theme.of(context).accentColor,
@@ -225,18 +278,38 @@ class _SignUpViewState extends State<SignUpView> {
                               SocialMediaWidget(
                                 signInWithGoogle: () async {
                                   try {
-                                    await context.read<SignUpViewModel>().signUpWithGoogle();
-                                    return Navigator.pushReplacementNamed(context, TabsView.routeName);
+                                    await context
+                                        .read<SignUpViewModel>()
+                                        .signUpWithGoogle();
+                                    return Navigator.pushReplacementNamed(
+                                        context, TabsView.routeName);
                                   } catch (e) {
-                                    context.read<SignUpViewModel>().setNotLoading();
-                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                      content: Text('Sing in failed, please try again'),
+                                    context
+                                        .read<SignUpViewModel>()
+                                        .setNotLoading();
+                                    _scaffoldKey.currentState
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                          'Sing in failed, please try again'),
                                     ));
                                   }
                                 },
                                 signInWithFacebook: () async {
-                                  await context.read<SignUpViewModel>().signUpWithFacebook();
-                                  return Navigator.pushReplacementNamed(context, TabsView.routeName);
+                                  await context
+                                      .read<SignUpViewModel>()
+                                      .signUpWithFacebook();
+                                  return Navigator.pushReplacementNamed(
+                                      context, TabsView.routeName);
+                                },
+                                signInAnonymously: () async {
+                                  await context
+                                      .read<SignUpViewModel>()
+                                      .signUpAnonymously();
+                                  return Navigator.pushReplacementNamed(
+                                      context, TabsView.routeName);
+                                },
+                                signInWithApple: () async {
+                                  debugPrint('apple sign in clicked');
                                 },
                               ),
                             ],
@@ -246,16 +319,21 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     FlatButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, SignInView.routeName);
+                        Navigator.pushReplacementNamed(
+                            context, SignInView.routeName);
                       },
                       child: RichText(
                         text: TextSpan(
                           style: Theme.of(context).textTheme.headline6.merge(
-                                TextStyle(color: Theme.of(context).primaryColor),
+                                TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               ),
                           children: [
                             TextSpan(text: 'Already have an account ?'),
-                            TextSpan(text: ' Sign In', style: TextStyle(fontWeight: FontWeight.w700)),
+                            TextSpan(
+                              text: ' Sign In',
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
                           ],
                         ),
                       ),

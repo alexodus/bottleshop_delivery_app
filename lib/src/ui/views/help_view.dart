@@ -1,5 +1,5 @@
+import 'package:bottleshopdeliveryapp/src/ui/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/faq_item.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/menu_drawer.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
 import 'package:flutter/material.dart';
@@ -17,18 +17,16 @@ class _HelpViewState extends State<HelpView> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
-      child: Scaffold(
-        key: _scaffoldKey,
-        drawer: MenuDrawer(),
+      child: AppScaffold(
+        scaffoldKey: _scaffoldKey,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
-            icon: Icon(Icons.sort, color: Theme.of(context).primaryColor),
-            onPressed: () => _scaffoldKey.currentState.openDrawer(),
+            icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
+            onPressed: () => Navigator.pop(context),
           ),
           backgroundColor: Theme.of(context).accentColor,
           elevation: 0,
-          iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           bottom: TabBar(
             tabs: [
               Tab(text: 'Products'),
@@ -40,10 +38,15 @@ class _HelpViewState extends State<HelpView> {
           ),
           title: Text(
             'Help & Support',
-            style: Theme.of(context).textTheme.headline4.merge(TextStyle(color: Theme.of(context).primaryColor)),
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .merge(TextStyle(color: Theme.of(context).primaryColor)),
           ),
           actions: <Widget>[
-            ShoppingCartButton(iconColor: Theme.of(context).primaryColor, labelColor: Theme.of(context).hintColor),
+            ShoppingCartButton(
+                iconColor: Theme.of(context).primaryColor,
+                labelColor: Theme.of(context).hintColor),
           ],
         ),
         body: TabBarView(
@@ -55,7 +58,7 @@ class _HelpViewState extends State<HelpView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  SearchBar(showFilter: true),
+                  SearchBar(showFilter: false),
                   SizedBox(height: 15),
                   ListTile(
                     contentPadding: EdgeInsets.symmetric(vertical: 0),

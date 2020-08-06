@@ -9,7 +9,8 @@ class Review {
   User user;
   String review;
   double rate;
-  DateTime dateTime = DateTime.now().subtract(Duration(days: Random().nextInt(20)));
+  DateTime dateTime =
+      DateTime.now().subtract(Duration(days: Random().nextInt(20)));
 
   Review(this.user, this.review, this.rate);
 

@@ -1,9 +1,8 @@
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
-import 'package:bottleshopdeliveryapp/src/ui/views/categories_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/help_view.dart';
-import 'package:bottleshopdeliveryapp/src/ui/views/languages_view.dart';
-import 'package:bottleshopdeliveryapp/src/ui/views/orders_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/notifications_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/sign_in_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/side_menu_header.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/side_menu_item.dart';
@@ -16,7 +15,8 @@ class MenuDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.select((TabsViewModel viewModel) => viewModel.currentUser);
+    final currentUser =
+        context.select((TabsViewModel viewModel) => viewModel.currentUser);
     final userName = currentUser?.name ?? '';
     final userEmail = currentUser?.email ?? '';
     return Drawer(
@@ -26,7 +26,7 @@ class MenuDrawer extends StatelessWidget {
           SideMenuItem(
             leading: Icons.home,
             title: "Home",
-            handler: () => Navigator.pushNamed(
+            handler: () => Navigator.pushReplacementNamed(
               context,
               TabsView.routeName,
               arguments: Routes.onTabSelection(TabIndex.home),
@@ -37,50 +37,18 @@ class MenuDrawer extends StatelessWidget {
             title: "Notifications",
             handler: () => Navigator.pushNamed(
               context,
-              TabsView.routeName,
-              arguments: Routes.onTabSelection(TabIndex.notifications),
+              NotificationsView.routeName,
             ),
-          ),
-          SideMenuItem(
-            leading: Icons.list,
-            title: "My Orders",
-            handler: () => Navigator.pushNamed(context, OrdersView.routeName),
-            trailing: Chip(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              backgroundColor: Colors.transparent,
-              shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
-              label: Text(
-                '8',
-                style: TextStyle(color: Theme.of(context).focusColor),
-              ),
-            ),
-          ),
-          SideMenuItem(
-            leading: Icons.favorite,
-            title: "Wish List",
-            handler: () => Navigator.pushNamed(
-              context,
-              TabsView.routeName,
-              arguments: Routes.onTabSelection(TabIndex.favorites),
-            ),
-          ),
-          SideMenuItem(
-            leading: Icons.remove,
-            title: "Products",
-            dense: true,
-          ),
-          SideMenuItem(
-            leading: Icons.category,
-            title: "Categories",
-            handler: () => Navigator.pushNamed(context, CategoriesView.routeName),
           ),
           SideMenuItem(
             dense: true,
-            trailing: Icon(
-              Icons.remove,
-              color: Theme.of(context).focusColor.withOpacity(0.3),
-            ),
             title: "Application Preferences",
+            titleStyle: Theme.of(context).textTheme.bodyText2,
+          ),
+          SideMenuItem(
+            leading: Icons.settings,
+            handler: () => Navigator.pushNamed(context, AccountView.routeName),
+            title: "Settings",
           ),
           SideMenuItem(
             handler: () => Navigator.pushNamed(context, HelpView.routeName),
@@ -88,33 +56,18 @@ class MenuDrawer extends StatelessWidget {
             title: "Help & Support",
           ),
           SideMenuItem(
-            leading: Icons.settings,
-            handler: () => Navigator.pushNamed(
-              context,
-              TabsView.routeName,
-              arguments: Routes.onTabSelection(TabIndex.account),
-            ),
-            title: "Settings",
-          ),
-          SideMenuItem(
-              handler: () => Navigator.pushNamed(context, LanguagesView.routeName),
-              leading: Icons.language,
-              title: "Languages"),
-          SideMenuItem(
             handler: () async {
               await context.read<TabsViewModel>().signOut();
-              await Navigator.pushReplacementNamed(context, SignInView.routeName);
+              await Navigator.pushReplacementNamed(
+                  context, SignInView.routeName);
             },
-            leading: Icons.offline_bolt,
+            leading: Icons.exit_to_app,
             title: "Log out",
           ),
           SideMenuItem(
             dense: true,
             title: "Version 0.0.1",
-            trailing: Icon(
-              Icons.remove,
-              color: Theme.of(context).focusColor.withOpacity(0.3),
-            ),
+            titleStyle: Theme.of(context).textTheme.bodyText2,
           ),
         ],
       ),

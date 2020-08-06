@@ -7,7 +7,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/favorites_tab_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesTab extends StatelessWidget {
@@ -27,8 +26,14 @@ class FavoritesTab extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SearchBar(
-                    showFilter: true,
+                  child: Offstage(
+                    offstage: context
+                        .select(
+                            (FavoritesTabViewModel value) => value.favorites)
+                        .isEmpty,
+                    child: SearchBar(
+                      showFilter: true,
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -36,7 +41,9 @@ class FavoritesTab extends StatelessWidget {
                 FavoritesListLayout(),
                 FavoritesGridLayout(),
                 Offstage(
-                  offstage: context.select((FavoritesTabViewModel value) => value.favorites).isNotEmpty,
+                  offstage: context
+                      .select((FavoritesTabViewModel value) => value.favorites)
+                      .isNotEmpty,
                   child: EmptyFavorites(),
                 )
               ],
@@ -53,8 +60,10 @@ class FavoritesGridLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favorites = context.select((FavoritesTabViewModel value) => value.favorites);
-    final layoutMode = context.select((FavoritesTabViewModel value) => value.layoutMode);
+    final favorites =
+        context.select((FavoritesTabViewModel value) => value.favorites);
+    final layoutMode =
+        context.select((FavoritesTabViewModel value) => value.layoutMode);
     return Offstage(
       offstage: layoutMode != LayoutMode.grid || favorites.isEmpty,
       child: Container(
@@ -71,7 +80,8 @@ class FavoritesGridLayout extends StatelessWidget {
               heroTag: 'favorites_grid',
             );
           },
-          staggeredTileBuilder: (int index) => StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
+          staggeredTileBuilder: (int index) =>
+              StaggeredTile.fit(index % 2 == 0 ? 1 : 2),
           mainAxisSpacing: 15.0,
           crossAxisSpacing: 15.0,
         ),
@@ -87,8 +97,10 @@ class FavoritesListLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favorites = context.select((FavoritesTabViewModel value) => value.favorites);
-    final layoutMode = context.select((FavoritesTabViewModel value) => value.layoutMode);
+    final favorites =
+        context.select((FavoritesTabViewModel value) => value.favorites);
+    final layoutMode =
+        context.select((FavoritesTabViewModel value) => value.layoutMode);
     return Offstage(
       offstage: layoutMode != LayoutMode.list || favorites.isEmpty,
       child: ListView.separated(
@@ -103,7 +115,9 @@ class FavoritesListLayout extends StatelessWidget {
             return FavoriteListItem(
               heroTag: 'favorites_list',
               product: favorites.elementAt(index),
-              onDismissed: () => context.read<FavoritesTabViewModel>().removeProductFromFavorites(index),
+              onDismissed: () => context
+                  .read<FavoritesTabViewModel>()
+                  .removeProductFromFavorites(index),
             );
           }),
     );
@@ -117,16 +131,18 @@ class FavoriteListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favorites = context.select((FavoritesTabViewModel value) => value.favorites);
-    final layoutMode = context.select((FavoritesTabViewModel value) => value.layoutMode);
+    final favorites =
+        context.select((FavoritesTabViewModel value) => value.favorites);
+    final layoutMode =
+        context.select((FavoritesTabViewModel value) => value.layoutMode);
     return Offstage(
       offstage: favorites.isEmpty,
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 10),
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(vertical: 0),
-          leading: FaIcon(
-            FontAwesomeIcons.heart,
+          leading: Icon(
+            Icons.favorite_border,
             color: Theme.of(context).hintColor,
           ),
           title: Text(
@@ -139,17 +155,25 @@ class FavoriteListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               IconButton(
-                onPressed: () => context.read<FavoritesTabViewModel>().setLayoutMode(LayoutMode.list),
+                onPressed: () => context
+                    .read<FavoritesTabViewModel>()
+                    .setLayoutMode(LayoutMode.list),
                 icon: Icon(
                   Icons.format_list_bulleted,
-                  color: layoutMode == LayoutMode.list ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                  color: layoutMode == LayoutMode.list
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).focusColor,
                 ),
               ),
               IconButton(
-                onPressed: () => context.read<FavoritesTabViewModel>().setLayoutMode(LayoutMode.grid),
+                onPressed: () => context
+                    .read<FavoritesTabViewModel>()
+                    .setLayoutMode(LayoutMode.grid),
                 icon: Icon(
                   Icons.apps,
-                  color: layoutMode == LayoutMode.grid ? Theme.of(context).accentColor : Theme.of(context).focusColor,
+                  color: layoutMode == LayoutMode.grid
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).focusColor,
                 ),
               )
             ],

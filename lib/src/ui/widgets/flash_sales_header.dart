@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FlashSalesHeader extends StatelessWidget {
   const FlashSalesHeader({
@@ -13,8 +12,8 @@ class FlashSalesHeader extends StatelessWidget {
       child: ListTile(
         dense: true,
         contentPadding: EdgeInsets.symmetric(vertical: 0),
-        leading: FaIcon(
-          FontAwesomeIcons.bullhorn,
+        leading: Icon(
+          Icons.announcement,
           color: Theme.of(context).hintColor,
         ),
         title: Text(

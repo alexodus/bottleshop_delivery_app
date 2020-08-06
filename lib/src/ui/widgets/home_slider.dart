@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 class HomeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final sliderList = context.select((HomeTabViewModel model) => model.sliders);
+    final sliderList =
+        context.select((HomeTabViewModel model) => model.sliders);
     return Offstage(
       offstage: sliderList.isEmpty,
       child: Stack(
@@ -20,20 +21,25 @@ class HomeSlider extends StatelessWidget {
               autoPlayInterval: Duration(seconds: 5),
               height: 240,
               viewportFraction: 1.0,
-              onPageChanged: (index, reason) => context.read<HomeTabViewModel>().setCurrentSlider(index),
+              onPageChanged: (index, reason) =>
+                  context.read<HomeTabViewModel>().setCurrentSlider(index),
             ),
             items: sliderList.map((slide) {
               return Builder(
                 builder: (context) {
                   return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
                     height: 200,
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: AssetImage(slide.image), fit: BoxFit.cover),
+                      image: DecorationImage(
+                          image: AssetImage(slide.image), fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
-                            color: Theme.of(context).hintColor.withOpacity(0.2), offset: Offset(0, 4), blurRadius: 9)
+                            color: Theme.of(context).hintColor.withOpacity(0.2),
+                            offset: Offset(0, 4),
+                            blurRadius: 9)
                       ],
                     ),
                     child: Container(
@@ -49,7 +55,10 @@ class HomeSlider extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               slide.description,
-                              style: Theme.of(context).textTheme.headline6.merge(TextStyle(height: 0.8)),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  .merge(TextStyle(height: 0.8)),
                               textAlign: TextAlign.right,
                               overflow: TextOverflow.fade,
                               maxLines: 3,
@@ -64,7 +73,8 @@ class HomeSlider extends StatelessWidget {
                               child: Text(
                                 slide.button,
                                 textAlign: TextAlign.start,
-                                style: TextStyle(color: Theme.of(context).primaryColor),
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
                               ),
                             ),
                           ],
@@ -91,7 +101,9 @@ class HomeSlider extends StatelessWidget {
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),
-                    color: context.select((HomeTabViewModel value) => value.currentSlider) == sliderList.indexOf(slide)
+                    color: context.select((HomeTabViewModel value) =>
+                                value.currentSlider) ==
+                            sliderList.indexOf(slide)
                         ? Theme.of(context).hintColor
                         : Theme.of(context).hintColor.withOpacity(0.3),
                   ),

@@ -1,10 +1,8 @@
-import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/credit_cards.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'checkout_done.dart';
 
@@ -23,7 +21,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: FaIcon(FontAwesomeIcons.longArrowAltLeft, color: Theme.of(context).hintColor),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.transparent,
@@ -33,7 +31,9 @@ class _CheckoutViewState extends State<CheckoutView> {
           style: Theme.of(context).textTheme.headline4,
         ),
         actions: <Widget>[
-          ShoppingCartButton(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+          ShoppingCartButton(
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
           Container(
             width: 30,
             height: 30,
@@ -41,7 +41,7 @@ class _CheckoutViewState extends State<CheckoutView> {
             child: InkWell(
               borderRadius: BorderRadius.circular(300),
               onTap: () {
-                Navigator.pushNamed(context, TabsView.routeName, arguments: Routes.onTabSelection(TabIndex.account));
+                Navigator.pushNamed(context, AccountView.routeName);
               },
               child: ProfileAvatar(),
             ),
@@ -58,8 +58,8 @@ class _CheckoutViewState extends State<CheckoutView> {
               padding: const EdgeInsets.only(left: 20, right: 10),
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: 0),
-                leading: FaIcon(
-                  FontAwesomeIcons.creditCard,
+                leading: Icon(
+                  Icons.credit_card,
                   color: Theme.of(context).hintColor,
                 ),
                 title: Text(
@@ -69,7 +69,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 subtitle: Text(
-                  'Select your prefered payment mode',
+                  'Select your preferred payment mode',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.caption,
@@ -94,7 +94,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 color: Theme.of(context).focusColor.withOpacity(0.2),
                 shape: StadiumBorder(),
                 child: Image.asset(
-                  'assets/images/paypal.png',
+                  'assets/images/google_pay.png',
                   height: 28,
                 ),
               ),
@@ -110,7 +110,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 color: Theme.of(context).focusColor.withOpacity(0.2),
                 shape: StadiumBorder(),
                 child: Image.asset(
-                  'assets/images/apple_pay.png',
+                  'assets/images/apple_pay.jpg',
                   height: 28,
                 ),
               ),
@@ -144,8 +144,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     '\$55.36',
-                    style:
-                        Theme.of(context).textTheme.headline4.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                    style: Theme.of(context).textTheme.headline4.merge(
+                        TextStyle(color: Theme.of(context).primaryColor)),
                   ),
                 )
               ],

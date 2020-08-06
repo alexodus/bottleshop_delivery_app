@@ -1,7 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/review.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ReviewItem extends StatelessWidget {
   final Review review;
@@ -26,7 +25,9 @@ class ReviewItem extends StatelessWidget {
               width: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
-                image: DecorationImage(image: AssetImage(Constants.defaultAvatar), fit: BoxFit.cover),
+                image: DecorationImage(
+                    image: AssetImage(Constants.defaultAvatar),
+                    fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 15),
@@ -49,12 +50,13 @@ class ReviewItem extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6
-                                  .merge(TextStyle(color: Theme.of(context).hintColor)),
+                                  .merge(TextStyle(
+                                      color: Theme.of(context).hintColor)),
                             ),
                             Row(
                               children: <Widget>[
-                                FaIcon(
-                                  FontAwesomeIcons.calendar,
+                                Icon(
+                                  Icons.calendar_today,
                                   color: Theme.of(context).focusColor,
                                   size: 20,
                                 ),
@@ -80,7 +82,9 @@ class ReviewItem extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
-                                    .merge(TextStyle(color: Theme.of(context).primaryColor))),
+                                    .merge(TextStyle(
+                                        color:
+                                            Theme.of(context).primaryColor))),
                             Icon(
                               Icons.star_border,
                               color: Theme.of(context).primaryColor,
@@ -88,7 +92,8 @@ class ReviewItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                        backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
+                        backgroundColor:
+                            Theme.of(context).accentColor.withOpacity(0.9),
                         shape: StadiumBorder(),
                       ),
                     ],

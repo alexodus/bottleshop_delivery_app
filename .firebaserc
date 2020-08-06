@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "bottleshop3veze-delivery"
+  },
+  "targets": {
+    "bottleshop3veze-delivery": {
+      "hosting": {
+        "admin": [
+          "bottleshop3veze-admin"
+        ],
+        "eshop": [
+          "bottleshop3veze-eshop"
+        ]
+      }
+    }
+  }
+}

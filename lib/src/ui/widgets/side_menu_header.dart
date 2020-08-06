@@ -1,5 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -19,11 +18,11 @@ class SideMenuHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, TabsView.routeName, arguments: Routes.onTabSelection(TabIndex.account));
+        Navigator.pushNamed(context, AccountView.routeName);
       },
       child: UserAccountsDrawerHeader(
         decoration: BoxDecoration(
-          color: Theme.of(context).hintColor.withOpacity(0.1),
+          color: Theme.of(context).accentColor.withOpacity(0.1),
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
         ),
         accountName: Text(

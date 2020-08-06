@@ -16,10 +16,14 @@ class Track {
 
   static List<Track> getTrackingList() {
     return [
-      Track('Your Order in local post', 'United State', DateTime.now().subtract(Duration(days: 1))),
-      Track('Your Order arrived in destination', 'United State', DateTime.now().subtract(Duration(days: 5))),
-      Track('Order in aeroport', 'France', DateTime.now().subtract(Duration(days: 8))),
-      Track('Your order oversea in china', 'China', DateTime.now().subtract(Duration(days: 10))),
+      Track('Your Order in local post', 'United State',
+          DateTime.now().subtract(Duration(days: 1))),
+      Track('Your Order arrived in destination', 'United State',
+          DateTime.now().subtract(Duration(days: 5))),
+      Track('Order in aeroport', 'France',
+          DateTime.now().subtract(Duration(days: 8))),
+      Track('Your order oversea in china', 'China',
+          DateTime.now().subtract(Duration(days: 10))),
     ];
   }
 }
@@ -29,7 +33,8 @@ class Order {
   Product product;
   int quantity = Random().nextInt(10);
   String trackingNumber;
-  DateTime dateTime = DateTime.now().subtract(Duration(days: Random().nextInt(20)));
+  DateTime dateTime =
+      DateTime.now().subtract(Duration(days: Random().nextInt(20)));
   OrderState orderState;
   List<Track> tracking = Track.getTrackingList();
 

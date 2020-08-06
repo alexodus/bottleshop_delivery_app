@@ -1,7 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/flash_sales_carousel.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductDetailsTab extends StatelessWidget {
   final Product product;
@@ -25,8 +24,8 @@ class ProductDetailsTab extends StatelessWidget {
           child: ListTile(
             dense: true,
             contentPadding: EdgeInsets.symmetric(vertical: 0),
-            leading: FaIcon(
-              FontAwesomeIcons.file,
+            leading: Icon(
+              Icons.create_new_folder,
               color: Theme.of(context).hintColor,
             ),
             title: Text(
@@ -45,8 +44,8 @@ class ProductDetailsTab extends StatelessWidget {
           child: ListTile(
             dense: true,
             contentPadding: EdgeInsets.symmetric(vertical: 0),
-            leading: FaIcon(
-              FontAwesomeIcons.box,
+            leading: Icon(
+              Icons.check_box,
               color: Theme.of(context).hintColor,
             ),
             title: Text(

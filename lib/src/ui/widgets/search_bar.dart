@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SearchBar extends StatelessWidget {
   final bool showFilter;
@@ -16,7 +15,10 @@ class SearchBar extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+          BoxShadow(
+              color: Theme.of(context).hintColor.withOpacity(0.10),
+              offset: Offset(0, 4),
+              blurRadius: 10)
         ],
       ),
       child: Stack(
@@ -26,8 +28,10 @@ class SearchBar extends StatelessWidget {
             decoration: InputDecoration(
               contentPadding: EdgeInsets.all(12),
               hintText: 'Search',
-              hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.8)),
-              prefixIcon: Icon(Icons.search, size: 20, color: Theme.of(context).hintColor),
+              hintStyle: TextStyle(
+                  color: Theme.of(context).focusColor.withOpacity(0.8)),
+              prefixIcon: Icon(Icons.search,
+                  size: 20, color: Theme.of(context).hintColor),
               border: UnderlineInputBorder(borderSide: BorderSide.none),
               enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
               focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
@@ -39,7 +43,9 @@ class SearchBar extends StatelessWidget {
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
               },
-              icon: FaIcon(FontAwesomeIcons.cog, size: 20, color: Theme.of(context).hintColor.withOpacity(0.5)),
+              icon: Icon(Icons.filter_list,
+                  size: 20,
+                  color: Theme.of(context).hintColor.withOpacity(0.5)),
             ),
           ),
         ],

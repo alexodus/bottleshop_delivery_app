@@ -8,7 +8,10 @@ class UserDataService {
   UserDataService() : _firestoreInstance = Firestore.instance;
 
   Future<DocumentSnapshot> getUser(String uid) async {
-    return _firestoreInstance.collection(Constants.usersCollection).document(uid).get();
+    return _firestoreInstance
+        .collection(Constants.usersCollection)
+        .document(uid)
+        .get();
   }
 
   Future<void> setUser(User user) async {

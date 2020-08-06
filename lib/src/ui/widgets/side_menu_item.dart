@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class SideMenuItem extends StatelessWidget {
   final IconData leading;
   final String title;
+  final TextStyle titleStyle;
   final VoidCallback handler;
   final Widget trailing;
   final bool dense;
@@ -11,6 +14,7 @@ class SideMenuItem extends StatelessWidget {
     Key key,
     this.leading,
     this.title,
+    this.titleStyle,
     this.trailing,
     this.handler,
     this.dense = false,
@@ -20,6 +24,7 @@ class SideMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       dense: dense,
+      enabled: this.handler != null,
       onTap: () => this.handler(),
       leading: leading != null
           ? Icon(
@@ -29,7 +34,7 @@ class SideMenuItem extends StatelessWidget {
           : null,
       title: Text(
         title,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: titleStyle ?? Theme.of(context).textTheme.subtitle1,
       ),
       trailing: trailing,
     );

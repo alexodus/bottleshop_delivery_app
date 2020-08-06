@@ -1,21 +1,20 @@
-import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/category_detail_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/menu_drawer.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoriesView extends StatelessWidget {
   static const String routeName = '/categories';
 
   @override
   Widget build(BuildContext context) {
-    final categories = []; //context.select((HomeTabViewModel viewModel) => viewModel.categories);
+    final categories =
+        []; //context.select((HomeTabViewModel viewModel) => viewModel.categories);
     return Scaffold(
       drawer: MenuDrawer(),
       appBar: AppBar(
@@ -31,7 +30,9 @@ class CategoriesView extends StatelessWidget {
           style: Theme.of(context).textTheme.headline4,
         ),
         actions: <Widget>[
-          ShoppingCartButton(iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+          ShoppingCartButton(
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
           Container(
               width: 30,
               height: 30,
@@ -39,7 +40,7 @@ class CategoriesView extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(300),
                 onTap: () {
-                  Navigator.pushNamed(context, TabsView.routeName, arguments: Routes.onTabSelection(TabIndex.account));
+                  Navigator.pushNamed(context, AccountView.routeName);
                 },
                 child: ProfileAvatar(),
               )),
@@ -57,7 +58,9 @@ class CategoriesView extends StatelessWidget {
               runSpacing: 30,
               children: List.generate(categories.length, (index) {
                 Category category = categories.elementAt(index);
-                return index.isEven ? buildEvenCategory(context, category) : buildOddCategory(context, category);
+                return index.isEven
+                    ? buildEvenCategory(context, category)
+                    : buildOddCategory(context, category);
               }),
             ),
           ],
@@ -80,21 +83,28 @@ class CategoriesView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)),
                     boxShadow: [
                       BoxShadow(
-                          color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+                          color: Theme.of(context).hintColor.withOpacity(0.10),
+                          offset: Offset(0, 4),
+                          blurRadius: 10)
                     ],
-                    gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                      Theme.of(context).accentColor,
-                      Theme.of(context).accentColor.withOpacity(0.2),
-                    ])),
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Theme.of(context).accentColor,
+                          Theme.of(context).accentColor.withOpacity(0.2),
+                        ])),
                 child: Column(
                   children: <Widget>[
                     Hero(
                       tag: category.documentID,
                       child: Icon(
-                        FontAwesomeIcons.wineGlass,
+                        Icons.category,
                         color: Theme.of(context).primaryColor,
                         size: 40,
                       ),
@@ -141,9 +151,14 @@ class CategoriesView extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10), bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10)),
               boxShadow: [
-                BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+                BoxShadow(
+                    color: Theme.of(context).hintColor.withOpacity(0.10),
+                    offset: Offset(0, 4),
+                    blurRadius: 10)
               ],
             ),
             constraints: BoxConstraints(minHeight: 120),
@@ -158,14 +173,18 @@ class CategoriesView extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, CategoryDetailView.routeName,
-                          arguments: RouteArgument(id: index, argumentsList: [category]));
+                          arguments: RouteArgument(
+                              id: index, argumentsList: [category]));
                     },
                     borderRadius: BorderRadius.circular(20),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.2)),
+                        border: Border.all(
+                            color:
+                                Theme.of(context).hintColor.withOpacity(0.2)),
                       ),
                       child: Text(
                         subCategory.name,
@@ -194,9 +213,14 @@ class CategoriesView extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10), bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
               boxShadow: [
-                BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+                BoxShadow(
+                    color: Theme.of(context).hintColor.withOpacity(0.10),
+                    offset: Offset(0, 4),
+                    blurRadius: 10)
               ],
             ),
             constraints: BoxConstraints(minHeight: 120),
@@ -211,14 +235,18 @@ class CategoriesView extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, CategoryDetailView.routeName,
-                          arguments: RouteArgument(id: index, argumentsList: [category]));
+                          arguments: RouteArgument(
+                              id: index, argumentsList: [category]));
                     },
                     borderRadius: BorderRadius.circular(20),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.2)),
+                        border: Border.all(
+                            color:
+                                Theme.of(context).hintColor.withOpacity(0.2)),
                       ),
                       child: Text(
                         subCategory.name,
@@ -239,21 +267,28 @@ class CategoriesView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
                     boxShadow: [
                       BoxShadow(
-                          color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, 4), blurRadius: 10)
+                          color: Theme.of(context).hintColor.withOpacity(0.10),
+                          offset: Offset(0, 4),
+                          blurRadius: 10)
                     ],
-                    gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                      Theme.of(context).accentColor,
-                      Theme.of(context).accentColor.withOpacity(0.2),
-                    ])),
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Theme.of(context).accentColor,
+                          Theme.of(context).accentColor.withOpacity(0.2),
+                        ])),
                 child: Column(
                   children: <Widget>[
                     Hero(
                       tag: category.documentID,
-                      child: FaIcon(
-                        FontAwesomeIcons.wineGlassAlt,
+                      child: Icon(
+                        Icons.category,
                         color: Theme.of(context).primaryColor,
                         size: 40,
                       ),

@@ -1,7 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/flash_sales_carousel.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductHomeTab extends StatelessWidget {
   final Product product;
@@ -62,14 +61,14 @@ class ProductHomeTab extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(product.price.toStringAsFixed(2), style: Theme.of(context).textTheme.headline2),
+              Text(product.price.toStringAsFixed(2),
+                  style: Theme.of(context).textTheme.headline2),
               SizedBox(width: 10),
               Text(
                 product.price.toStringAsFixed(2),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .merge(TextStyle(color: Theme.of(context).focusColor, decoration: TextDecoration.lineThrough)),
+                style: Theme.of(context).textTheme.headline5.merge(TextStyle(
+                    color: Theme.of(context).focusColor,
+                    decoration: TextDecoration.lineThrough)),
               ),
               SizedBox(width: 10),
               Expanded(
@@ -87,7 +86,10 @@ class ProductHomeTab extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.9),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 5, offset: Offset(0, 2)),
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.15),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
             ],
           ),
           child: Column(
@@ -123,7 +125,10 @@ class ProductHomeTab extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.9),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.15), blurRadius: 5, offset: Offset(0, 2)),
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.15),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
             ],
           ),
           child: Column(
@@ -157,8 +162,8 @@ class ProductHomeTab extends StatelessWidget {
           child: ListTile(
             dense: true,
             contentPadding: EdgeInsets.symmetric(vertical: 0),
-            leading: FaIcon(
-              FontAwesomeIcons.box,
+            leading: Icon(
+              Icons.check_box_outline_blank,
               color: Theme.of(context).hintColor,
             ),
             title: Text(
@@ -167,7 +172,8 @@ class ProductHomeTab extends StatelessWidget {
             ),
           ),
         ),
-        FlashSalesCarousel(heroTag: 'product_related_products', productsList: flashSalesList),
+        FlashSalesCarousel(
+            heroTag: 'product_related_products', productsList: flashSalesList),
       ],
     );
   }

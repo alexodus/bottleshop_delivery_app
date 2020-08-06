@@ -5,13 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  static final Color _primaryDarkColor = Color(0xFF252525);
-  static final Color _mainDarkColor = Color(0xFFCF8100);
-  static final Color _secondDarkColor = Color(0xFFC29E00);
-  static final Color _accentDarkColor = Color(0xFFdbdbdb);
+  static final Color _mainColor = Color(0xFF6a2c70);
+  static final Color _mainDarkColor = Color(0xFFe8751a);
+  static final Color _secondColor = Color(0xFFb83b5e);
+  static final Color _secondDarkColor = Color(0xFFE7F6F8);
+  static final Color _accentColor = Color(0xFFdd2c00);
+  static final Color _accentDarkColor = Color(0xFFfda403);
 
-  static Color primaryDarkColor(double opacity) {
-    return AppColors._primaryDarkColor.withOpacity(opacity);
+  static Color mainColor(double opacity) {
+    return AppColors._mainColor.withOpacity(opacity);
+  }
+
+  static Color secondColor(double opacity) {
+    return AppColors._secondColor.withOpacity(opacity);
+  }
+
+  static Color accentColor(double opacity) {
+    return AppColors._accentColor.withOpacity(opacity);
   }
 
   static Color mainDarkColor(double opacity) {
@@ -27,27 +37,91 @@ class AppColors {
   }
 }
 
+final appTheme = ThemeData(
+  primaryColor: Colors.white,
+  brightness: Brightness.light,
+  accentColor: AppColors.mainColor(1),
+  focusColor: AppColors.accentColor(1),
+  hintColor: AppColors.secondColor(1),
+  textTheme: GoogleFonts.poppinsTextTheme(
+    TextTheme(
+      button: TextStyle(color: Colors.white),
+      headline5: TextStyle(fontSize: 20.0, color: AppColors.secondColor(1)),
+      headline4: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondColor(1)),
+      headline3: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondColor(1)),
+      headline2: TextStyle(
+          fontSize: 22.0,
+          fontWeight: FontWeight.w700,
+          color: AppColors.mainColor(1)),
+      headline1: TextStyle(
+          fontSize: 22.0,
+          fontWeight: FontWeight.w300,
+          color: AppColors.secondColor(1)),
+      subtitle1: TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.w500,
+          color: AppColors.secondColor(1)),
+      headline6: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.mainColor(1)),
+      bodyText2: TextStyle(fontSize: 12.0, color: AppColors.secondColor(1)),
+      bodyText1: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondColor(1)),
+      caption: TextStyle(fontSize: 12.0, color: AppColors.secondColor(0.6)),
+    ),
+  ),
+);
+
 final appThemeDark = ThemeData(
-  visualDensity: VisualDensity.adaptivePlatformDensity,
   fontFamily: 'Poppins',
-  primaryColor: AppColors.primaryDarkColor(1),
+  primaryColor: Color(0xFF252525),
   brightness: Brightness.dark,
-  scaffoldBackgroundColor: AppColors.primaryDarkColor(1),
+  scaffoldBackgroundColor: Color(0xFF2C2C2C),
   accentColor: AppColors.mainDarkColor(1),
   hintColor: AppColors.secondDarkColor(1),
   focusColor: AppColors.accentDarkColor(1),
   textTheme: GoogleFonts.poppinsTextTheme(
     TextTheme(
-      button: TextStyle(color: AppColors.primaryDarkColor(1)),
+      button: TextStyle(color: Color(0xFF252525)),
       headline5: TextStyle(fontSize: 20.0, color: AppColors.secondDarkColor(1)),
-      headline4: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.secondDarkColor(1)),
-      headline3: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600, color: AppColors.secondDarkColor(1)),
-      headline2: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: AppColors.mainDarkColor(1)),
-      headline1: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300, color: AppColors.secondDarkColor(1)),
-      subtitle1: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500, color: AppColors.secondDarkColor(1)),
-      headline6: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: AppColors.mainDarkColor(1)),
+      headline4: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondDarkColor(1)),
+      headline3: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondDarkColor(1)),
+      headline2: TextStyle(
+          fontSize: 22.0,
+          fontWeight: FontWeight.w700,
+          color: AppColors.mainDarkColor(1)),
+      headline1: TextStyle(
+          fontSize: 22.0,
+          fontWeight: FontWeight.w300,
+          color: AppColors.secondDarkColor(1)),
+      subtitle1: TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.w500,
+          color: AppColors.secondDarkColor(1)),
+      headline6: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.mainDarkColor(1)),
       bodyText2: TextStyle(fontSize: 12.0, color: AppColors.secondDarkColor(1)),
-      bodyText1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.secondDarkColor(1)),
+      bodyText1: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondDarkColor(1)),
       caption: TextStyle(fontSize: 12.0, color: AppColors.secondDarkColor(0.7)),
     ),
   ),

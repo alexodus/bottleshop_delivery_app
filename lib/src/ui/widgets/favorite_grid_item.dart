@@ -8,7 +8,8 @@ class FavoriteGridItem extends StatelessWidget {
   final Product product;
   final String heroTag;
 
-  const FavoriteGridItem({Key key, @required this.heroTag, @required this.product})
+  const FavoriteGridItem(
+      {Key key, @required this.heroTag, @required this.product})
       : assert(heroTag != null),
         assert(product != null),
         super(key: key);
@@ -19,7 +20,9 @@ class FavoriteGridItem extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
         Navigator.of(context).pushNamed(ProductDetailView.routeName,
-            arguments: RouteArgument(argumentsList: [this.product, this.heroTag], id: this.product.documentID));
+            arguments: RouteArgument(
+                argumentsList: [this.product, this.heroTag],
+                id: this.product.documentID));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,

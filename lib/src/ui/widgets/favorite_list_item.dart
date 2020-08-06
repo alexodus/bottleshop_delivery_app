@@ -2,7 +2,6 @@ import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FavoriteListItem extends StatelessWidget {
   final String heroTag;
@@ -29,8 +28,8 @@ class FavoriteListItem extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: FaIcon(
-              FontAwesomeIcons.trash,
+            child: Icon(
+              Icons.delete_forever,
               color: Colors.white,
             ),
           ),
@@ -38,22 +37,27 @@ class FavoriteListItem extends StatelessWidget {
       ),
       onDismissed: (direction) {
         onDismissed();
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("The ${product.name} product is removed from wish list")));
+        Scaffold.of(context).showSnackBar(SnackBar(
+            content:
+                Text("The ${product.name} product is removed from wish list")));
       },
       child: InkWell(
         splashColor: Theme.of(context).accentColor,
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.of(context).pushNamed(ProductDetailView.routeName, arguments: args);
+          Navigator.of(context)
+              .pushNamed(ProductDetailView.routeName, arguments: args);
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.9),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
             ],
           ),
           child: Row(
@@ -115,7 +119,8 @@ class FavoriteListItem extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Text(product.price.toStringAsFixed(2), style: Theme.of(context).textTheme.headline4),
+                    Text(product.price.toStringAsFixed(2),
+                        style: Theme.of(context).textTheme.headline4),
                   ],
                 ),
               )

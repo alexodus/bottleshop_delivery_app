@@ -3,7 +3,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/category_Icon.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/home_tab_view_model.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesIconsCarousel extends StatelessWidget {
@@ -16,7 +15,8 @@ class CategoriesIconsCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories = context.select((HomeTabViewModel viewModel) => viewModel.categories);
+    final categories =
+        context.select((HomeTabViewModel viewModel) => viewModel.categories);
     return Offstage(
       offstage: categories.isEmpty,
       child: SizedBox(
@@ -28,14 +28,16 @@ class CategoriesIconsCarousel extends StatelessWidget {
               width: 80,
               decoration: BoxDecoration(
                 color: Theme.of(context).accentColor.withOpacity(1),
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(60), topRight: Radius.circular(60)),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(60),
+                    topRight: Radius.circular(60)),
               ),
               child: IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, CategoriesView.routeName);
                 },
-                icon: FaIcon(
-                  FontAwesomeIcons.cog,
+                icon: Icon(
+                  Icons.settings,
                   size: 28,
                   color: Theme.of(context).primaryColor,
                 ),
@@ -46,7 +48,9 @@ class CategoriesIconsCarousel extends StatelessWidget {
                   margin: EdgeInsets.only(left: 0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).accentColor.withOpacity(1),
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(60), topLeft: Radius.circular(60)),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(60),
+                        topLeft: Radius.circular(60)),
                   ),
                   child: ListView.builder(
                     itemCount: categories.length,
@@ -59,7 +63,8 @@ class CategoriesIconsCarousel extends StatelessWidget {
                           heroTag: 'home_categories_1',
                           marginLeft: _marginLeft,
                           category: categories.elementAt(index),
-                          onPressed: (id) => context.read<TabsViewModel>().selectCategory(id));
+                          onPressed: (id) =>
+                              context.read<TabsViewModel>().selectCategory(id));
                     },
                     scrollDirection: Axis.horizontal,
                   )),

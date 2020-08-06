@@ -1,6 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/models/shop_notification.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NotificationItem extends StatelessWidget {
   final ShopNotification notification;
@@ -23,8 +22,8 @@ class NotificationItem extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: FaIcon(
-              FontAwesomeIcons.trash,
+            child: Icon(
+              Icons.delete_forever,
               color: Colors.white,
             ),
           ),
@@ -32,7 +31,9 @@ class NotificationItem extends StatelessWidget {
       ),
       onDismissed: (direction) => onDismissed(notification),
       child: Container(
-        color: notification.read ? Colors.transparent : Theme.of(context).focusColor.withOpacity(0.15),
+        color: notification.read
+            ? Colors.transparent
+            : Theme.of(context).focusColor.withOpacity(0.15),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -42,7 +43,8 @@ class NotificationItem extends StatelessWidget {
               width: 75,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                image: DecorationImage(image: AssetImage(notification.image), fit: BoxFit.cover),
+                image: DecorationImage(
+                    image: AssetImage(notification.image), fit: BoxFit.cover),
               ),
             ),
             SizedBox(width: 15),
@@ -57,7 +59,9 @@ class NotificationItem extends StatelessWidget {
                     maxLines: 2,
                     style: Theme.of(context).textTheme.bodyText2.merge(
                           TextStyle(
-                            fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600,
+                            fontWeight: notification.read
+                                ? FontWeight.w300
+                                : FontWeight.w600,
                           ),
                         ),
                   ),
