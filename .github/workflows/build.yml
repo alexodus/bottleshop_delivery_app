@@ -19,9 +19,13 @@ jobs:
           flutter pub get
       - name: Check formatting and lint
         run: |
-          flutter format --set-exit-if-changed .
+          flutter format --set-exit-if-changed lib/src
           flutter analyze .
       - name: Build release assets
+        env:
+          STORE_PWD: ${{ secrets.STORE_PWD }}
+          STORE_PATH: ${{ github.workspace }}${{ secrets.STORE_PATH }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           flutter build web
           flutter build apk

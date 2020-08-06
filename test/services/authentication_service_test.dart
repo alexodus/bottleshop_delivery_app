@@ -1,6 +1,6 @@
-import 'package:bottleshopdeliveryapp/src/core/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/core/services/authentication/authentication_service.dart';
+import 'package:bottleshopdeliveryapp/src/models/user.dart';
+import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
+import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_test/flutter_test.dart';

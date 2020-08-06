@@ -3,51 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
+  <meta name="description" content="Bottleshop 3 Veže">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="bottleshop_delivery_app">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
   <link rel="shortcut icon" type="image/png" href="favicon.png"/>
-
-  <title>Bottleshop 3 Veze</title>
+  <title>Bottleshop 3 Veže</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCfuzH21eCOvvzP6xN-dXBX83CKjG9xED0",
+      authDomain: "bottleshop3veze-delivery.firebaseapp.com",
+      databaseURL: "https://bottleshop3veze-delivery.firebaseio.com",
+      projectId: "bottleshop3veze-delivery",
+      storageBucket: "bottleshop3veze-delivery.appspot.com",
+      messagingSenderId: "540936468411",
+      appId: "1:540936468411:web:432a26d3b9d4fe11bff69e",
+      measurementId: "G-E9GP8818NW"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('flutter_service_worker.js');
       });
     }
-  </script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-analytics.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-messaging.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-storage.js"></script>
-  <script>
-      var firebaseConfig = {
-    apiKey: "AIzaSyAO3x1g_uHbWhOWYNIUWsdknjbb-KzPqUc",
-    authDomain: "bottleshop-delivery-app.firebaseapp.com",
-    databaseURL: "https://bottleshop-delivery-app.firebaseio.com",
-    projectId: "bottleshop-delivery-app",
-    storageBucket: "bottleshop-delivery-app.appspot.com",
-    messagingSenderId: "356540900257",
-    appId: "1:356540900257:web:426a6ebbe41f6bf0d1e1e0",
-    measurementId: "G-CPFRCL7TWY"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>

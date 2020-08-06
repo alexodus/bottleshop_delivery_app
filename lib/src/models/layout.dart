@@ -1,0 +1,1 @@
+enum LayoutMode { list, grid }
