@@ -1,0 +1,31 @@
+name: Flutter CI
+on:
+  pull_request:
+    branches: [ developer, master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'beta'
+      - name: Install Flutter dependencies
+        run: |
+          flutter config --enable-web
+          flutter pub get
+      - name: Check formatting and lint
+        run: |
+          flutter format --set-exit-if-changed lib/src
+          flutter analyze .
+      - name: Build release assets
+        env:
+          STORE_PWD: ${{ secrets.STORE_PWD }}
+          STORE_PATH: ${{ github.workspace }}${{ secrets.STORE_PATH }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          flutter build web
+          flutter build apk

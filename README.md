@@ -1,5 +1,5 @@
-# Bottleshop 3 Veze
+# Bottleshop 3 Veze E-Shop
 
-[![Codemagic build status](https://api.codemagic.io/apps/5ebc4afdd5ac075bbee6a979/5ebc4afdd5ac075bbee6a978/status_badge.svg)](https://codemagic.io/apps/5ebc4afdd5ac075bbee6a979/5ebc4afdd5ac075bbee6a978/latest_build)
+![Flutter CI](https://github.com/cloudis-dev/bottleshop_delivery_app/workflows/Flutter%20CI/badge.svg)
 
-## Getting Started
+![Flutter CD](https://github.com/cloudis-dev/bottleshop_delivery_app/workflows/Flutter%20CD/badge.svg?branch=master)

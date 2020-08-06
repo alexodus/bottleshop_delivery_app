@@ -173,10 +173,13 @@ PODS:
     - Firebase/Core
     - Firebase/Firestore (~> 6.0)
     - Flutter
-  - cloud_firestore_web (0.1.0):
+  - connectivity (0.0.1):
     - Flutter
+    - Reachability
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
+  - e2e (0.0.1):
+    - Flutter
   - Fabric (1.10.2)
   - FBSDKCoreKit (5.15.1):
     - FBSDKCoreKit/Basics (= 5.15.1)
@@ -215,12 +218,8 @@ PODS:
     - Firebase/Auth (~> 6.3)
     - Firebase/Core
     - Flutter
-  - firebase_auth_web (0.1.0):
-    - Flutter
   - firebase_core (0.0.1):
     - Firebase/Core
-    - Flutter
-  - firebase_core_web (0.1.0):
     - Flutter
   - firebase_crashlytics (0.0.1):
     - Crashlytics
@@ -303,14 +302,14 @@ PODS:
     - FBSDKCoreKit (~> 5.5)
     - FBSDKLoginKit (~> 5.5)
     - Flutter
+  - flutter_share (0.0.1):
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 5.0)
-  - google_sign_in_web (0.8.1):
-    - Flutter
   - GoogleAppMeasurement (6.3.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -375,44 +374,37 @@ PODS:
   - nanopb/encode (0.3.9011)
   - path_provider (0.0.1):
     - Flutter
-  - path_provider_linux (0.0.1):
-    - Flutter
-  - path_provider_macos (0.0.1):
-    - Flutter
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
-  - shared_preferences (0.0.1):
-    - Flutter
-  - shared_preferences_macos (0.0.1):
-    - Flutter
-  - shared_preferences_web (0.0.1):
+  - Reachability (3.2)
+  - sign_in_with_apple (0.0.1):
     - Flutter
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - Stripe (19.3.0)
+  - stripe_payment (1.0.0):
+    - Flutter
+    - Stripe (>= 19.0.1)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - cloud_firestore_web (from `.symlinks/plugins/cloud_firestore_web/ios`)
+  - connectivity (from `.symlinks/plugins/connectivity/ios`)
+  - e2e (from `.symlinks/plugins/e2e/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
-  - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
+  - flutter_share (from `.symlinks/plugins/flutter_share/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
-  - google_sign_in_web (from `.symlinks/plugins/google_sign_in_web/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
-  - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
-  - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
-  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
-  - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
-  - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+  - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - stripe_payment (from `.symlinks/plugins/stripe_payment/ios`)
 
 SPEC REPOS:
   trunk:
@@ -450,22 +442,22 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - Reachability
+    - Stripe
 
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
-  cloud_firestore_web:
-    :path: ".symlinks/plugins/cloud_firestore_web/ios"
+  connectivity:
+    :path: ".symlinks/plugins/connectivity/ios"
+  e2e:
+    :path: ".symlinks/plugins/e2e/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
-  firebase_auth_web:
-    :path: ".symlinks/plugins/firebase_auth_web/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
-  firebase_core_web:
-    :path: ".symlinks/plugins/firebase_core_web/ios"
   firebase_crashlytics:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
   firebase_messaging:
@@ -476,42 +468,35 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_facebook_login:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
+  flutter_share:
+    :path: ".symlinks/plugins/flutter_share/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
-  google_sign_in_web:
-    :path: ".symlinks/plugins/google_sign_in_web/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
-  path_provider_linux:
-    :path: ".symlinks/plugins/path_provider_linux/ios"
-  path_provider_macos:
-    :path: ".symlinks/plugins/path_provider_macos/ios"
-  shared_preferences:
-    :path: ".symlinks/plugins/shared_preferences/ios"
-  shared_preferences_macos:
-    :path: ".symlinks/plugins/shared_preferences_macos/ios"
-  shared_preferences_web:
-    :path: ".symlinks/plugins/shared_preferences_web/ios"
+  sign_in_with_apple:
+    :path: ".symlinks/plugins/sign_in_with_apple/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  stripe_payment:
+    :path: ".symlinks/plugins/stripe_payment/ios"
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: 4cc700e236ebfe2d5d980e49cb066d202cfee0e9
-  cloud_firestore_web: 9ec3dc7f5f98de5129339802d491c1204462bfec
+  cloud_firestore: 2a4f8f802fb0b701cf809b283b6bec7477ebaa6f
+  connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  e2e: d0c9f8c832b4cc7ab386d0c0f0af67fe5ac0c3bd
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
   FBSDKLoginKit: f1ea8026a58b52d30c9f2e6a58ca7d813619fb83
   Firebase: 0490eca762a72e4f1582319539153897f1508dee
-  firebase_analytics: c3f1a6c8189b737c4f2c677fec8432c475d08617
+  firebase_analytics: 9118044ffb98bee71d84733fc594f5134fe4bc1b
   firebase_auth: af8784c4d8d87c36f730a305f97bfbcb24db024b
-  firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
   firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
-  firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
-  firebase_crashlytics: bd8c58df07f107cb7e1a20cb190b9a468e0a69fd
+  firebase_crashlytics: cc468e94e5a637364aeeeec5c8a96d92ea75ec7b
   firebase_messaging: 21344b3b3a7d9d325d63a70e3750c0c798fe1e03
   firebase_storage: 22966fce4aa6e8848cbaa017df62107cee29f327
   FirebaseAnalytics: 058d71e714a1a6804d9e0f25e3bb18e377a51579
@@ -528,9 +513,9 @@ SPEC CHECKSUMS:
   FirebaseStorage: 6c5263796af3b1be82ed173598aade47535fe125
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
+  flutter_share: 4be0208963c60b537e6255ed2ce1faae61cd9ac2
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
-  google_sign_in_web: 52deb24929ac0992baff65c57956031c44ed44c3
   GoogleAppMeasurement: 39ecba10918b21c83877d392246157f65db351cf
   GoogleDataTransport: 653963cf5be60fb59cf051e070f0836fdc305f81
   GoogleDataTransportCCTSupport: 84e4d4bbab642f2e9d83ee65d78aca2b5527d314
@@ -543,15 +528,14 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
-  path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
-  path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
-  shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
-  shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  sign_in_with_apple: 34f3f5456a45fd7ac5fb42905e2ad31dae061b4a
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  Stripe: dd5bfdd5f1daed4f9ddbfb47e9449ec302f9f708
+  stripe_payment: ad86f099179edb7b9fe12b9b62ac3746d5e56802
 
-PODFILE CHECKSUM: e7c071f3a2a5152fc2a7d370b493c280d85fabf3
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
 COCOAPODS: 1.9.1
