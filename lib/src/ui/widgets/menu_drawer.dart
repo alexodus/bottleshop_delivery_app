@@ -25,7 +25,7 @@ class MenuDrawer extends StatelessWidget {
           SideMenuHeader(userName: userName, userEmail: userEmail),
           SideMenuItem(
             leading: Icons.home,
-            title: "Home",
+            title: 'Home',
             handler: () => Navigator.pushReplacementNamed(
               context,
               TabsView.routeName,
@@ -34,7 +34,7 @@ class MenuDrawer extends StatelessWidget {
           ),
           SideMenuItem(
             leading: Icons.notifications,
-            title: "Notifications",
+            title: 'Notifications',
             handler: () => Navigator.pushNamed(
               context,
               NotificationsView.routeName,
@@ -42,18 +42,18 @@ class MenuDrawer extends StatelessWidget {
           ),
           SideMenuItem(
             dense: true,
-            title: "Application Preferences",
+            title: 'Application Preferences',
             titleStyle: Theme.of(context).textTheme.bodyText2,
           ),
           SideMenuItem(
             leading: Icons.settings,
             handler: () => Navigator.pushNamed(context, AccountView.routeName),
-            title: "Settings",
+            title: 'Settings',
           ),
           SideMenuItem(
             handler: () => Navigator.pushNamed(context, HelpView.routeName),
             leading: Icons.help,
-            title: "Help & Support",
+            title: 'Help & Support',
           ),
           SideMenuItem(
             handler: () async {
@@ -62,11 +62,11 @@ class MenuDrawer extends StatelessWidget {
                   context, SignInView.routeName);
             },
             leading: Icons.exit_to_app,
-            title: "Log out",
+            title: 'Log out',
           ),
           SideMenuItem(
             dense: true,
-            title: "Version 0.0.1",
+            title: 'Version 0.0.1',
             titleStyle: Theme.of(context).textTheme.bodyText2,
           ),
         ],

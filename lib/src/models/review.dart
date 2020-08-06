@@ -14,7 +14,7 @@ class Review {
 
   Review(this.user, this.review, this.rate);
 
-  getDateTime() {
-    return DateFormat('yyyy-MM-dd HH:mm').format(this.dateTime);
+  String getDateTime() {
+    return DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
   }
 }

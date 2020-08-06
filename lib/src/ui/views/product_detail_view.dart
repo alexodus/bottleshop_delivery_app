@@ -37,12 +37,14 @@ class _ProductDetailViewState extends State<ProductDetailView>
     super.initState();
   }
 
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
 
-  _handleTabSelection() {
+  // ignore: always_declare_return_types
+  void _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       setState(() {
         _tabIndex = _tabController.index;
@@ -228,7 +230,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     ),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text("Product"),
+                      child: Text('Product'),
                     ),
                   ),
                 ),
@@ -244,7 +246,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     ),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text("Detail"),
+                      child: Text('Detail'),
                     ),
                   ),
                 ),
@@ -260,7 +262,7 @@ class _ProductDetailViewState extends State<ProductDetailView>
                     ),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text("Review"),
+                      child: Text('Review'),
                     ),
                   ),
                 ),

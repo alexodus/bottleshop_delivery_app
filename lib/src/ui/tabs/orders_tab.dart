@@ -12,7 +12,7 @@ class OrdersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Order> orderList = [];
+    final orderList = <Order>[];
     return orderList.isEmpty
         ? EmptyOrdersProducts()
         : DefaultTabController(
@@ -53,7 +53,7 @@ class OrdersTab extends StatelessWidget {
                                   width: 1)),
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text("All"),
+                            child: Text('All'),
                           ),
                         ),
                       ),
@@ -67,7 +67,7 @@ class OrdersTab extends StatelessWidget {
                                   width: 1)),
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text("To be shipped"),
+                            child: Text('To be shipped'),
                           ),
                         ),
                       ),
@@ -81,7 +81,7 @@ class OrdersTab extends StatelessWidget {
                                   width: 1)),
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text("Shipped"),
+                            child: Text('Shipped'),
                           ),
                         ),
                       ),
@@ -95,7 +95,7 @@ class OrdersTab extends StatelessWidget {
                                   width: 1)),
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text("In Dispute"),
+                            child: Text('In Dispute'),
                           ),
                         ),
                       ),

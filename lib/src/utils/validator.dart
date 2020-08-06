@@ -1,7 +1,7 @@
 class Validator {
   String email(String value) {
     Pattern pattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
-    RegExp regex = RegExp(pattern);
+    var regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Email is invalid';
     } else {
@@ -11,7 +11,7 @@ class Validator {
 
   String password(String value) {
     Pattern pattern = r'^.{6,}$';
-    RegExp regex = RegExp(pattern);
+    var regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Password is too short';
     } else {
@@ -29,7 +29,7 @@ class Validator {
 
   String name(String value) {
     Pattern pattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-    RegExp regex = RegExp(pattern);
+    var regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Name is invalid';
     } else {
@@ -39,7 +39,7 @@ class Validator {
 
   String number(String value) {
     Pattern pattern = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
-    RegExp regex = RegExp(pattern);
+    var regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Value is not a number';
     } else {
@@ -49,7 +49,7 @@ class Validator {
 
   String amount(String value) {
     Pattern pattern = r'^\d+$';
-    RegExp regex = RegExp(pattern);
+    var regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Amount is incorrect';
     } else {
@@ -59,7 +59,7 @@ class Validator {
 
   String notEmpty(String value) {
     Pattern pattern = r'^\S+$';
-    RegExp regex = RegExp(pattern);
+    var regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Field is not empty';
     } else {

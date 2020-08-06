@@ -56,7 +56,7 @@ class CategoriesIconsCarousel extends StatelessWidget {
                     itemCount: categories.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      double _marginLeft = 0;
+                      var _marginLeft = 0.0;
                       (index == 0) ? _marginLeft = 12 : _marginLeft = 0;
                       return CategoryIcon(
                           tickerProvider: tickerProvider,

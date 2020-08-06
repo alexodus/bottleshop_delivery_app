@@ -14,8 +14,8 @@ class Constants {
   static const countriesCollection = 'countries';
   static List<LanguageModel> get languages => [
         LanguageModel(
-            "English", "English", "assets/images/united-states-of-america.png"),
-        LanguageModel("Slovak", "Slovenčina", "assets/images/slovakia.png")
+            'English', 'English', 'assets/images/united-states-of-america.png'),
+        LanguageModel('Slovak', 'Slovenčina', 'assets/images/slovakia.png')
       ];
   static String cloudStorageBucket =
       'gs://bottleshop3veze-delivery.appspot.com';

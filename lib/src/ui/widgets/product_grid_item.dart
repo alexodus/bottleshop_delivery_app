@@ -23,8 +23,7 @@ class ProductGridItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(context, ProductDetailView.routeName,
             arguments: RouteArgument(
-                argumentsList: [this.product, this.heroTag],
-                id: this.product.documentID));
+                argumentsList: [product, heroTag], id: product.documentID));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -41,7 +40,7 @@ class ProductGridItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: this.heroTag + product.documentID,
+              tag: heroTag + product.documentID,
               child: Image.asset(product.imageUrl),
             ),
             SizedBox(height: 12),

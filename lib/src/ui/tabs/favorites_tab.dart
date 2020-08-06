@@ -1,5 +1,4 @@
 import 'package:bottleshopdeliveryapp/src/models/layout.dart';
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/empty_favorites.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/favorite_list_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_grid_item.dart';
@@ -74,7 +73,7 @@ class FavoritesGridLayout extends StatelessWidget {
           crossAxisCount: 4,
           itemCount: favorites.length,
           itemBuilder: (context, index) {
-            Product product = favorites.elementAt(index);
+            var product = favorites.elementAt(index);
             return ProductGridItem(
               product: product,
               heroTag: 'favorites_grid',

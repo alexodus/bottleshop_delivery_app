@@ -123,7 +123,7 @@ class CartItem extends StatelessWidget {
     );
   }
 
-  incrementQuantity(int quantity) {
+  int incrementQuantity(int quantity) {
     if (quantity <= 99) {
       return ++quantity;
     } else {
@@ -131,7 +131,7 @@ class CartItem extends StatelessWidget {
     }
   }
 
-  decrementQuantity(int quantity) {
+  int decrementQuantity(int quantity) {
     if (quantity > 1) {
       return --quantity;
     } else {

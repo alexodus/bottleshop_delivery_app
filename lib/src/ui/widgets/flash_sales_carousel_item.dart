@@ -28,7 +28,7 @@ class FlashSalesCarouselItem extends StatelessWidget {
                 id: product.documentID, argumentsList: [product, heroTag]));
       },
       child: Container(
-        margin: EdgeInsets.only(left: this.marginLeft, right: 20),
+        margin: EdgeInsets.only(left: marginLeft, right: 20),
         child: Stack(
           alignment: AlignmentDirectional.topCenter,
           children: <Widget>[

@@ -17,7 +17,7 @@ class TabsViewModel extends BaseViewModel {
   int _currentTabId;
   Widget _currentTab;
   List<Category> _categories;
-  OrderTabIndex _initialOrderTabIndex = OrderTabIndex.all;
+  final OrderTabIndex _initialOrderTabIndex;
 
   TabsViewModel(Locator locator, RouteArgument args)
       : _currentTab = args.argumentsList[0],
@@ -33,19 +33,28 @@ class TabsViewModel extends BaseViewModel {
   }
 
   OrderTabIndex get initialOrderTabIndex => _initialOrderTabIndex;
+
   String get selectedCategory => _selectedCategoryId;
+
   List<String> get selectedSubCategories => _selectedSubCategoryIds;
+
   User get currentUser => _currentUser;
+
   String get title => _currentTabTitle;
+
   int get id => _currentTabId;
+
   Widget get tab => _currentTab;
+
   List<Category> get allCategories => _categories;
+
   bool isCategorySelected(String id) => _selectedCategoryId == id;
+
   bool isSubcategorySelected(String id) => _selectedSubCategoryIds.contains(id);
 
   void selectTab(int index) {
     if (index != _currentTabId) {
-      TabIndex newTab = TabIndex.values[index];
+      var newTab = TabIndex.values[index];
       var routeArg = Routes.onTabSelection(newTab);
       _currentTabId = routeArg.id;
       _currentTabTitle = routeArg.title;

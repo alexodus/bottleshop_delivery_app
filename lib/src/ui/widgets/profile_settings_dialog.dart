@@ -14,7 +14,7 @@ class ProfileSettingsDialog extends StatefulWidget {
 }
 
 class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
-  GlobalKey<FormState> _profileSettingsFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _profileSettingsFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
             });
       },
       child: Text(
-        "Edit",
+        'Edit',
         style: Theme.of(context).textTheme.bodyText2,
       ),
     );

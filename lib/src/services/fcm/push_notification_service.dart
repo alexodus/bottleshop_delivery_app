@@ -13,23 +13,23 @@ class PushNotificationService {
     if (!_isInitialized) {
       _fcm.configure(
         onMessage: (Map<String, dynamic> message) async {
-          print("onMessage: $message");
+          print('onMessage: $message');
         },
         onLaunch: (Map<String, dynamic> message) async {
-          print("onLaunch: $message");
+          print('onLaunch: $message');
         },
         onResume: (Map<String, dynamic> message) async {
-          print("onResume: $message");
+          print('onResume: $message');
         },
       );
       _fcm.requestNotificationPermissions(const IosNotificationSettings(
           sound: true, badge: true, alert: true, provisional: true));
       _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
-        print("Settings registered: $settings");
+        print('Settings registered: $settings');
       });
-      String token = await _fcm.getToken();
-      print("FCM Token: $token");
-      this._isInitialized = true;
+      var token = await _fcm.getToken();
+      print('FCM Token: $token');
+      _isInitialized = true;
     }
   }
 }

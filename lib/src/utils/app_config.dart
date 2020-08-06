@@ -9,7 +9,7 @@ class AppConfig {
 
   AppConfig(_context) {
     this._context = _context;
-    MediaQueryData _queryData = MediaQuery.of(this._context);
+    var _queryData = MediaQuery.of(this._context);
     _height = _queryData.size.height / 100.0;
     _width = _queryData.size.width / 100.0;
     _heightPadding = _height -

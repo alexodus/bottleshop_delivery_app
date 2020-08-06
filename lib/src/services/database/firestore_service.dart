@@ -12,7 +12,7 @@ class FirestoreService {
   final StreamController<List<Product>> _productController =
       StreamController<List<Product>>.broadcast();
 
-  List<List<Product>> _allPagedResults = List<List<Product>>();
+  final List<List<Product>> _allPagedResults = <List<Product>>[];
 
   static const int pageLimit = 20;
 
@@ -41,7 +41,7 @@ class FirestoreService {
         } else {
           _allPagedResults.add(products);
         }
-        var allPosts = _allPagedResults.fold<List<Product>>(List<Product>(),
+        var allPosts = _allPagedResults.fold<List<Product>>(<Product>[],
             (initialValue, pageItems) => initialValue..addAll(pageItems));
         _productController.add(allPosts);
         if (currentRequestIndex == _allPagedResults.length - 1) {

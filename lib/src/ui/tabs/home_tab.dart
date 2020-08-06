@@ -25,7 +25,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
   void initState() {
     animationController =
         AnimationController(duration: Duration(milliseconds: 200), vsync: this);
-    CurvedAnimation curve =
+    var curve =
         CurvedAnimation(parent: animationController, curve: Curves.easeIn);
     animationOpacity = Tween(begin: 0.0, end: 1.0).animate(curve);
     animationController.forward();

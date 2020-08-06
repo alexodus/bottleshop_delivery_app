@@ -23,10 +23,10 @@ class FlashSalesCarousel extends StatelessWidget {
         child: ListView.builder(
           itemCount: productsList.length,
           itemBuilder: (context, index) {
-            double _marginLeft = 0;
+            var _marginLeft = 0.0;
             (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
             return FlashSalesCarouselItem(
-              heroTag: this.heroTag,
+              heroTag: heroTag,
               marginLeft: _marginLeft,
               product: productsList.elementAt(index),
             );

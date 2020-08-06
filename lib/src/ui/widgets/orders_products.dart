@@ -50,12 +50,12 @@ class _OrdersProductsState extends State<OrdersProducts> {
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          this.layout = 'list';
+                          layout = 'list';
                         });
                       },
                       icon: Icon(
                         Icons.format_list_bulleted,
-                        color: this.layout == 'list'
+                        color: layout == 'list'
                             ? Theme.of(context).accentColor
                             : Theme.of(context).focusColor,
                       ),
@@ -63,12 +63,12 @@ class _OrdersProductsState extends State<OrdersProducts> {
                     IconButton(
                       onPressed: () {
                         setState(() {
-                          this.layout = 'grid';
+                          layout = 'grid';
                         });
                       },
                       icon: Icon(
                         Icons.apps,
-                        color: this.layout == 'grid'
+                        color: layout == 'grid'
                             ? Theme.of(context).accentColor
                             : Theme.of(context).focusColor,
                       ),
@@ -79,7 +79,7 @@ class _OrdersProductsState extends State<OrdersProducts> {
             ),
           ),
           Offstage(
-            offstage: this.layout != 'list' || widget.ordersList.isEmpty,
+            offstage: layout != 'list' || widget.ordersList.isEmpty,
             child: ListView.separated(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
@@ -102,7 +102,7 @@ class _OrdersProductsState extends State<OrdersProducts> {
             ),
           ),
           Offstage(
-            offstage: this.layout != 'grid' || widget.ordersList.isEmpty,
+            offstage: layout != 'grid' || widget.ordersList.isEmpty,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: StaggeredGridView.countBuilder(
@@ -111,7 +111,7 @@ class _OrdersProductsState extends State<OrdersProducts> {
                 crossAxisCount: 4,
                 itemCount: widget.ordersList.length,
                 itemBuilder: (context, index) {
-                  Order order = widget.ordersList.elementAt(index);
+                  var order = widget.ordersList.elementAt(index);
                   return OrderGridItem(
                     order: order,
                     heroTag: 'orders_grid',

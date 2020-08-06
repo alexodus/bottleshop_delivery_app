@@ -9,14 +9,14 @@ import 'package:provider/provider.dart';
 
 class HomeTabViewModel extends BaseViewModel {
   HomeTabViewModel(Locator locator) : super(locator: locator) {
-    this.init();
+    init();
   }
 
-  List<Product> _flashSales = [];
+  final List<Product> _flashSales = [];
   List<Product> _products = [];
-  List<Category> _categories = [];
-  List<SubCategory> _subCategories = [];
-  List<Slider> _sliderList = [];
+  final List<Category> _categories = [];
+  final List<SubCategory> _subCategories = [];
+  final List<Slider> _sliderList = [];
   String _selectedCategoryId;
   int _currentSlider = 0;
 
@@ -51,7 +51,7 @@ class HomeTabViewModel extends BaseViewModel {
     locator<FirestoreService>()
         .listenToProductsRealTime()
         .listen((productData) {
-      List<Product> updatedProducts = productData;
+      var updatedProducts = productData;
       if (updatedProducts != null && updatedProducts.isNotEmpty) {
         _products = updatedProducts;
         notifyListeners();

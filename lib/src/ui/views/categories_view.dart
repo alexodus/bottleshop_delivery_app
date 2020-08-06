@@ -71,7 +71,7 @@ class CategoriesView extends StatelessWidget {
   }
 
   Widget buildEvenCategory(BuildContext context, Category category) {
-    final List<Category> subCategories = [];
+    final subCategories = <Category>[];
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -167,7 +167,7 @@ class CategoriesView extends StatelessWidget {
               spacing: 10,
               runSpacing: 5,
               children: List.generate(subCategories.length, (index) {
-                Category subCategory = subCategories.elementAt(index);
+                var subCategory = subCategories.elementAt(index);
                 return Material(
                   borderRadius: BorderRadius.circular(30),
                   child: InkWell(
@@ -202,7 +202,7 @@ class CategoriesView extends StatelessWidget {
   }
 
   Widget buildOddCategory(BuildContext context, Category category) {
-    final List<Category> subCategories = [];
+    final subCategories = <Category>[];
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -229,7 +229,7 @@ class CategoriesView extends StatelessWidget {
               spacing: 10,
               runSpacing: 5,
               children: List.generate(subCategories.length, (index) {
-                Category subCategory = subCategories.elementAt(index);
+                var subCategory = subCategories.elementAt(index);
                 return Material(
                   borderRadius: BorderRadius.circular(30),
                   child: InkWell(

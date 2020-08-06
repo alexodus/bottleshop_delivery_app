@@ -26,13 +26,13 @@ class ShoppingCartButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Icon(
               Icons.shopping_cart,
-              color: this.iconColor,
+              color: iconColor,
               size: 28,
             ),
           ),
           Container(
             child: Text(
-              this.labelCount.toString(),
+              labelCount.toString(),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption.merge(
                     TextStyle(
@@ -41,7 +41,7 @@ class ShoppingCartButton extends StatelessWidget {
             ),
             padding: EdgeInsets.all(0),
             decoration: BoxDecoration(
-                color: this.labelColor,
+                color: labelColor,
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             constraints: BoxConstraints(
                 minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),

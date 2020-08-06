@@ -81,10 +81,9 @@ class AuthenticationService implements Authentication {
 
   @override
   Future<User> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final googleUser = await _googleSignIn.signIn();
     if (googleUser != null) {
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.getCredential(
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
@@ -107,8 +106,7 @@ class AuthenticationService implements Authentication {
     if (result.accessToken != null) {
       final credential = FacebookAuthProvider.getCredential(
           accessToken: result.accessToken.token);
-      final AuthResult authResult =
-          await _firebaseAuth.signInWithCredential(credential);
+      final authResult = await _firebaseAuth.signInWithCredential(credential);
       final user =
           _userFromFirebase(authResult.user, authResult.additionalUserInfo);
       await _userDataService.setUser(user);
@@ -121,7 +119,7 @@ class AuthenticationService implements Authentication {
 
   @override
   Future<User> currentUser() async {
-    final FirebaseUser firebaseUser = await _firebaseAuth.currentUser();
+    final firebaseUser = await _firebaseAuth.currentUser();
     if (firebaseUser != null) {
       final user = _userFromFirebase(firebaseUser);
       final userSnapshot = await _userDataService.getUser(user.uid);

@@ -21,8 +21,7 @@ class FavoriteGridItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(ProductDetailView.routeName,
             arguments: RouteArgument(
-                argumentsList: [this.product, this.heroTag],
-                id: this.product.documentID));
+                argumentsList: [product, heroTag], id: product.documentID));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -37,7 +36,7 @@ class FavoriteGridItem extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                            this.product.imageUrl,
+                            product.imageUrl,
                           ),
                           fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(5),

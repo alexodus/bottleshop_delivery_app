@@ -25,7 +25,7 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgetList = [];
+    var widgetList = <Widget>[];
     widgetList.add(child);
     if (inAsyncCall) {
       Widget layOutProgressIndicator;

@@ -4,7 +4,7 @@ import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesTabViewModel extends BaseViewModel {
-  List<Product> _favorites = [];
+  final List<Product> _favorites = [];
   LayoutMode _layoutMode = LayoutMode.list;
 
   FavoritesTabViewModel(Locator locator) : super(locator: locator);

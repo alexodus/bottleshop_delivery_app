@@ -24,8 +24,8 @@ class SideMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       dense: dense,
-      enabled: this.handler != null,
-      onTap: () => this.handler(),
+      enabled: handler != null,
+      onTap: () => handler(),
       leading: leading != null
           ? Icon(
               leading,

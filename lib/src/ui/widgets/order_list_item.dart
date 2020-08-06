@@ -38,9 +38,12 @@ class OrderListItem extends StatelessWidget {
       ),
       onDismissed: (direction) {
         onDismissed();
-        Scaffold.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
             content: Text(
-                "The ${order.product.name} order is removed from wish list")));
+                'The ${order.product.name} order is removed from wish list'),
+          ),
+        );
       },
       child: InkWell(
         splashColor: Theme.of(context).accentColor,

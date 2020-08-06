@@ -1,4 +1,3 @@
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_grid_item.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/home_tab_view_model.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,7 @@ class CategorizedProducts extends StatelessWidget {
             crossAxisCount: 4,
             itemCount: productList.length,
             itemBuilder: (context, index) {
-              Product product = productList.elementAt(index);
+              var product = productList.elementAt(index);
               return ProductGridItem(
                 product: product,
                 heroTag: 'categorized_products_grid',

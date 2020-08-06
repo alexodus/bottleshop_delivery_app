@@ -23,7 +23,7 @@ class _CategoryDetailViewState extends State<CategoryDetailView>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<SubCategory> _subCategoriesList = [];
+  final List<SubCategory> _subCategoriesList = [];
 
   @override
   void initState() {
@@ -35,12 +35,14 @@ class _CategoryDetailViewState extends State<CategoryDetailView>
     super.initState();
   }
 
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
 
-  _handleTabSelection() {
+  // ignore: always_declare_return_types
+  void _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       setState(() {
         widget.routeArgument.id = _tabController.index;

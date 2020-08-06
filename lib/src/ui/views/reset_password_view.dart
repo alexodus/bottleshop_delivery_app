@@ -185,7 +185,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     );
   }
 
-  signInLink() {
+  Widget signInLink() {
     if ((email == '') || (email == null)) {
       return FlatButton(
         onPressed: () =>

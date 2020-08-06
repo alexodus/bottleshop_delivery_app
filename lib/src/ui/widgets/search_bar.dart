@@ -38,7 +38,7 @@ class SearchBar extends StatelessWidget {
             ),
           ),
           Offstage(
-            offstage: !this.showFilter,
+            offstage: !showFilter,
             child: IconButton(
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();

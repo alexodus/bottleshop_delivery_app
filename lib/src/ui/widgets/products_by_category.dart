@@ -1,7 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/layout.dart';
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/favorite_list_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -81,11 +79,12 @@ class ProductsByCategory extends StatelessWidget {
               return SizedBox(height: 10);
             },
             itemBuilder: (context, index) {
-              // TODO replace with products list item
+              /*// TODO replace with products list item
               return FavoriteListItem(
                 heroTag: 'products_by_category_list',
                 product: Product(),
-              );
+              )*/
+              return null;
             },
           ),
         ),
@@ -104,6 +103,7 @@ class ProductsByCategory extends StatelessWidget {
                   product: product,
                   heroTag: 'products_by_category_grid',
                 );*/
+                return null;
               },
               staggeredTileBuilder: (int index) =>
                   StaggeredTile.fit(index % 2 == 0 ? 1 : 2),

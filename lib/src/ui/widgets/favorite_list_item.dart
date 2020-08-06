@@ -21,7 +21,7 @@ class FavoriteListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final RouteArgument args = ModalRoute.of(context).settings.arguments;
     return Dismissible(
-      key: Key(this.product.hashCode.toString()),
+      key: Key(product.hashCode.toString()),
       background: Container(
         color: Colors.red,
         child: Align(
@@ -37,9 +37,12 @@ class FavoriteListItem extends StatelessWidget {
       ),
       onDismissed: (direction) {
         onDismissed();
-        Scaffold.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
             content:
-                Text("The ${product.name} product is removed from wish list")));
+                Text('The ${product.name} product is removed from wish list'),
+          ),
+        );
       },
       child: InkWell(
         splashColor: Theme.of(context).accentColor,

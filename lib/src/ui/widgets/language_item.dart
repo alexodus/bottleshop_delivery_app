@@ -28,7 +28,7 @@ class _LanguageItemState extends State<LanguageItem>
     super.initState();
     animationController =
         AnimationController(duration: Duration(milliseconds: 350), vsync: this);
-    CurvedAnimation curve =
+    var curve =
         CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 40.0).animate(curve)
       ..addListener(() {

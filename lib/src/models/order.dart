@@ -40,9 +40,9 @@ class Order {
 
   Order(this.product, this.trackingNumber, this.orderState);
 
-  get totalValue => null;
+  double get totalValue => null;
 
-  getDateTime() {
-    return DateFormat('yyyy-MM-dd HH:mm').format(this.dateTime);
+  String getDateTime() {
+    return DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
   }
 }
