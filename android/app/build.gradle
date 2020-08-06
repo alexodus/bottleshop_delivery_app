@@ -30,12 +30,12 @@ def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}  else {
+    keystoreProperties['storeFile'] = System.getenv('STORE_PATH')
+    keystoreProperties['keyAlias'] = System.getenv('KEY_ALIAS')
+    keystoreProperties['storePassword'] = System.getenv('STORE_PWD')
+    keystoreProperties['keyPassword'] = System.getenv('STORE_PWD')
 }
-
-def keyStorePath = keystoreProperties['storeFile'] != null ? keystoreProperties['storeFile'] : getEnv('STORE_PATH')
-def keyAlias = keystoreProperties['keyAlias'] != null ? keystoreProperties['keyAlias'] : getEnv('KEY_ALIAS')
-def storePassword = keystoreProperties['storePassword'] != null ? keystoreProperties['storePassword'] : getEnv('STORE_PWD')
-def keyPassword = keystoreProperties['keyPassword'] != null ? keystoreProperties['keyPassword'] : getEnv('STORE_PWD')
 
 
 android {
@@ -61,10 +61,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keyAlias
-            storeFile file(keyStorePath)
-            storePassword storePassword
-            keyPassword storePassword
+            keyAlias keystoreProperties['keyAlias']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 

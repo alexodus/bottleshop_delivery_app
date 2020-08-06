@@ -27,6 +27,5 @@ jobs:
           STORE_PATH: ${{ github.workspace }}${{ secrets.STORE_PATH }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
-          echo $STORE_PWD - $STORE_PATH - $KEY_ALIAS
           flutter build web
           flutter build apk
