@@ -23,7 +23,7 @@ jobs:
           flutter analyze .
       - name: Build release assets
         env:
-          STORE_PWD: ${{ secrects.STORE_PWD }}
+          STORE_PWD: ${{ secrets.STORE_PWD }}
           STORE_PATH: ${{ github.workspace }}${{ secrets.STORE_PATH }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
