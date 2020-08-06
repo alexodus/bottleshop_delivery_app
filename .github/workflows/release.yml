@@ -15,6 +15,10 @@ jobs:
         with:
           channel: 'beta'
       - name: Build Flutter project
+        env:
+          STORE_PWD: secrects.STORE_PWD
+          STORE_PATH: secrets.STORE_PATH
+          KEY_ALIAS: secrets.KEY_ALIAS
         run: |
           flutter config --enable-web
           flutter pub get

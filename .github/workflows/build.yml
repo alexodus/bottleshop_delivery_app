@@ -22,6 +22,11 @@ jobs:
           flutter format --set-exit-if-changed lib/src
           flutter analyze .
       - name: Build release assets
+        env:
+          STORE_PWD: secrects.STORE_PWD
+          STORE_PATH: secrets.STORE_PATH
+          KEY_ALIAS: secrets.KEY_ALIAS
         run: |
+          pwd
           flutter build web
           flutter build apk

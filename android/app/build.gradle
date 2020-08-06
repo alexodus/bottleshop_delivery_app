@@ -6,6 +6,7 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
@@ -31,6 +32,11 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def keyStorePath = keystoreProperties['storeFile'] != null ? keystoreProperties['storeFile'] : System.getEnv('STORE_PATH')
+def keyAlias = keystoreProperties['keyAlias'] != null ? keystoreProperties['keyAlias'] : System.getEnv('KEY_ALIAS')
+def storePassword = keystoreProperties['storePassword'] != null ? keystoreProperties['storePassword']  : System.getEnv('STORE_PWD')
+def keyPassword = keystoreProperties['keyPassword'] != null ? keystoreProperties['keyPassword'] :  System.getEnv('STORE_PWD')
+
 
 android {
     compileSdkVersion 29
@@ -55,10 +61,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
-            keyPassword keystoreProperties['keyPassword']
+            keyAlias keyAlias
+            storeFile file(keyStorePath)
+            storePassword storePassword
+            keyPassword storePassword
         }
     }
 
