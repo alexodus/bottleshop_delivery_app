@@ -17,14 +17,14 @@ jobs:
         SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
     - uses: subosito/flutter-action@v1
       with:
-        flutter_version: '1.20.0-7.3.pre'
+        channel: 'beta'
     - run: flutter pub get
     - run: flutter build web
     - run: flutter build apk --split-per-abi
       env:
         STORE_PWD: ${{ secrets.STORE_PWD }}
         STORE_PATH: key.jks
-        KEY_ALIAS: key
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
     - name: Deploy to Firebase Hosting
       id: firebase-hosting-deploy
       uses: w9jds/firebase-action@master
