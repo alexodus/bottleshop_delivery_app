@@ -23,8 +23,8 @@ jobs:
     - run: flutter build apk --split-per-abi
       env:
         STORE_PWD: ${{ secrets.STORE_PWD }}
-        STORE_PATH: ${{ github.workspace }}${{ secrets.STORE_PATH }}
-        KEY_ALIAS: key.jks
+        STORE_PATH: key.jks
+        KEY_ALIAS: key
     - name: Deploy to Firebase Hosting
       id: firebase-hosting-deploy
       uses: w9jds/firebase-action@master
