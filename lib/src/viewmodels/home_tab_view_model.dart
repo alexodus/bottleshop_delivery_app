@@ -2,7 +2,7 @@ import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/slider.dart';
 import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/fcm/push_notification_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/notifications/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -48,9 +48,7 @@ class HomeTabViewModel extends BaseViewModel {
 
   void listenToProducts() {
     setLoading();
-    locator<FirestoreService>()
-        .listenToProductsRealTime()
-        .listen((productData) {
+    locator<FirestoreService>().listenToProductsRealTime().listen((productData) {
       var updatedProducts = productData;
       if (updatedProducts != null && updatedProducts.isNotEmpty) {
         _products = updatedProducts;

@@ -9,7 +9,7 @@ import 'package:bottleshopdeliveryapp/src/services/analytics/analytics_service.d
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/fcm/push_notification_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/notifications/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -35,8 +35,7 @@ void main() {
           create: (_) => PushNotificationService(),
         ),
         StreamProvider<User>(
-          create: (context) =>
-              context.read<Authentication>().onAuthStateChanged,
+          create: (context) => context.read<Authentication>().onAuthStateChanged,
         ),
         Provider<Analytics>(
           create: (_) => AnalyticsService(),
@@ -51,8 +50,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logger = Analytics.getLogger('MyApp');
-    final observer =
-        context.select((Analytics analytics) => analytics.analyticsObserver);
+    final observer = context.select((Analytics analytics) => analytics.analyticsObserver);
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       title: Strings.appName,
