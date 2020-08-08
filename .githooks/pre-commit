@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-flutter format lib test
+flutter format lib/src lib/main.dart test
 git add .
