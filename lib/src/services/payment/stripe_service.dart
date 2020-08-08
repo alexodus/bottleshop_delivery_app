@@ -16,7 +16,8 @@ class StripeService {
 
   Future<bool> checkIfNativePayReady() async {
     var deviceSupportNativePay = await StripePayment.deviceSupportsNativePay();
-    var isNativeReady = await StripePayment.canMakeNativePayPayments(['visa', 'maestro', 'master_card']);
+    var isNativeReady = await StripePayment.canMakeNativePayPayments(
+        ['visa', 'maestro', 'master_card']);
     return deviceSupportNativePay && isNativeReady;
   }
 
@@ -63,7 +64,8 @@ class StripeService {
             context: context,
             builder: (BuildContext context) => ShowDialogToDismiss(
                 title: 'Error',
-                content: 'It is not possible to pay with this card. Please try again with a different card',
+                content:
+                    'It is not possible to pay with this card. Please try again with a different card',
                 buttonText: 'CLOSE'));
   }
 
@@ -85,7 +87,8 @@ class StripeService {
             context: context,
             builder: (BuildContext context) => ShowDialogToDismiss(
                 title: 'Error',
-                content: 'It is not possible to pay with this card. Please try again with a different card',
+                content:
+                    'It is not possible to pay with this card. Please try again with a different card',
                 buttonText: 'CLOSE'));
   }
 }

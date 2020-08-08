@@ -20,24 +20,33 @@ class DebugLogPrinter extends LogPrinter {
 class AnalyticsService implements Analytics {
   final FirebaseAnalytics _analytics;
 
-  AnalyticsService({FirebaseAnalytics firebaseAnalytics, bool enableAnalyticsCollection = true})
+  AnalyticsService(
+      {FirebaseAnalytics firebaseAnalytics,
+      bool enableAnalyticsCollection = true})
       : _analytics = firebaseAnalytics ?? FirebaseAnalytics() {
     _analytics.setAnalyticsCollectionEnabled(enableAnalyticsCollection);
   }
 
   @override
-  FirebaseAnalyticsObserver get analyticsObserver => FirebaseAnalyticsObserver(analytics: _analytics);
+  FirebaseAnalyticsObserver get analyticsObserver =>
+      FirebaseAnalyticsObserver(analytics: _analytics);
 
   @override
   Future<void> logAddToCart(Product product, [int quantity = 1]) async {
     return _analytics.logAddToCart(
-        itemId: product.documentID, itemName: product.name, itemCategory: product.category, quantity: quantity);
+        itemId: product.documentID,
+        itemName: product.name,
+        itemCategory: product.category,
+        quantity: quantity);
   }
 
   @override
   Future<void> logAddToWishlist(Product product, [int quantity = 1]) async {
     return _analytics.logAddToWishlist(
-        itemId: product.documentID, itemName: product.name, itemCategory: product.category, quantity: quantity);
+        itemId: product.documentID,
+        itemName: product.name,
+        itemCategory: product.category,
+        quantity: quantity);
   }
 
   @override
@@ -77,7 +86,8 @@ class AnalyticsService implements Analytics {
 
   @override
   Future<void> logEcommercePurchase(Order order) async {
-    return _analytics.logEcommercePurchase(transactionId: order.documentId, value: order.totalValue);
+    return _analytics.logEcommercePurchase(
+        transactionId: order.documentId, value: order.totalValue);
   }
 
   @override
@@ -87,6 +97,9 @@ class AnalyticsService implements Analytics {
 
   @override
   Future<void> logViewItem(Product product) async {
-    return _analytics.logViewItem(itemId: product.documentID, itemName: product.name, itemCategory: product.category);
+    return _analytics.logViewItem(
+        itemId: product.documentID,
+        itemName: product.name,
+        itemCategory: product.category);
   }
 }

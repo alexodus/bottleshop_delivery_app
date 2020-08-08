@@ -40,7 +40,8 @@ class OrderListItem extends StatelessWidget {
         onDismissed();
         Scaffold.of(context).showSnackBar(
           SnackBar(
-            content: Text('The ${order.products[0].name} order is removed from wish list'),
+            content: Text(
+                'The ${order.products[0].name} order is removed from wish list'),
           ),
         );
       },
@@ -49,14 +50,18 @@ class OrderListItem extends StatelessWidget {
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.pushNamed(context, ProductDetailView.routeName, arguments: args);
+          Navigator.pushNamed(context, ProductDetailView.routeName,
+              arguments: args);
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.9),
             boxShadow: [
-              BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+              BoxShadow(
+                  color: Theme.of(context).focusColor.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: Offset(0, 2)),
             ],
           ),
           child: Row(
@@ -69,7 +74,9 @@ class OrderListItem extends StatelessWidget {
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(image: AssetImage(order.products[0].imageUrl), fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: AssetImage(order.products[0].imageUrl),
+                        fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -102,7 +109,8 @@ class OrderListItem extends StatelessWidget {
                                   SizedBox(width: 10),
                                   Text(
                                     order.orderPlacedOn.toIso8601String(),
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
                                   ),
@@ -118,7 +126,8 @@ class OrderListItem extends StatelessWidget {
                                   SizedBox(width: 10),
                                   Text(
                                     '5',
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
                                     softWrap: false,
                                   ),
@@ -134,15 +143,19 @@ class OrderListItem extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text(order.products[0].price.toStringAsFixed(2), style: Theme.of(context).textTheme.headline4),
+                        Text(order.products[0].price.toStringAsFixed(2),
+                            style: Theme.of(context).textTheme.headline4),
                         SizedBox(height: 6),
                         Chip(
                           padding: EdgeInsets.symmetric(horizontal: 5),
                           backgroundColor: Colors.transparent,
-                          shape: StadiumBorder(side: BorderSide(color: Theme.of(context).focusColor)),
+                          shape: StadiumBorder(
+                              side: BorderSide(
+                                  color: Theme.of(context).focusColor)),
                           label: Text(
                             'x ${5}',
-                            style: TextStyle(color: Theme.of(context).focusColor),
+                            style:
+                                TextStyle(color: Theme.of(context).focusColor),
                           ),
                         ),
                       ],

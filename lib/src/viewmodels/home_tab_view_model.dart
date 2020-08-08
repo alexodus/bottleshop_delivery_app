@@ -48,7 +48,9 @@ class HomeTabViewModel extends BaseViewModel {
 
   void listenToProducts() {
     setLoading();
-    locator<FirestoreService>().listenToProductsRealTime().listen((productData) {
+    locator<FirestoreService>()
+        .listenToProductsRealTime()
+        .listen((productData) {
       var updatedProducts = productData;
       if (updatedProducts != null && updatedProducts.isNotEmpty) {
         _products = updatedProducts;

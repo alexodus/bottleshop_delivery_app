@@ -35,7 +35,8 @@ void main() {
           create: (_) => PushNotificationService(),
         ),
         StreamProvider<User>(
-          create: (context) => context.read<Authentication>().onAuthStateChanged,
+          create: (context) =>
+              context.read<Authentication>().onAuthStateChanged,
         ),
         Provider<Analytics>(
           create: (_) => AnalyticsService(),
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logger = Analytics.getLogger('MyApp');
-    final observer = context.select((Analytics analytics) => analytics.analyticsObserver);
+    final observer =
+        context.select((Analytics analytics) => analytics.analyticsObserver);
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       title: Strings.appName,
