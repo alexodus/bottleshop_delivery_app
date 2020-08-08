@@ -22,7 +22,7 @@ jobs:
         flutter pub get
     - name: Check formatting and lint
       run: |
-        flutter format --set-exit-if-changed lib/src
+        flutter format --set-exit-if-changed lib test
         flutter analyze .
     - name: Build release assets
       env:
