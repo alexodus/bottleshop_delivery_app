@@ -10,6 +10,7 @@ import 'package:bottleshopdeliveryapp/src/services/authentication/authentication
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/notifications/push_notification_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/payment/stripe_service.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -41,6 +42,9 @@ void main() {
         Provider<Analytics>(
           create: (_) => AnalyticsService(),
         ),
+        Provider<StripeService>(
+          create: (_) => StripeService(),
+        )
       ],
       child: MyApp(),
     ));

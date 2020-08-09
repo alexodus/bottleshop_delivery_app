@@ -203,7 +203,7 @@ packages:
       name: e2e
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3+1"
+    version: "0.6.3"
   fake_async:
     dependency: transitive
     description:
