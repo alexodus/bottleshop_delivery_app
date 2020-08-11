@@ -17,6 +17,18 @@ class Constants {
             'English', 'English', 'assets/images/united-states-of-america.png'),
         LanguageModel('Slovak', 'Slovenčina', 'assets/images/slovakia.png')
       ];
-  static String cloudStorageBucket =
-      'gs://bottleshop3veze-delivery.appspot.com';
+  static const cloudStorageBucket = 'gs://bottleshop3veze-delivery.appspot.com';
+  static const stripeCloudFunctionUrl =
+      'https://us-central1-bottleshop3veze-delivery.cloudfunctions.net/verifyPayment';
+  static const applePayMerchantId =
+      'merchant.sk.bottleshop3veze.bottleshopdeliveryapp';
+  static const stripePublishableKey =
+      'pk_test_Gnq83EyihTQEkX5vR7Mlf3Ec00jzaAL91B';
+  static const stripeAndroidPayMode = 'test';
+  static const stripeSupportedCards = [
+    'american_express',
+    'visa',
+    'maestro',
+    'master_card',
+  ];
 }

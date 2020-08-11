@@ -10,6 +10,7 @@ class ProductDataService {
   Stream<QuerySnapshot> getAllProducts() {
     return _firestoreInstance
         .collection(Constants.productsCollection)
+        .orderBy('name')
         .snapshots();
   }
 }

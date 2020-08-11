@@ -2,8 +2,10 @@ import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/slider.dart';
 import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/notifications/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -61,4 +63,8 @@ class HomeTabViewModel extends BaseViewModel {
   }
 
   void requestMoreData() => locator<FirestoreService>().requestMoreData();
+
+  Stream<QuerySnapshot> getProductStream() {
+    return locator<ProductDataService>().getAllProducts();
+  }
 }

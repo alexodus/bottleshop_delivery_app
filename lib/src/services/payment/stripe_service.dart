@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/order.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:http/http.dart' as http;
@@ -10,9 +11,9 @@ class StripeService {
   StripeService() {
     StripePayment.setOptions(
       StripeOptions(
-        merchantId: 'merchant.sk.bottleshop3veze.bottleshopdeliveryapp',
-        publishableKey: 'pk_test_Gnq83EyihTQEkX5vR7Mlf3Ec00jzaAL91B',
-        androidPayMode: 'test',
+        merchantId: Constants.applePayMerchantId,
+        publishableKey: Constants.stripePublishableKey,
+        androidPayMode: Constants.stripeAndroidPayMode,
       ),
     );
   }
@@ -20,33 +21,42 @@ class StripeService {
   Future<bool> checkIfNativePayReady() async {
     var deviceSupportNativePay = await StripePayment.deviceSupportsNativePay();
     var isNativeReady = await StripePayment.canMakeNativePayPayments(
-      [
-        'american_express',
-        'visa',
-        'maestro',
-        'master_card',
-      ],
-    );
+        Constants.stripeSupportedCards);
     return deviceSupportNativePay && isNativeReady;
   }
 
   Future<void> createPaymentMethodNative(Order toPay) async {
     StripePayment.setStripeAccount(null);
-    var items = <ApplePayItem>[];
-    items.add(ApplePayItem(
-      label: 'Bottleshop 3 Veze ${toPay.documentId}',
-      amount: toPay.totalValue.toStringAsFixed(2),
+    var applePayItems = <ApplePayItem>[];
+    var googlePayItems = <LineItem>[];
+    toPay.products.forEach((product) {
+      googlePayItems.add(LineItem(
+        currencyCode: 'EUR',
+        description: product.name,
+        quantity: '1',
+        totalPrice: product.price.toStringAsFixed(2),
+        unitPrice: product.price.toStringAsFixed(2),
+      ));
+    });
+    applePayItems.add(ApplePayItem(
+        label: 'Order #1p3o4', amount: toPay.totalValue.toStringAsFixed(2)));
+    applePayItems.add(
+        ApplePayItem(label: 'Tax 20 %', amount: toPay.tax.toStringAsFixed(2)));
+    applePayItems.add(ApplePayItem(
+      label: 'Bottleshop 3 Veze',
+      amount: (toPay.totalValue + toPay.tax).toStringAsFixed(2),
     ));
     var paymentMethod = PaymentMethod();
     var token = await StripePayment.paymentRequestWithNativePay(
       androidPayOptions: AndroidPayPaymentRequest(
         totalPrice: (toPay.totalValue + toPay.tax).toStringAsFixed(2),
         currencyCode: 'EUR',
+        lineItems: googlePayItems,
       ),
       applePayOptions: ApplePayPaymentOptions(
         countryCode: 'SK',
         currencyCode: 'EUR',
-        items: items,
+        items: applePayItems,
       ),
     );
     paymentMethod = await StripePayment.createPaymentMethod(
@@ -56,9 +66,15 @@ class StripeService {
         ),
       ),
     );
-    paymentMethod != null
-        ? await processPaymentAsDirectCharge(paymentMethod, toPay.totalValue)
-        : throw 'payment method not supported';
+    if (paymentMethod != null) {
+      return processPaymentAsDirectCharge(
+          paymentMethod, toPay.amountToPayInCents, toPay.documentId);
+    } else {
+      throw ErrorCode(
+          errorCode: 'createMethod',
+          description:
+              'It is not possible to pay with this card. Please try again with a different card');
+    }
   }
 
   Future<void> createPaymentMethod(Order toPay) async {
@@ -66,21 +82,27 @@ class StripeService {
     var paymentMethod = PaymentMethod();
     paymentMethod = await StripePayment.paymentRequestWithCardForm(
         CardFormPaymentRequest());
-    paymentMethod != null
-        ? await processPaymentAsDirectCharge(paymentMethod, toPay.totalValue)
-        : throw 'createPaymentMethod '
-            'failed';
+    if (paymentMethod != null) {
+      return processPaymentAsDirectCharge(
+          paymentMethod, toPay.amountToPayInCents, toPay.documentId);
+    } else {
+      throw ErrorCode(
+          errorCode: 'createMethod',
+          description:
+              'It is not possible to pay with this card. Please try again with a different card');
+    }
   }
 
   Future<void> processPaymentAsDirectCharge(
-      PaymentMethod paymentMethod, double amount) async {
-    const url =
-        'https://us-central1-bottleshop3veze-delivery.cloudfunctions.net/StripePI';
+      PaymentMethod paymentMethod, String amount, String description) async {
+    const url = Constants.stripeCloudFunctionUrl;
     logger.d('ID: ${paymentMethod.id}');
-    final response =
-        await http.post('$url?amount=1000&paym=${paymentMethod.id}');
+    final response = await http.post(
+        '$url?amount=$amount&paym=${paymentMethod.id}&description=$description');
     logger.d('payment response: ${response.body}');
-    if (response.body != null && response.body != 'error') {
+    if (response.statusCode == 200 &&
+        response.body != null &&
+        response.body != 'error') {
       final paymentIntentX = jsonDecode(response.body);
       final status = paymentIntentX['paymentIntent']['status'];
       final strAccount = paymentIntentX['stripeAccount'];
@@ -88,27 +110,44 @@ class StripeService {
         await StripePayment.completeNativePayRequest();
       } else {
         StripePayment.setStripeAccount(strAccount);
-        var intentResult = await StripePayment.confirmPaymentIntent(
-            PaymentIntent(
-                paymentMethodId: paymentIntentX['paymentIntent']
-                    ['payment_method'],
-                clientSecret: paymentIntentX['paymentIntent']
-                    ['client_secret']));
-        final statusFinal = intentResult.status;
-        if (statusFinal == 'succeeded') {
-          await StripePayment.completeNativePayRequest();
-        } else if (statusFinal == 'processing') {
-          await StripePayment.cancelNativePayRequest();
-          throw 'payment failed';
-        } else {
-          await StripePayment.cancelNativePayRequest();
-          throw 'payment not confirmed';
+        try {
+          var intentResult = await StripePayment.confirmPaymentIntent(
+              PaymentIntent(
+                  paymentMethodId: paymentIntentX['paymentIntent']
+                      ['payment_method'],
+                  clientSecret: paymentIntentX['paymentIntent']
+                      ['client_secret']));
+          final statusFinal = intentResult.status;
+          if (statusFinal == 'succeeded') {
+            await StripePayment.completeNativePayRequest();
+          } else if (statusFinal == 'processing') {
+            await StripePayment.cancelNativePayRequest();
+            throw ErrorCode(
+                errorCode: 'processing',
+                description:
+                    'The payment is still in \'processing\' state. This is unusual. Please contact us');
+          } else {
+            await StripePayment.cancelNativePayRequest();
+            throw ErrorCode(
+                errorCode: statusFinal,
+                description:
+                    'There was an error to confirm the payment. Details: $statusFinal');
+          }
+        } on ErrorCode {
+          rethrow;
+        } catch (e) {
+          throw ErrorCode(
+              errorCode: 'authentication',
+              description: 'There was an error to confirm the payment. '
+                  'Please try again with another card');
         }
       }
     } else {
-      //case A
       await StripePayment.cancelNativePayRequest();
-      throw 'payment failed';
+      throw ErrorCode(
+          errorCode: 'payment',
+          description:
+              'There was an error in creating the payment. Please try again with another card');
     }
   }
 }

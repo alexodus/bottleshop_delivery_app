@@ -1,5 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/ui/views/categories_view.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/category_Icon.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/category_icon.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/home_tab_view_model.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/material.dart';

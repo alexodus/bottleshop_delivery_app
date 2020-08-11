@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/checkout_done.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/credit_cards.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/dissmisable_dialog.dart';
@@ -82,8 +85,8 @@ class CheckoutView extends StatelessWidget {
                   SizedBox(height: 20),
                   CreditCards(),
                   SizedBox(height: 40),
-                  SizedBox(height: 20),
                   PayButton(),
+                  SizedBox(height: 20),
                   NativePayments(),
                 ],
               ),
@@ -109,44 +112,39 @@ class NativePayments extends StatelessWidget {
                   'Or Checkout With',
                   style: Theme.of(context).textTheme.caption,
                 ),
-                SizedBox(height: 40),
-                SizedBox(
-                  width: 320,
-                  child: FlatButton(
-                    onPressed: () async {
-                      try {
-                        await context.read<CheckoutViewModel>().payByApplePay();
-                      } catch (e) {
-                        DissmisableDialog(
-                          title: 'Apple Pay Error',
-                          content:
-                              'It is not possible to pay with this card. Please try again with a different card',
-                          buttonText: 'CLOSE',
-                        );
-                      }
-                    },
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    color: Theme.of(context).focusColor.withOpacity(0.2),
-                    shape: StadiumBorder(),
-                    child: Image.asset(
-                      'assets/images/google_pay.png',
-                      height: 28,
-                    ),
-                  ),
-                ),
                 SizedBox(height: 20),
                 SizedBox(
                   width: 320,
                   child: FlatButton(
                     onPressed: () async {
-                      await context.read<CheckoutViewModel>().payByApplePay();
+                      try {
+                        await context
+                            .read<CheckoutViewModel>()
+                            .payByNativePay();
+                        return Navigator.pushReplacementNamed(
+                            context, CheckoutDoneView.routeName);
+                      } catch (e) {
+                        await showDialog(
+                          context: context,
+                          builder: (builder) => DissmisableDialog(
+                            title: Platform.isIOS
+                                ? 'Apple Pay Error'
+                                : 'Google Pay Error',
+                            content:
+                                'It is not possible to pay with this card. Please try again with a different card',
+                            buttonText: Platform.isIOS ? 'CLOSE' : 'Cancel',
+                          ),
+                        );
+                      }
                     },
                     padding: EdgeInsets.symmetric(vertical: 12),
-                    color: Theme.of(context).focusColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColorLight,
                     shape: StadiumBorder(),
                     child: Image.asset(
-                      'assets/images/apple_pay.jpg',
-                      height: 28,
+                      Platform.isIOS
+                          ? 'assets/images/apple_pay.png'
+                          : 'assets/images/google_pay.png',
+                      height: 30,
                     ),
                   ),
                 ),
@@ -169,7 +167,7 @@ class PayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalValue =
-        context.select((CheckoutViewModel viewModel) => viewModel.totalValue);
+        context.select((CheckoutViewModel viewModel) => viewModel.totalAmount);
     return Stack(
       fit: StackFit.loose,
       alignment: AlignmentDirectional.centerEnd,
@@ -178,7 +176,22 @@ class PayButton extends StatelessWidget {
           width: 320,
           child: FlatButton(
             onPressed: () async {
-              await context.read<CheckoutViewModel>().payByCreditCard();
+              try {
+                await context.read<CheckoutViewModel>().payByCreditCard();
+                return Navigator.pushReplacementNamed(
+                    context, CheckoutDoneView.routeName);
+              } catch (e) {
+                await showDialog(
+                  context: context,
+                  builder: (context) => DissmisableDialog(
+                    title:
+                        Platform.isIOS ? 'Apple Pay Error' : 'Google Pay Error',
+                    content:
+                        'It is not possible to pay with this card. Please try again with a different card',
+                    buttonText: Platform.isIOS ? 'CLOSE' : 'Cancel',
+                  ),
+                );
+              }
             },
             padding: EdgeInsets.symmetric(vertical: 14),
             color: Theme.of(context).accentColor,
@@ -197,7 +210,7 @@ class PayButton extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            totalValue.toStringAsFixed(2),
+            totalValue,
             style: Theme.of(context)
                 .textTheme
                 .headline4
