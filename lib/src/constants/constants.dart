@@ -1,7 +1,7 @@
-import 'package:bottleshopdeliveryapp/src/models/language_model.dart';
-
 class Constants {
   static const defaultAvatar = 'assets/images/avatar.png';
+  static const defaultProductPic = 'assets/images/generic.png';
+  static const defaultProductThumbnail = 'assets/images/generic_thumbnail.png';
   static const facebookPermissions = ['public_profile', 'email'];
   static const googleSignInScopes = [
     'https://www.googleapis.com/auth/userinfo.email',
@@ -12,12 +12,7 @@ class Constants {
   static const productsCollection = 'warehouse';
   static const categoriesCollection = 'categories';
   static const countriesCollection = 'countries';
-  static List<LanguageModel> get languages => [
-        LanguageModel(
-            'English', 'English', 'assets/images/united-states-of-america.png'),
-        LanguageModel('Slovak', 'Slovenčina', 'assets/images/slovakia.png')
-      ];
-  static const cloudStorageBucket = 'gs://bottleshop3veze-delivery.appspot.com';
+  static const configurationCollection = 'configuration';
   static const stripeCloudFunctionUrl =
       'https://us-central1-bottleshop3veze-delivery.cloudfunctions.net/verifyPayment';
   static const applePayMerchantId =

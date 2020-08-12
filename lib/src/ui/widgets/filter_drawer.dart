@@ -27,28 +27,34 @@ class FilterDrawer extends StatelessWidget {
                       return ExpansionTile(
                         leading: Icon(Icons.category),
                         title: Text(categories.elementAt(index).name),
-                        children: List.generate(
-                            categories.elementAt(index).subCategories.length,
-                            (index) {
-                          var subCategory = categories
-                              .elementAt(index)
-                              .subCategories
-                              .elementAt(index);
-                          return CheckboxListTile(
-                            value: context
-                                .read<TabsViewModel>()
-                                .isCategorySelected(subCategory.documentID),
-                            onChanged: (bool value) => context
-                                .read<TabsViewModel>()
-                                .selectSubCategory(subCategory.documentID),
-                            title: Text(
-                              subCategory.name,
-                              overflow: TextOverflow.fade,
-                              softWrap: false,
-                              maxLines: 1,
-                            ),
-                          );
-                        }),
+                        children:
+                            categories.elementAt(index).subCategories != null
+                                ? List.generate(
+                                    categories
+                                        .elementAt(index)
+                                        .subCategories
+                                        .length, (subIndex) {
+                                    var subCategory = categories
+                                        .elementAt(index)
+                                        .subCategories
+                                        .elementAt(subIndex);
+                                    return CheckboxListTile(
+                                      value: context.select(
+                                          (TabsViewModel viewModel) =>
+                                              viewModel.isCategorySelected(
+                                                  subCategory.name)),
+                                      onChanged: (bool value) => context
+                                          .read<TabsViewModel>()
+                                          .selectSubCategory(subCategory.name),
+                                      title: Text(
+                                        subCategory.name,
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,
+                                        maxLines: 1,
+                                      ),
+                                    );
+                                  })
+                                : const <Widget>[],
                       );
                     }),
                   ),

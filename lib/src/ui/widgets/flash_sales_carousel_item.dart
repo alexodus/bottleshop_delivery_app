@@ -2,6 +2,7 @@ import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/available_progress_bar.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 
 class FlashSalesCarouselItem extends StatelessWidget {
@@ -34,19 +35,7 @@ class FlashSalesCarouselItem extends StatelessWidget {
           children: <Widget>[
             Hero(
               tag: heroTag + product.documentID,
-              child: Container(
-                width: 160,
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      product.imageUrl,
-                    ),
-                  ),
-                ),
-              ),
+              child: ProductImage(imageUrl: product.imageUrl),
             ),
             Positioned(
               top: 6,

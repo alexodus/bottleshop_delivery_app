@@ -38,7 +38,7 @@ class CategoryIcon extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
             color: context
-                    .read<HomeTabViewModel>()
+                    .watch<HomeTabViewModel>()
                     .isCategorySelected(category.documentID)
                 ? Theme.of(context).primaryColor
                 : Colors.transparent,
@@ -51,7 +51,7 @@ class CategoryIcon extends StatelessWidget {
                 child: Icon(
                   Icons.widgets,
                   color: context
-                          .read<HomeTabViewModel>()
+                          .watch<HomeTabViewModel>()
                           .isCategorySelected(category.documentID)
                       ? Theme.of(context).accentColor
                       : Theme.of(context).primaryColor,
@@ -65,7 +65,7 @@ class CategoryIcon extends StatelessWidget {
                 vsync: tickerProvider,
                 child: Text(
                   context
-                          .read<HomeTabViewModel>()
+                          .watch<HomeTabViewModel>()
                           .isCategorySelected(category.documentID)
                       ? category.name
                       : '',

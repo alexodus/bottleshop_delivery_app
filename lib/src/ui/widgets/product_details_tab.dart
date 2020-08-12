@@ -49,14 +49,13 @@ class ProductDetailsTab extends StatelessWidget {
               color: Theme.of(context).hintColor,
             ),
             title: Text(
-              'Related Poducts',
+              'Related Products',
               style: Theme.of(context).textTheme.headline4,
             ),
           ),
         ),
         FlashSalesCarousel(
           heroTag: 'product_details_related_products',
-          productsList: flashSaleList,
         ),
       ],
     );

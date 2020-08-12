@@ -17,7 +17,7 @@ class HomeTab extends StatefulWidget {
   HomeTab({Key key}) : super(key: key);
 }
 
-class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
+class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
   Animation animationOpacity;
   AnimationController animationController;
 
@@ -27,7 +27,10 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
         AnimationController(duration: Duration(milliseconds: 200), vsync: this);
     var curve =
         CurvedAnimation(parent: animationController, curve: Curves.easeIn);
-    animationOpacity = Tween(begin: 0.0, end: 1.0).animate(curve);
+    animationOpacity = Tween(begin: 0.0, end: 1.0).animate(curve)
+      ..addListener(() {
+        setState(() {});
+      });
     animationController.forward();
     super.initState();
   }
@@ -55,7 +58,6 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
             FlashSalesHeader(),
             FlashSalesCarousel(
               heroTag: 'home_flash_sales',
-              productsList: [],
             ),
             // Heading (Recommended for you)
             Padding(

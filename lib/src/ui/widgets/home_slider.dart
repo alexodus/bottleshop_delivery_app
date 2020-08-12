@@ -1,5 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/home_tab_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,13 +34,15 @@ class HomeSlider extends StatelessWidget {
                     height: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(slide.image), fit: BoxFit.cover),
+                          image: CachedNetworkImageProvider(slide.imageUrl),
+                          fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
-                            color: Theme.of(context).hintColor.withOpacity(0.2),
-                            offset: Offset(0, 4),
-                            blurRadius: 9)
+                          color: Theme.of(context).hintColor.withOpacity(0.2),
+                          offset: Offset(0, 4),
+                          blurRadius: 9,
+                        ),
                       ],
                     ),
                     child: Container(
@@ -63,20 +66,6 @@ class HomeSlider extends StatelessWidget {
                               overflow: TextOverflow.fade,
                               maxLines: 3,
                             ),
-                            FlatButton(
-                              onPressed: () {
-//                              Navigator.of(context).pushNamed('/Checkout');
-                              },
-                              padding: EdgeInsets.symmetric(vertical: 5),
-                              color: Theme.of(context).accentColor,
-                              shape: StadiumBorder(),
-                              child: Text(
-                                slide.button,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -89,7 +78,6 @@ class HomeSlider extends StatelessWidget {
           Positioned(
             bottom: 25,
             right: 41,
-//          width: AppConfig(context).appWidth(100),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: sliderList.map((slide) {

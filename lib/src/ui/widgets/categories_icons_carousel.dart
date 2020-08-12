@@ -15,8 +15,7 @@ class CategoriesIconsCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories =
-        context.select((HomeTabViewModel viewModel) => viewModel.categories);
+    final categories = context.watch<HomeTabViewModel>().categories;
     return Offstage(
       offstage: categories.isEmpty,
       child: SizedBox(

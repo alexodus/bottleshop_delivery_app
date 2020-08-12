@@ -4,6 +4,7 @@ import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,9 @@ class TabsViewModel extends BaseViewModel {
     locator<Authentication>()
         .currentUser()
         .then((value) => _currentUser = value);
+    locator<FirestoreService>()
+        .getAllCategories()
+        .then((value) => _categories = value);
   }
 
   OrderTabIndex get initialOrderTabIndex => _initialOrderTabIndex;

@@ -1,6 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductGridItem extends StatelessWidget {
@@ -41,20 +42,23 @@ class ProductGridItem extends StatelessWidget {
           children: <Widget>[
             Hero(
               tag: heroTag + product.documentID,
-              child: Image.asset(product.imageUrl),
+              child: ProductImage(
+                imageUrl: product.imageUrl,
+              ),
             ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Text(
                 product.name,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                product.price.toStringAsFixed(2),
+                '${product.price.toStringAsFixed(2)} €',
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),

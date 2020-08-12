@@ -20,7 +20,6 @@ class FlashSalesHeader extends StatelessWidget {
           'Flash Sales',
           style: Theme.of(context).textTheme.headline4,
         ),
-        trailing: Text('End in'),
       ),
     );
   }

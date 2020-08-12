@@ -172,8 +172,7 @@ class ProductHomeTab extends StatelessWidget {
             ),
           ),
         ),
-        FlashSalesCarousel(
-            heroTag: 'product_related_products', productsList: flashSalesList),
+        FlashSalesCarousel(heroTag: 'product_related_products'),
       ],
     );
   }
