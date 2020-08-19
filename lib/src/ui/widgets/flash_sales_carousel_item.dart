@@ -35,7 +35,8 @@ class FlashSalesCarouselItem extends StatelessWidget {
           children: <Widget>[
             Hero(
               tag: heroTag + product.documentID,
-              child: ProductImage(imageUrl: product.imageUrl),
+              child: ProductImage(
+                  imageUrl: product.thumbnailUrl, width: 160, height: 200),
             ),
             Positioned(
               top: 6,

@@ -26,8 +26,10 @@ class CheckoutView extends StatelessWidget {
             appBar: AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
-                icon:
-                    Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Theme.of(context).hintColor,
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               backgroundColor: Colors.transparent,
@@ -38,8 +40,9 @@ class CheckoutView extends StatelessWidget {
               ),
               actions: <Widget>[
                 ShoppingCartButton(
-                    iconColor: Theme.of(context).hintColor,
-                    labelColor: Theme.of(context).accentColor),
+                  iconColor: Theme.of(context).hintColor,
+                  labelColor: Theme.of(context).accentColor,
+                ),
                 Container(
                   width: 30,
                   height: 30,

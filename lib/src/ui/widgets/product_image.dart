@@ -5,8 +5,17 @@ import 'package:flutter/material.dart';
 class ProductImage extends StatelessWidget {
   final String imageUrl;
   final bool isThumbnail;
+  final double height;
+  final double width;
+  final EdgeInsets padding;
 
-  const ProductImage({Key key, this.imageUrl, this.isThumbnail = true})
+  const ProductImage(
+      {Key key,
+      this.imageUrl,
+      this.isThumbnail = true,
+      this.width = 160,
+      this.height = 160,
+      this.padding})
       : super(key: key);
 
   @override
@@ -17,12 +26,12 @@ class ProductImage extends StatelessWidget {
       return CachedNetworkImage(
           imageUrl: imageUrl,
           imageBuilder: (context, imageProvider) => Container(
-                width: 160,
-                height: 200,
+                width: height,
+                height: width,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   image: DecorationImage(
-                      image: imageProvider, fit: BoxFit.fitHeight),
+                      image: imageProvider, fit: BoxFit.fitWidth),
                 ),
               ),
           placeholder: (context, url) => CircularProgressIndicator(),
@@ -33,8 +42,8 @@ class ProductImage extends StatelessWidget {
 
   Widget buildPlaceholderProductImage(bool isThumbnail) {
     return Container(
-      width: 160,
-      height: 200,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         image: DecorationImage(

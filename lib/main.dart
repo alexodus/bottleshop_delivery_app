@@ -8,11 +8,13 @@ import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/user_data_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/notifications/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/payment/stripe_service.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,30 +22,37 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Crashlytics.instance.enableInDevMode = false;
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   Analytics.setLogLevel(Level.verbose);
   runZoned(() {
     runApp(MultiProvider(
       providers: [
+        Provider<UserDataService>(
+          create: (_) => UserDataService(),
+        ),
         Provider<Authentication>(
           create: (_) => AuthenticationService(),
-        ),
-        Provider<FirestoreService>(
-          create: (_) => FirestoreService(),
-        ),
-        Provider<PushNotificationService>(
-          create: (_) => PushNotificationService(),
         ),
         StreamProvider<User>(
           create: (context) =>
               context.read<Authentication>().onAuthStateChanged,
+        ),
+        Provider<ProductDataService>(
+          create: (_) => ProductDataService(),
+        ),
+        Provider<PushNotificationService>(
+          create: (_) => PushNotificationService(),
         ),
         Provider<Analytics>(
           create: (_) => AnalyticsService(),
         ),
         Provider<StripeService>(
           create: (_) => StripeService(),
+        ),
+        Provider<CategoryListModel>(
+          create: (_) => CategoryListModel(),
         )
       ],
       child: MyApp(),

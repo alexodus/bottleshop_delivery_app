@@ -5,13 +5,13 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
 class CategorizedProducts extends StatelessWidget {
+  final Animation animationOpacity;
+
   const CategorizedProducts({
     Key key,
     @required this.animationOpacity,
   })  : assert(animationOpacity != null),
         super(key: key);
-
-  final Animation animationOpacity;
 
   @override
   Widget build(BuildContext context) {

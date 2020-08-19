@@ -58,6 +58,8 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
             FlashSalesHeader(),
             FlashSalesCarousel(
               heroTag: 'home_flash_sales',
+              productList:
+                  context.select((HomeTabViewModel vm) => vm.flashSales),
             ),
             // Heading (Recommended for you)
             Padding(
@@ -76,7 +78,15 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
               ),
             ),
             StickyHeader(
-              header: CategoriesIconsCarousel(tickerProvider: this),
+              header: CategoriesIconsCarousel(
+                  tickerProvider: this,
+                  onChanged: (categoryId) async {
+                    await animationController.reverse();
+                    await context
+                        .read<HomeTabViewModel>()
+                        .getProductsBySelectedCategory();
+                    animationController.forward();
+                  }),
               content: CategorizedProducts(animationOpacity: animationOpacity),
             ),
           ],

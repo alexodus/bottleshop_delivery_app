@@ -3,6 +3,7 @@ import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/filter_drawer.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,12 @@ class TabsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final RouteArgument args = ModalRoute.of(context).settings.arguments ??
         Routes.onTabSelection(TabIndex.home);
-    return ChangeNotifierProvider<TabsViewModel>(
+    return ChangeNotifierProxyProvider<CategoryListModel, TabsViewModel>(
       create: (_) => TabsViewModel(context.read, args),
-      builder: (context, child) {
+      update: (context, categoryListModel, tabsViewModel) {
+        return tabsViewModel.updateCategoryListModel(categoryListModel);
+      },
+      builder: (context, widget) {
         return AppScaffold(
           scaffoldKey: _scaffoldKey,
           appBar: AppBar(

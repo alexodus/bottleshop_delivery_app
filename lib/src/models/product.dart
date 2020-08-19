@@ -23,6 +23,7 @@ class Product {
   final bool recommended;
   final DateTime flashSaleUntil;
   final String imageUrl;
+  final String thumbnailUrl;
 
   const Product({
     @required this.documentID,
@@ -46,6 +47,7 @@ class Product {
     this.newEntry,
     this.recommended,
     this.flashSaleUntil,
+    this.thumbnailUrl,
   });
 
   factory Product.fromMap(Map<String, dynamic> data, String documentID) {
@@ -53,6 +55,7 @@ class Product {
       documentID: documentID,
       name: data['name'],
       imageUrl: data['imageUrl'],
+      thumbnailUrl: data['thumbnailUrl'],
       price: double.tryParse(data['price_no_vat'] ?? '0.0') ?? 0.0,
       discount: double.tryParse(data['discount'] ?? '1.0') ?? 1.0,
       amount: int.tryParse(data['amount'] ?? '0') ?? 0,
@@ -72,5 +75,10 @@ class Product {
       recommended: data['recommended'] == 'y' ? true : false ?? false,
       flashSaleUntil: DateTime.tryParse(data['flash_sale_until'] ?? ''),
     );
+  }
+
+  @override
+  String toString() {
+    return 'Product{documentID: $documentID, name: $name, edition: $edition, year: $year, age: $age, category: $category, subCategory: $subCategory, additionalSubCategory: $additionalSubCategory, country: $country, amount: $amount, unitValue: $unitValue, unit: $unit, alcohol: $alcohol, price: $price, description: $description, descriptionLocalized: $descriptionLocalized, discount: $discount, newEntry: $newEntry, recommended: $recommended, flashSaleUntil: $flashSaleUntil, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl}';
   }
 }

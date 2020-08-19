@@ -2,6 +2,7 @@ import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 
 class CartItem extends StatelessWidget {
@@ -47,17 +48,10 @@ class CartItem extends StatelessWidget {
           children: <Widget>[
             Hero(
               tag: heroTag + product.documentID,
-              child: Container(
+              child: ProductImage(
                 height: 90,
                 width: 90,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                      image: AssetImage(
-                        product.imageUrl,
-                      ),
-                      fit: BoxFit.cover),
-                ),
+                imageUrl: product.imageUrl,
               ),
             ),
             SizedBox(width: 15),
@@ -88,10 +82,7 @@ class CartItem extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         onPressed: () {
-                          logger.d('quantity: $incrementQuantity(quantity)');
-                          /*setState(() {
-                            widget.quantity = this.incrementQuantity(widget.quantity);
-                          });*/
+                          //logger.d('quantity: $incrementQuantity(quantity)');
                         },
                         iconSize: 30,
                         padding: EdgeInsets.symmetric(horizontal: 5),
@@ -102,10 +93,7 @@ class CartItem extends StatelessWidget {
                           style: Theme.of(context).textTheme.subtitle1),
                       IconButton(
                         onPressed: () {
-                          logger.d('quantity: $decrementQuantity(quantity)');
-                          /*setState(() {
-                            widget.quantity = this.decrementQuantity(widget.quantity);
-                          });*/
+                          //logger.d('quantity: $decrementQuantity(quantity)');
                         },
                         iconSize: 30,
                         padding: EdgeInsets.symmetric(horizontal: 5),
@@ -121,21 +109,5 @@ class CartItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  int incrementQuantity(int quantity) {
-    if (quantity <= 99) {
-      return ++quantity;
-    } else {
-      return quantity;
-    }
-  }
-
-  int decrementQuantity(int quantity) {
-    if (quantity > 1) {
-      return --quantity;
-    } else {
-      return quantity;
-    }
   }
 }

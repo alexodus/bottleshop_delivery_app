@@ -1,15 +1,15 @@
+import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/category_detail_view.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FilterDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final categories =
-        context.select((TabsViewModel viewModel) => viewModel.allCategories) ??
-            [];
+    final categories = context
+        .select<CategoryListModel, List<Category>>((vm) => vm.categories);
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -24,37 +24,37 @@ class FilterDrawer extends StatelessWidget {
                     title: Text('Categories'),
                     initiallyExpanded: true,
                     children: List.generate(categories.length, (index) {
+                      final category =
+                          context.select<CategoryListModel, Category>(
+                              (vm) => vm.categories[index]);
                       return ExpansionTile(
                         leading: Icon(Icons.category),
-                        title: Text(categories.elementAt(index).name),
-                        children:
-                            categories.elementAt(index).subCategories != null
-                                ? List.generate(
-                                    categories
-                                        .elementAt(index)
-                                        .subCategories
-                                        .length, (subIndex) {
-                                    var subCategory = categories
-                                        .elementAt(index)
-                                        .subCategories
-                                        .elementAt(subIndex);
-                                    return CheckboxListTile(
-                                      value: context.select(
-                                          (TabsViewModel viewModel) =>
-                                              viewModel.isCategorySelected(
-                                                  subCategory.name)),
-                                      onChanged: (bool value) => context
-                                          .read<TabsViewModel>()
-                                          .selectSubCategory(subCategory.name),
-                                      title: Text(
-                                        subCategory.name,
-                                        overflow: TextOverflow.fade,
-                                        softWrap: false,
-                                        maxLines: 1,
-                                      ),
-                                    );
-                                  })
-                                : const <Widget>[],
+                        title: Text(category.name),
+                        children: category.subCategories != null
+                            ? List.generate(
+                                category?.subCategories?.length ?? 0,
+                                (subIndex) {
+                                final subCategory =
+                                    category?.subCategories[subIndex];
+                                return CheckboxListTile(
+                                  value: context
+                                      .watch<CategoryListModel>()
+                                      .isSubCategorySelected(subCategory.name),
+                                  onChanged: (bool shouldSelect) {
+                                    context
+                                        .read<CategoryListModel>()
+                                        .toggleSubCategorySelection(
+                                            subCategory.name);
+                                  },
+                                  title: Text(
+                                    subCategory.name,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                    maxLines: 1,
+                                  ),
+                                );
+                              })
+                            : const <Widget>[],
                       );
                     }),
                   ),
@@ -102,7 +102,7 @@ class FilterDrawer extends StatelessWidget {
           Text('Refine Results'),
           MaterialButton(
             onPressed: () =>
-                context.read<TabsViewModel>().clearSelectedCategories(),
+                context.read<CategoryListModel>().clearAllSelection(),
             child: Text(
               'Clear',
               style: Theme.of(context).textTheme.bodyText1,

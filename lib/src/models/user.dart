@@ -28,9 +28,9 @@ class User {
         avatar: data['photoUrl'],
         phoneNumber: data['phoneNumber'],
         dayOfBirth: data['dayOfBirth'] != null
-            ? DateTime.tryParse(data['dayOfBirth'])
+            ? DateTime.tryParse(data['dayOfBirth'] ?? '')
             : null,
-        addresses: data['addresses']);
+        addresses: data['addresses'] ?? <Address>[]);
   }
 
   Map<String, dynamic> toJson() => {

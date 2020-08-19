@@ -36,11 +36,6 @@ class ProductDetailsTab extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Text(
-              'We’re all going somewhere. And whether it’s the podcast blaring from your headphones as you walk down the street or the essay that encourages you to take on that big project, there’s a real joy in getting lost in the kind of story that feels like a destination unto itself.'),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: ListTile(
             dense: true,
             contentPadding: EdgeInsets.symmetric(vertical: 0),
@@ -56,6 +51,7 @@ class ProductDetailsTab extends StatelessWidget {
         ),
         FlashSalesCarousel(
           heroTag: 'product_details_related_products',
+          productList: flashSaleList,
         ),
       ],
     );

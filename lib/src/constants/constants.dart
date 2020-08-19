@@ -13,6 +13,8 @@ class Constants {
   static const categoriesCollection = 'categories';
   static const countriesCollection = 'countries';
   static const configurationCollection = 'configuration';
+  static const cartCollection = 'cart';
+  static const favoritesCollection = 'favorites';
   static const stripeCloudFunctionUrl =
       'https://us-central1-bottleshop3veze-delivery.cloudfunctions.net/verifyPayment';
   static const applePayMerchantId =

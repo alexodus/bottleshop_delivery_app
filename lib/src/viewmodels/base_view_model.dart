@@ -1,12 +1,15 @@
-import 'package:flutter/foundation.dart';
+import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BaseViewModel extends ChangeNotifier {
-  final Locator locator;
+  final _logger = Analytics.getLogger('BaseViewModel');
   bool _isLoading = false;
+  final Locator locator;
 
-  bool get isLoading => _isLoading;
+  BaseViewModel({@required this.locator}) : super() {
+    _logger.d('BaseViewModel spawned');
+  }
 
   void setLoading() {
     _isLoading = true;
@@ -18,5 +21,5 @@ class BaseViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  BaseViewModel({@required this.locator});
+  bool get isLoading => _isLoading;
 }
