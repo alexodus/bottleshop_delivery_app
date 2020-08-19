@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/slider_model.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
-  final _logger = Analytics.getLogger('FirestoreService');
   final Firestore _firestoreInstance;
 
   FirestoreService({Firestore firestore})

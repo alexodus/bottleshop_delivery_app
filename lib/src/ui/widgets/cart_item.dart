@@ -1,6 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_image.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,6 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logger = Analytics.getLogger('CartItem');
     final RouteArgument args = ModalRoute.of(context).settings.arguments;
     return InkWell(
       splashColor: Theme.of(context).accentColor,

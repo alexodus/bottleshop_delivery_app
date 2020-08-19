@@ -8,7 +8,6 @@ import 'package:bottleshopdeliveryapp/src/ui/widgets/review_list.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/product_detail_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/src/logger.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailView extends StatefulWidget {
@@ -58,15 +57,14 @@ class _ProductDetailViewState extends State<ProductDetailView>
       builder: (context, widget) {
         return AppScaffold(
           scaffoldKey: _scaffoldKey,
-          bottomNavigationBar: buildContainer(context, productId, _logger),
+          bottomNavigationBar: buildContainer(context, productId),
           body: buildCustomScrollView(context, args),
         );
       },
     );
   }
 
-  Container buildContainer(
-      BuildContext context, String productId, Logger _logger) {
+  Container buildContainer(BuildContext context, String productId) {
     final isProductInWishList = context.select<ProductDetailViewModel, bool>(
         (vm) => vm.isProductInFavorites(productId));
     final isProductInCart = context.select<ProductDetailViewModel, bool>(
@@ -104,7 +102,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
           FlatButton(
             onPressed: () {
               if (isProductInCart) {
-                _logger.d('$productId added to cart');
                 Navigator.pop(context);
               }
             },
