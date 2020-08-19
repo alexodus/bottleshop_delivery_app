@@ -1,5 +1,4 @@
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_details_tab.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_home_tab.dart';
@@ -50,7 +49,6 @@ class _ProductDetailViewState extends State<ProductDetailView>
   @override
   Widget build(BuildContext context) {
     final RouteArgument args = ModalRoute.of(context).settings.arguments;
-    final _logger = Analytics.getLogger('ProductDetailsView');
     final productId = args.id;
     return ChangeNotifierProvider<ProductDetailViewModel>(
       create: (context) => ProductDetailViewModel(context.read),
