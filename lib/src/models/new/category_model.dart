@@ -21,6 +21,13 @@ class CategoryModel {
   @override
   int get hashCode => categoryDetails.hashCode ^ subCategory.hashCode;
 
+  static Iterable<CategoryPlainModel> allCategoryDetails(
+      CategoryModel model) sync* {
+    if (model == null) return;
+    yield model.categoryDetails;
+    yield* allCategoryDetails(model.subCategory);
+  }
+
   static Iterable<String> allNames(CategoryModel model) sync* {
     if (model == null) return;
     yield model.categoryDetails.name;

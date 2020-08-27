@@ -102,6 +102,7 @@ class FirestoreService {
     Iterable<int> _categoriesCounts(
       List<DocumentSnapshot> allCategories,
     ) sync* {
+      if (allCategories.isEmpty) return;
       for (var i = 0; i < allCategories.length; i++) {
         if (i == 0) continue;
         if (allCategories[i]
@@ -112,7 +113,6 @@ class FirestoreService {
           return;
         }
       }
-
       yield allCategories.length;
     }
 

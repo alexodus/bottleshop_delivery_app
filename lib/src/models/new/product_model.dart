@@ -40,7 +40,7 @@ class ProductModel {
   final int year;
   final String cmat;
   final String ean;
-  final double price;
+  final double _price;
   final int count;
   final double unitsCount;
   final UnitModel unitsType;
@@ -57,6 +57,11 @@ class ProductModel {
   String get uniqueId => cmat;
   bool get hasAlcohol => alcohol != null;
 
+  double get priceNoVat => _price;
+  double get priceWithVat => _price == null ? null : _price * 1.2;
+  double get finalPrice =>
+      _price == null ? null : _price * 1.2 * (discount ?? 1);
+
   const ProductModel({
     this.name,
     @required this.edition,
@@ -64,7 +69,7 @@ class ProductModel {
     @required this.year,
     @required this.cmat,
     @required this.ean,
-    @required this.price,
+    @required price,
     @required this.count,
     @required this.unitsCount,
     @required this.unitsType,
@@ -77,7 +82,7 @@ class ProductModel {
     @required this.isRecommended,
     @required this.isNewEntry,
     @required this.flashSaleUntil,
-  });
+  }) : _price = price;
 
   ProductModel.fromJson(Map<String, dynamic> json)
       : assert(json[countryField] is CountryModel),
@@ -90,7 +95,7 @@ class ProductModel {
         country = json[countryField],
         cmat = json[cmatField],
         ean = json[eanField],
-        price = json[priceField],
+        _price = json[priceField],
         count = json[countField],
         unitsCount = json[unitsCountField],
         unitsType = json[unitsTypeField],
@@ -114,7 +119,7 @@ class ProductModel {
       ageField: age,
       cmatField: cmat,
       eanField: ean,
-      priceField: price,
+      priceField: _price,
       countField: count,
       unitsCountField: unitsCount,
       alcoholField: alcohol,
@@ -154,7 +159,7 @@ class ProductModel {
       other.year == year &&
       other.cmat == cmat &&
       other.ean == ean &&
-      other.price == price &&
+      other._price == _price &&
       other.count == count &&
       other.unitsCount == unitsCount &&
       other.unitsType == unitsType &&
@@ -176,7 +181,7 @@ class ProductModel {
       year.hashCode ^
       cmat.hashCode ^
       ean.hashCode ^
-      price.hashCode ^
+      _price.hashCode ^
       count.hashCode ^
       unitsCount.hashCode ^
       unitsType.hashCode ^

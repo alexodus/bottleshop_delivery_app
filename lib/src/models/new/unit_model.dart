@@ -29,4 +29,21 @@ class UnitModel {
         localizedAbbreviation =
             LocalizedModel.fromJson(json[localizedAbbreviationField]),
         localizedUnit = LocalizedModel.fromJson(json[localizedUnitField]);
+
+  @override
+  bool operator ==(other) =>
+      other is UnitModel &&
+          other.id == id &&
+          other.abbreviation == abbreviation &&
+          other.unit == unit &&
+          other.localizedAbbreviation == localizedAbbreviation &&
+          other.localizedUnit == localizedUnit;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      abbreviation.hashCode ^
+      unit.hashCode ^
+      localizedAbbreviation.hashCode ^
+      localizedUnit.hashCode;
 }
