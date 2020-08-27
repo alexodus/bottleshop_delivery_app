@@ -33,11 +33,11 @@ class UnitModel {
   @override
   bool operator ==(other) =>
       other is UnitModel &&
-          other.id == id &&
-          other.abbreviation == abbreviation &&
-          other.unit == unit &&
-          other.localizedAbbreviation == localizedAbbreviation &&
-          other.localizedUnit == localizedUnit;
+      other.id == id &&
+      other.abbreviation == abbreviation &&
+      other.unit == unit &&
+      other.localizedAbbreviation == localizedAbbreviation &&
+      other.localizedUnit == localizedUnit;
 
   @override
   int get hashCode =>
