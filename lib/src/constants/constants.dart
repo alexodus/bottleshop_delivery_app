@@ -12,6 +12,9 @@ class Constants {
   static const productsCollection = 'warehouse';
   static const categoriesCollection = 'categories';
   static const countriesCollection = 'countries';
+  static const unitsCollection = 'units';
+  static const orderTypesCollection = 'order_types';
+  static const ordersCollection = 'orders';
   static List<LanguageModel> get languages => [
         LanguageModel(
             'English', 'English', 'assets/images/united-states-of-america.png'),
