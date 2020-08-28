@@ -28,10 +28,10 @@ class CategoryModel {
     yield* allCategoryDetails(model.subCategory);
   }
 
-  static Iterable<String> allNames(CategoryModel model) sync* {
+  static Iterable<String> allLocalizedNames(CategoryModel model) sync* {
     if (model == null) return;
-    yield model.categoryDetails.name;
-    yield* allNames(model.subCategory);
+    yield model.categoryDetails.localizedName.local;
+    yield* allLocalizedNames(model.subCategory);
   }
 
   static Iterable<String> allIds(CategoryModel model) sync* {

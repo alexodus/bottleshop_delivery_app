@@ -5,7 +5,6 @@ import 'package:bottleshopdeliveryapp/src/models/new/categories_tree_model.dart'
 import 'package:bottleshopdeliveryapp/src/models/new/category_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/category_plain_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/country_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/localized_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/order_type_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/product_model.dart';
@@ -89,12 +88,7 @@ class FirestoreService {
       if (categories.isEmpty) return null;
       final doc = categories.first;
       return CategoryModel(
-        categoryDetails: CategoryPlainModel(
-          id: doc.documentID,
-          name: doc[CategoryPlainModel.nameField],
-          localizedName: LocalizedModel.fromJson(
-              doc[CategoryPlainModel.localizedNameField]),
-        ),
+        categoryDetails: CategoryPlainModel.fromJson(doc.data, doc.documentID),
         subCategory: _parseCategories(categories.skip(1)),
       );
     }
@@ -172,7 +166,7 @@ class FirestoreService {
   void requestMoreProductsData() {
     var query = Firestore.instance
         .collection(Constants.productsCollection)
-        .orderBy('name')
+        .orderBy(ProductModel.nameField)
         .limit(10);
     if (_lastDocument != null) {
       query = query.startAfterDocument(_lastDocument);
