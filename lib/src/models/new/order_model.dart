@@ -57,6 +57,29 @@ class OrderModel {
         statusStepId = json[statusStepIdField],
         statusStepsDates = List<DateTime>.from(json[statusTimestampsField]
             .map((e) => DateTime.fromMillisecondsSinceEpoch(e.seconds * 1000)));
+
+  @override
+  bool operator ==(other) =>
+      other is OrderModel &&
+      other.id == id &&
+      other.customer == customer &&
+      other.orderType == orderType &&
+      other.note == note &&
+      other.cartItems == cartItems &&
+      other.totalPaid == totalPaid &&
+      other.statusStepId == statusStepId &&
+      other.statusStepsDates == statusStepsDates;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      customer.hashCode ^
+      orderType.hashCode ^
+      note.hashCode ^
+      cartItems.hashCode ^
+      totalPaid.hashCode ^
+      statusStepId.hashCode ^
+      statusStepsDates.hashCode;
 }
 
 @immutable
@@ -84,6 +107,21 @@ class CartItemModel {
         product = json[productField],
         promoCode = PromoCodeItemModel.fromJson(json[promoCodeField]),
         paidPrice = json[paidPriceField];
+
+  @override
+  bool operator ==(other) =>
+      other is CartItemModel &&
+      other.count == count &&
+      other.product == product &&
+      other.promoCode == promoCode &&
+      other.paidPrice == paidPrice;
+
+  @override
+  int get hashCode =>
+      count.hashCode ^
+      product.hashCode ^
+      promoCode.hashCode ^
+      paidPrice.hashCode;
 }
 
 @immutable
@@ -102,4 +140,13 @@ class PromoCodeItemModel {
   PromoCodeItemModel.fromJson(Map<String, dynamic> json)
       : code = json[codeField],
         discount = json[discountField];
+
+  @override
+  bool operator ==(other) =>
+      other is PromoCodeItemModel &&
+      other.code == code &&
+      other.discount == discount;
+
+  @override
+  int get hashCode => code.hashCode ^ discount.hashCode;
 }

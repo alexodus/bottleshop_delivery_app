@@ -20,4 +20,14 @@ class UserModel {
       : name = json[nameField],
         address = json[addressField],
         phoneNumber = json[phoneNumberField];
+
+  @override
+  bool operator ==(other) =>
+      other is UserModel &&
+      other.name == name &&
+      other.address == address &&
+      other.phoneNumber == phoneNumber;
+
+  @override
+  int get hashCode => name.hashCode ^ address.hashCode ^ phoneNumber.hashCode;
 }

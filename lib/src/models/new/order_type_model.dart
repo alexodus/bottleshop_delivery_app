@@ -25,4 +25,19 @@ class OrderTypeModel {
         name = json[nameField],
         localizedName = LocalizedModel.fromJson(json[localizedNameField]),
         statusStepsToCompleteOrder = json[statusStepsToCompleteOrderField];
+
+  @override
+  bool operator ==(other) =>
+      other is OrderTypeModel &&
+      other.id == id &&
+      other.name == name &&
+      other.localizedName == localizedName &&
+      other.statusStepsToCompleteOrder == statusStepsToCompleteOrder;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      name.hashCode ^
+      localizedName.hashCode ^
+      statusStepsToCompleteOrder.hashCode;
 }
