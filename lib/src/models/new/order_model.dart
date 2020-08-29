@@ -14,12 +14,14 @@ class OrderModel {
   static const String orderTypeRefField = 'order_type_ref';
   static const String statusStepIdField = 'status_step_id';
   static const String statusTimestampsField = 'status_timestamps';
+  static const String createdAtTimestampField = 'created_at';
 
   // fields after data join
   static const String userField = 'customer';
   static const String orderTypeField = 'order_type';
 
-  final int id;
+  final String id;
+  final int orderId;
   final UserModel customer;
   final OrderTypeModel orderType;
   final String note;
@@ -28,11 +30,16 @@ class OrderModel {
   final int statusStepId;
   final List<DateTime> statusStepsDates;
 
-  bool get isComplete =>
-      statusStepId + 1 == orderType.statusStepsToCompleteOrder;
+  bool get isComplete => statusStepId == orderType.orderStepsIds.last;
+
+  int get getFollowingStatusId {
+    assert(!isComplete);
+    return orderType.orderStepsIds.indexOf(statusStepId) + 1;
+  }
 
   OrderModel({
     @required this.id,
+    @required this.orderId,
     @required this.customer,
     @required this.orderType,
     @required this.note,
@@ -42,12 +49,20 @@ class OrderModel {
     @required this.statusStepsDates,
   });
 
-  OrderModel.fromJson(Map<String, dynamic> json)
+  OrderModel.fromJson(Map<String, dynamic> json, String id)
       : assert(json[orderTypeField] is OrderTypeModel),
         assert(json[userField] is UserModel),
-        assert(
-            json[statusStepIdField] + 1 == json[statusTimestampsField].length),
-        id = json[idField],
+        assert((json[orderTypeField] as OrderTypeModel)
+            .orderStepsIds
+            .contains(json[statusStepIdField])),
+        assert(json[statusTimestampsField].length > 0),
+        assert((json[orderTypeField] as OrderTypeModel)
+                    .orderStepsIds
+                    .indexOf(json[statusStepIdField]) +
+                1 ==
+            json[statusTimestampsField].length),
+        id = id,
+        orderId = json[idField],
         customer = json[userField],
         orderType = json[orderTypeField],
         note = json[noteField],
@@ -62,6 +77,7 @@ class OrderModel {
   bool operator ==(other) =>
       other is OrderModel &&
       other.id == id &&
+      other.orderId == orderId &&
       other.customer == customer &&
       other.orderType == orderType &&
       other.note == note &&
@@ -73,6 +89,7 @@ class OrderModel {
   @override
   int get hashCode =>
       id.hashCode ^
+      orderId.hashCode ^
       customer.hashCode ^
       orderType.hashCode ^
       note.hashCode ^

@@ -157,7 +157,7 @@ class FirestoreService {
               ),
             ),
           );
-          return OrderModel.fromJson(result);
+          return OrderModel.fromJson(result, e.documentID);
         },
       ),
     );
