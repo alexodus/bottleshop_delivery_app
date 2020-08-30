@@ -1,7 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
-import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/shopping_cart_button.dart';
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,8 @@ class CheckoutDoneView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold(
+      scaffoldKey: GlobalKey<ScaffoldState>(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -28,16 +28,6 @@ class CheckoutDoneView extends StatelessWidget {
           ShoppingCartButton(
               iconColor: Theme.of(context).hintColor,
               labelColor: Theme.of(context).accentColor),
-          Container(
-              width: 30,
-              height: 30,
-              margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(300),
-                onTap: () =>
-                    Navigator.pushNamed(context, AccountView.routeName),
-                child: const ProfileAvatar(),
-              )),
         ],
       ),
       body: SingleChildScrollView(

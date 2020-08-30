@@ -21,7 +21,8 @@ class OrderGridItem extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
         Navigator.of(context).pushNamed('/Order',
-            arguments: RouteArgument(argumentsList: [heroTag], id: order.id));
+            arguments:
+                RouteArgument(argumentsList: [heroTag], id: order.documentId));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -38,21 +39,21 @@ class OrderGridItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: heroTag + order.id,
-              child: Image.asset(order.product.imageUrl),
+              tag: heroTag + order.documentId,
+              child: Image.asset(order.products[0].imageUrl),
             ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Text(
-                order.product.name,
+                order.products[0].name,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                order.product.price.toStringAsFixed(2),
+                order.products[0].price.toStringAsFixed(2),
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),

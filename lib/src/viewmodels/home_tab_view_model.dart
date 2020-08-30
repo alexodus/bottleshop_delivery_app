@@ -1,64 +1,57 @@
-import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
-import 'package:bottleshopdeliveryapp/src/models/slider.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/firestore_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/fcm/push_notification_service.dart';
+import 'package:bottleshopdeliveryapp/src/models/slider_model.dart';
+import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class HomeTabViewModel extends BaseViewModel {
+  final _logger = Analytics.getLogger('HomeTabViewModel');
   HomeTabViewModel(Locator locator) : super(locator: locator) {
-    init();
+    init()
+        .then((value) => _logger.d('data fetched'))
+        .catchError((error) => _logger.e('data fetch failed: $error'));
   }
 
-  final List<Product> _flashSales = [];
-  List<Product> _products = [];
-  final List<Category> _categories = [];
-  final List<SubCategory> _subCategories = [];
-  final List<Slider> _sliderList = [];
-  String _selectedCategoryId;
+  List<Product> _flashSales;
+  List<Product> _products;
+  List<SliderModel> _sliderList;
   int _currentSlider = 0;
 
-  String get selectedCategory => _selectedCategoryId;
-  List<Product> get products => _products;
-  List<Category> get categories => _categories;
-  List<SubCategory> get subCategories => _subCategories;
-  List<Product> get flashSales => _flashSales;
-  List<Slider> get sliders => _sliderList;
+  List<Product> get products => _products ?? [];
+
+  List<Product> get flashSales => _flashSales ?? [];
+
+  List<SliderModel> get sliders => _sliderList ?? [];
+
   int get currentSlider => _currentSlider;
 
-  void init() {
-    locator<PushNotificationService>()
-        .initialise()
-        .then((_) => debugPrint('fcm init OK'))
-        .catchError((err) => debugPrint('fcm init failed $err'));
+  Future<void> init() async {
+    setLoading();
+    try {
+      var fetchResult = await Future.wait([
+        locator<ProductDataService>().getAllProducts(),
+        locator<ProductDataService>().getSlidersConfig(),
+        locator<ProductDataService>().getAllProductsOnFlashSale(),
+      ]);
+      _products = fetchResult[0];
+      _sliderList = fetchResult[1];
+      _flashSales = fetchResult[2];
+    } catch (e) {
+      _logger.e('failed fetching data: $e');
+    } finally {
+      setNotLoading();
+    }
   }
 
-  void setCurrentSlider(int index) => _currentSlider = index;
+  Future<void> getProductsBySelectedCategory() async {
+    /*setLoading();
+    _products = await locator<FirestoreService>().getAllProductsByCategoryName(super.selectedCategory);
+    setNotLoading();*/
+  }
 
-  void selectCategory(String id) {
-    _selectedCategoryId = id;
+  void setCurrentSlider(int index) {
+    _currentSlider = index;
     notifyListeners();
   }
-
-  bool isCategorySelected(String id) {
-    return selectedCategory == id;
-  }
-
-  void listenToProducts() {
-    setLoading();
-    locator<FirestoreService>()
-        .listenToProductsRealTime()
-        .listen((productData) {
-      var updatedProducts = productData;
-      if (updatedProducts != null && updatedProducts.isNotEmpty) {
-        _products = updatedProducts;
-        notifyListeners();
-      }
-      setNotLoading();
-    });
-  }
-
-  void requestMoreData() => locator<FirestoreService>().requestMoreData();
 }

@@ -2,30 +2,30 @@ import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
 import 'package:bottleshopdeliveryapp/src/services/database/user_data_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationService implements Authentication {
-  final FirebaseAuth _firebaseAuth;
+  final auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final FacebookLogin _facebookLogin;
   final UserDataService _userDataService;
 
   AuthenticationService(
-      {FirebaseAuth firebaseAuth,
+      {auth.FirebaseAuth firebaseAuth,
       GoogleSignIn googleSignIn,
       FacebookLogin facebookLogin,
       UserDataService userDataService})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+      : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance,
         _googleSignIn =
             googleSignIn ?? GoogleSignIn(scopes: Constants.googleSignInScopes),
         _facebookLogin = facebookLogin ?? FacebookLogin(),
         _userDataService = userDataService ?? UserDataService();
 
-  User _userFromFirebase(FirebaseUser user,
-      [AdditionalUserInfo additionalData]) {
+  User _userFromFirebase(auth.User user,
+      [auth.AdditionalUserInfo additionalData]) {
     if (user == null) {
       return null;
     }
@@ -42,18 +42,13 @@ class AuthenticationService implements Authentication {
         uid: user.uid,
         email: email,
         name: user.displayName,
-        avatar: user.photoUrl,
+        avatar: user.photoURL,
         phoneNumber: user.phoneNumber);
   }
 
   @override
-  Stream<User> get onAuthStateChanged {
-    return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
-  }
-
-  @override
   Future<User> signInWithEmailAndPassword(String email, String password) async {
-    final credential = EmailAuthProvider.getCredential(
+    final credential = auth.EmailAuthProvider.credential(
       email: email,
       password: password,
     );
@@ -84,7 +79,7 @@ class AuthenticationService implements Authentication {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.getCredential(
+      final credential = auth.GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
@@ -104,8 +99,8 @@ class AuthenticationService implements Authentication {
     _facebookLogin.loginBehavior = FacebookLoginBehavior.nativeWithFallback;
     final result = await _facebookLogin.logIn(Constants.facebookPermissions);
     if (result.accessToken != null) {
-      final credential = FacebookAuthProvider.getCredential(
-          accessToken: result.accessToken.token);
+      final credential =
+          auth.FacebookAuthProvider.credential(result.accessToken.token);
       final authResult = await _firebaseAuth.signInWithCredential(credential);
       final user =
           _userFromFirebase(authResult.user, authResult.additionalUserInfo);
@@ -119,12 +114,12 @@ class AuthenticationService implements Authentication {
 
   @override
   Future<User> currentUser() async {
-    final firebaseUser = await _firebaseAuth.currentUser();
+    final firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {
       final user = _userFromFirebase(firebaseUser);
       final userSnapshot = await _userDataService.getUser(user.uid);
       if (userSnapshot.exists) {
-        return User.fromMap(userSnapshot.data);
+        return User.fromMap(userSnapshot.data());
       } else {
         return user;
       }
@@ -146,5 +141,10 @@ class AuthenticationService implements Authentication {
     final user = _userFromFirebase(authResult.user);
     await _userDataService.setUser(user);
     return user;
+  }
+
+  @override
+  Stream<User> get authStateChanges {
+    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 }

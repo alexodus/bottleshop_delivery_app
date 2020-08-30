@@ -34,7 +34,7 @@ class EmptyFavorites extends StatelessWidget {
                           Theme.of(context).accentColor,
                         ])),
                 child: Icon(
-                  Icons.favorite,
+                  Icons.favorite_border,
                   color: Theme.of(context).primaryColor,
                   size: 70,
                 ),
@@ -69,7 +69,7 @@ class EmptyFavorites extends StatelessWidget {
           Opacity(
             opacity: 0.8,
             child: Text(
-              'D\'ont have any item in the wish list',
+              'Don\'t have any item in the wish list',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline3.merge(
                     TextStyle(fontWeight: FontWeight.w300),

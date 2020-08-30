@@ -5,13 +5,13 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
 class CategorizedProducts extends StatelessWidget {
+  final Animation animationOpacity;
+
   const CategorizedProducts({
     Key key,
     @required this.animationOpacity,
   })  : assert(animationOpacity != null),
         super(key: key);
-
-  final Animation animationOpacity;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +35,7 @@ class CategorizedProducts extends StatelessWidget {
                 heroTag: 'categorized_products_grid',
               );
             },
-            staggeredTileBuilder: (int index) =>
-                StaggeredTile.count(2, index.isEven ? 2 : 1),
-            // staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+            staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
             mainAxisSpacing: 15.0,
             crossAxisSpacing: 15.0,
           ),

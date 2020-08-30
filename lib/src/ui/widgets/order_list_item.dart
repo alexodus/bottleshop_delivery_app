@@ -41,7 +41,7 @@ class OrderListItem extends StatelessWidget {
         Scaffold.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'The ${order.product.name} order is removed from wish list'),
+                'The ${order.products[0].name} order is removed from wish list'),
           ),
         );
       },
@@ -68,14 +68,14 @@ class OrderListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Hero(
-                tag: heroTag + order.product.documentID,
+                tag: heroTag + order.products[0].documentID,
                 child: Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     image: DecorationImage(
-                        image: AssetImage(order.product.imageUrl),
+                        image: AssetImage(order.products[0].imageUrl),
                         fit: BoxFit.cover),
                   ),
                 ),
@@ -90,7 +90,7 @@ class OrderListItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            order.product.name,
+                            order.products[0].name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.subtitle1,
@@ -108,7 +108,7 @@ class OrderListItem extends StatelessWidget {
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    order.getDateTime(),
+                                    order.orderPlacedOn.toIso8601String(),
                                     style:
                                         Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
@@ -125,7 +125,7 @@ class OrderListItem extends StatelessWidget {
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    order.trackingNumber,
+                                    '5',
                                     style:
                                         Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
@@ -143,7 +143,7 @@ class OrderListItem extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text(order.product.price.toStringAsFixed(2),
+                        Text(order.products[0].price.toStringAsFixed(2),
                             style: Theme.of(context).textTheme.headline4),
                         SizedBox(height: 6),
                         Chip(
@@ -153,7 +153,7 @@ class OrderListItem extends StatelessWidget {
                               side: BorderSide(
                                   color: Theme.of(context).focusColor)),
                           label: Text(
-                            'x ${order.quantity}',
+                            'x ${5}',
                             style:
                                 TextStyle(color: Theme.of(context).focusColor),
                           ),

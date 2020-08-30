@@ -23,6 +23,7 @@ class Product {
   final bool recommended;
   final DateTime flashSaleUntil;
   final String imageUrl;
+  final String thumbnailUrl;
 
   const Product({
     @required this.documentID,
@@ -46,28 +47,38 @@ class Product {
     this.newEntry,
     this.recommended,
     this.flashSaleUntil,
+    this.thumbnailUrl,
   });
 
   factory Product.fromMap(Map<String, dynamic> data, String documentID) {
     return Product(
       documentID: documentID,
       name: data['name'],
-      imageUrl: data['cmat'],
-      price: double.tryParse(data['price']) ?? 0.0,
-      discount: double.tryParse(data['discount']) ?? 0.0,
-      amount: int.tryParse(data['amount']) ?? 0,
+      imageUrl: data['imageUrl'],
+      thumbnailUrl: data['thumbnailUrl'],
+      price: double.tryParse(data['price_no_vat'] ?? '0.0') ?? 0.0,
+      discount: double.tryParse(data['discount'] ?? '1.0') ?? 1.0,
+      amount: int.tryParse(data['amount'] ?? '0') ?? 0,
       country: data['country'] ?? 'N/A',
       alcohol: data['alcohol'] ?? 'N/A',
+      category: data['category'] ?? 'Other',
+      subCategory: data['sub_category_1'],
+      additionalSubCategory: data['sub_category_2'],
       description: data['description'],
       descriptionLocalized: data['descriptionLocalized'],
       edition: data['edition'],
       year: data['year'],
-      age: int.tryParse(data['age']) ?? 0,
-      unitValue: double.tryParse(data['unitValue']) ?? 0.0,
+      age: int.tryParse(data['age'] ?? '0') ?? 0,
+      unitValue: double.tryParse(data['unit_value'] ?? '0.0') ?? 0.0,
       unit: data['unit'] ?? 'N/A',
-      newEntry: data['newEntry'] == 'y' ? true : false ?? false,
+      newEntry: data['new_entries'] == 'y' ? true : false ?? false,
       recommended: data['recommended'] == 'y' ? true : false ?? false,
-      flashSaleUntil: DateTime.tryParse(data['flashSaleUntil']),
+      flashSaleUntil: DateTime.tryParse(data['flash_sale_until'] ?? ''),
     );
+  }
+
+  @override
+  String toString() {
+    return 'Product{documentID: $documentID, name: $name, edition: $edition, year: $year, age: $age, category: $category, subCategory: $subCategory, additionalSubCategory: $additionalSubCategory, country: $country, amount: $amount, unitValue: $unitValue, unit: $unit, alcohol: $alcohol, price: $price, description: $description, descriptionLocalized: $descriptionLocalized, discount: $discount, newEntry: $newEntry, recommended: $recommended, flashSaleUntil: $flashSaleUntil, imageUrl: $imageUrl, thumbnailUrl: $thumbnailUrl}';
   }
 }

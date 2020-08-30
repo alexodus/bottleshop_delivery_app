@@ -87,7 +87,7 @@ class AnalyticsService implements Analytics {
   @override
   Future<void> logEcommercePurchase(Order order) async {
     return _analytics.logEcommercePurchase(
-        transactionId: order.id, value: order.totalValue);
+        transactionId: order.documentId, value: order.totalValue);
   }
 
   @override

@@ -17,5 +17,5 @@ abstract class Authentication {
 
   Future<void> signOut();
 
-  Stream<User> get onAuthStateChanged;
+  Stream<User> get authStateChanges;
 }

@@ -76,12 +76,14 @@ class Routes {
       case CategoryDetailView.routeName:
         return _getPageRoute(
             routeName: settings.name,
-            viewToShow: CategoryDetailView(routeArgument: args));
+            viewToShow: CategoryDetailView(),
+            arguments: args);
         break;
       case ProductDetailView.routeName:
         return _getPageRoute(
             routeName: settings.name,
-            viewToShow: ProductDetailView(routeArgument: args));
+            viewToShow: ProductDetailView(),
+            arguments: args);
         break;
       case CartView.routeName:
         return _getPageRoute(routeName: settings.name, viewToShow: CartView());
