@@ -5,9 +5,11 @@ import 'package:bottleshopdeliveryapp/src/models/new/categories_tree_model.dart'
 import 'package:bottleshopdeliveryapp/src/models/new/category_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/category_plain_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/country_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/new/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/order_type_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/unit_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/new/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tuple/tuple.dart';
 
@@ -63,7 +65,7 @@ class FirestoreService {
     final docsMap =
         Map.fromEntries(docSnapshot.docs.map((e) => MapEntry(e.id, e.data())));
     return docsMap.entries
-        .map((e) => UnitModel.fromJson(e.value(), e.key))
+        .map((e) => UnitModel.fromJson(e.value, e.key))
         .toList();
   }
 

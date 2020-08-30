@@ -1,5 +1,3 @@
-import 'package:bottleshopdeliveryapp/src/models/language_model.dart';
-
 class Constants {
   static const defaultAvatar = 'assets/images/avatar.png';
   static const defaultProductPic = 'assets/images/generic.png';

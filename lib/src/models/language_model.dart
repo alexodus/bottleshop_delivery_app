@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show required;
 
 class LanguageModel {
   final String englishName;
