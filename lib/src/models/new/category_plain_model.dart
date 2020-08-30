@@ -1,6 +1,5 @@
+import 'package:bottleshopdeliveryapp/src/models/new/localized_model.dart';
 import 'package:flutter/material.dart';
-
-import 'localized_model.dart';
 
 @immutable
 class CategoryPlainModel {

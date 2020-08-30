@@ -17,7 +17,6 @@ class FirestoreService {
   final StreamController<List<ProductModel>> _productsStreamCtrl =
       StreamController();
 
-  // ignore: close_sinks
   final StreamController<List<ProductModel>> _productDeletesStreamCtrl =
       StreamController();
 
@@ -30,19 +29,25 @@ class FirestoreService {
     final docs = await FirebaseFirestore.instance
         .collection(Constants.countriesCollection)
         .get();
-    final docsMap =
-        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data())));
+    final docsMap = Map.fromEntries(
+      docs.docs.map(
+        (e) => MapEntry(
+          e.id,
+          e.data,
+        ),
+      ),
+    );
     return docsMap.entries
-        .map((e) => CountryModel.fromJson(e.value, e.key))
+        .map((e) => CountryModel.fromJson(e.value(), e.key))
         .toList();
   }
 
   Future<List<CategoriesTreeModel>> categories() async {
-    final docs = await FirebaseFirestore.instance
+    final docSnapshot = await FirebaseFirestore.instance
         .collection(Constants.categoriesCollection)
         .get();
     final docsMap =
-        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data())));
+        Map.fromEntries(docSnapshot.docs.map((e) => MapEntry(e.id, e.data())));
     return docsMap.entries
         .where((element) =>
             element.value.containsKey(CategoriesTreeModel.isMainCategoryField))
@@ -52,22 +57,22 @@ class FirestoreService {
   }
 
   Future<List<UnitModel>> units() async {
-    final docs = await FirebaseFirestore.instance
+    final docSnapshot = await FirebaseFirestore.instance
         .collection(Constants.unitsCollection)
         .get();
     final docsMap =
-        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data)));
+        Map.fromEntries(docSnapshot.docs.map((e) => MapEntry(e.id, e.data())));
     return docsMap.entries
         .map((e) => UnitModel.fromJson(e.value(), e.key))
         .toList();
   }
 
   Future<List<OrderTypeModel>> orderTypes() async {
-    final docs = await FirebaseFirestore.instance
+    final docSnapshot = await FirebaseFirestore.instance
         .collection(Constants.orderTypesCollection)
         .get();
     final docsMap =
-        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data())));
+        Map.fromEntries(docSnapshot.docs.map((e) => MapEntry(e.id, e.data())));
     return docsMap.entries
         .map((e) => OrderTypeModel.fromJson(e.value, e.key))
         .toList();
@@ -122,6 +127,43 @@ class FirestoreService {
 
     return result.item2.toList();
   }
+  Future<List<OrderModel>> orders() async {
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection(Constants.ordersCollection)
+        .get();
+    return await Future.wait(
+      docSnapshot.docs.map(
+        (e) async {
+          final result = Map<String, dynamic>.from(e.data());
+
+          final DocumentSnapshot userDoc =
+              await e.data()[OrderModel.userRefField].get();
+          final DocumentSnapshot orderTypeDoc =
+              await e.data()[OrderModel.orderTypeRefField].get();
+
+          if (!userDoc.exists || !orderTypeDoc.exists) {
+            return Future.error('missing reference');
+          }
+
+          result[OrderModel.userField] = UserModel.fromJson(userDoc.data());
+          result[OrderModel.orderTypeField] =
+              OrderTypeModel.fromJson(orderTypeDoc.data(), orderTypeDoc.id);
+          result[OrderModel.cartItemsField] = await Future.wait(
+            List<Future<dynamic>>.from(
+              e.data()[OrderModel.cartItemsField].map(
+                (e) async {
+                  e[CartItemModel.productField] =
+                      await _parseProductJson(e[CartItemModel.productField]);
+                  return e;
+                },
+              ),
+            ),
+          );
+          return OrderModel.fromJson(result, e.id);
+        },
+      ),
+    );
+  }
 
   void requestMoreProductsData() {
     var query = FirebaseFirestore.instance
@@ -153,7 +195,9 @@ class FirestoreService {
 
         final newProducts = await Future.wait(
           snapshot.docs.map(
-            (e) => _parseProductJson(e.data()),
+            (e) {
+              return _parseProductJson(e.data());
+            },
           ),
         );
 
