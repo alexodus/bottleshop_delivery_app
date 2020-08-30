@@ -1,3 +1,5 @@
+import 'package:bottleshopdeliveryapp/src/models/language_model.dart';
+
 class Constants {
   static const defaultAvatar = 'assets/images/avatar.png';
   static const defaultProductPic = 'assets/images/generic.png';
@@ -17,8 +19,14 @@ class Constants {
   static const ordersCollection = 'orders';
   static List<LanguageModel> get languages => [
         LanguageModel(
-            'English', 'English', 'assets/images/united-states-of-america.png'),
-        LanguageModel('Slovak', 'Slovenčina', 'assets/images/slovakia.png')
+          englishName: 'English',
+          localName: 'English',
+          flag: 'assets/images/united-states-of-america.png',
+        ),
+        LanguageModel(
+            englishName: 'Slovak',
+            localName: 'Slovenčina',
+            flag: 'assets/images/slovakia.png')
       ];
   static String cloudStorageBucket =
       'gs://bottleshop3veze-delivery.appspot.com';

@@ -5,11 +5,9 @@ import 'package:bottleshopdeliveryapp/src/models/new/categories_tree_model.dart'
 import 'package:bottleshopdeliveryapp/src/models/new/category_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/category_plain_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/country_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/order_type_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/unit_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tuple/tuple.dart';
 
@@ -29,22 +27,22 @@ class FirestoreService {
       _productDeletesStreamCtrl.stream;
 
   Future<List<CountryModel>> countries() async {
-    final docs = await Firestore.instance
+    final docs = await FirebaseFirestore.instance
         .collection(Constants.countriesCollection)
-        .getDocuments();
-    final docsMap = Map.fromEntries(
-        docs.documents.map((e) => MapEntry(e.documentID, e.data)));
+        .get();
+    final docsMap =
+        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data())));
     return docsMap.entries
         .map((e) => CountryModel.fromJson(e.value, e.key))
         .toList();
   }
 
   Future<List<CategoriesTreeModel>> categories() async {
-    final docs = await Firestore.instance
+    final docs = await FirebaseFirestore.instance
         .collection(Constants.categoriesCollection)
-        .getDocuments();
-    final docsMap = Map.fromEntries(
-        docs.documents.map((e) => MapEntry(e.documentID, e.data)));
+        .get();
+    final docsMap =
+        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data())));
     return docsMap.entries
         .where((element) =>
             element.value.containsKey(CategoriesTreeModel.isMainCategoryField))
@@ -54,22 +52,22 @@ class FirestoreService {
   }
 
   Future<List<UnitModel>> units() async {
-    final docs = await Firestore.instance
+    final docs = await FirebaseFirestore.instance
         .collection(Constants.unitsCollection)
-        .getDocuments();
-    final docsMap = Map.fromEntries(
-        docs.documents.map((e) => MapEntry(e.documentID, e.data)));
+        .get();
+    final docsMap =
+        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data)));
     return docsMap.entries
-        .map((e) => UnitModel.fromJson(e.value, e.key))
+        .map((e) => UnitModel.fromJson(e.value(), e.key))
         .toList();
   }
 
   Future<List<OrderTypeModel>> orderTypes() async {
-    final docs = await Firestore.instance
+    final docs = await FirebaseFirestore.instance
         .collection(Constants.orderTypesCollection)
-        .getDocuments();
-    final docsMap = Map.fromEntries(
-        docs.documents.map((e) => MapEntry(e.documentID, e.data)));
+        .get();
+    final docsMap =
+        Map.fromEntries(docs.docs.map((e) => MapEntry(e.id, e.data())));
     return docsMap.entries
         .map((e) => OrderTypeModel.fromJson(e.value, e.key))
         .toList();
@@ -88,7 +86,7 @@ class FirestoreService {
       if (categories.isEmpty) return null;
       final doc = categories.first;
       return CategoryModel(
-        categoryDetails: CategoryPlainModel.fromJson(doc.data, doc.documentID),
+        categoryDetails: CategoryPlainModel.fromJson(doc.data(), doc.id),
         subCategory: _parseCategories(categories.skip(1)),
       );
     }
@@ -100,7 +98,7 @@ class FirestoreService {
       for (var i = 0; i < allCategories.length; i++) {
         if (i == 0) continue;
         if (allCategories[i]
-            .data
+            .data()
             .containsKey(CategoriesTreeModel.isMainCategoryField)) {
           yield i;
           yield* _categoriesCounts(allCategories.skip(i).toList());
@@ -125,46 +123,8 @@ class FirestoreService {
     return result.item2.toList();
   }
 
-  Future<List<OrderModel>> orders() async {
-    final docs = await Firestore.instance
-        .collection(Constants.ordersCollection)
-        .getDocuments();
-    return await Future.wait(
-      docs.documents.map(
-        (e) async {
-          final result = Map<String, dynamic>.from(e.data);
-
-          final DocumentSnapshot userDoc =
-              await e.data[OrderModel.userRefField].get();
-          final DocumentSnapshot orderTypeDoc =
-              await e.data[OrderModel.orderTypeRefField].get();
-
-          if (!userDoc.exists || !orderTypeDoc.exists) {
-            return Future.error('missing reference');
-          }
-
-          result[OrderModel.userField] = UserModel.fromJson(userDoc.data);
-          result[OrderModel.orderTypeField] = OrderTypeModel.fromJson(
-              orderTypeDoc.data, orderTypeDoc.documentID);
-          result[OrderModel.cartItemsField] = await Future.wait(
-            List<Future<dynamic>>.from(
-              e.data[OrderModel.cartItemsField].map(
-                (e) async {
-                  e[CartItemModel.productField] =
-                      await _parseProductJson(e[CartItemModel.productField]);
-                  return e;
-                },
-              ),
-            ),
-          );
-          return OrderModel.fromJson(result, e.documentID);
-        },
-      ),
-    );
-  }
-
   void requestMoreProductsData() {
-    var query = Firestore.instance
+    var query = FirebaseFirestore.instance
         .collection(Constants.productsCollection)
         .orderBy(ProductModel.nameField)
         .limit(10);
@@ -173,29 +133,27 @@ class FirestoreService {
     }
 
     query.snapshots().listen((snapshot) async {
-      final removed = snapshot.documentChanges
+      final removed = snapshot.docChanges
           .where((element) => element.type == DocumentChangeType.removed);
 
       if (removed.isNotEmpty) {
         final removedParsed = await Future.wait(
           removed.map(
-            (e) => _parseProductJson(e.document.data),
+            (e) => _parseProductJson(e.doc.data()),
           ),
         );
 
         _productDeletesStreamCtrl.add(removedParsed);
       }
 
-      if (snapshot.documents.isEmpty) {
+      if (snapshot.docs.isEmpty) {
         _productsStreamCtrl.add([]);
       } else {
-        _lastDocument = snapshot.documents.last;
+        _lastDocument = snapshot.docs.last;
 
         final newProducts = await Future.wait(
-          snapshot.documents.map(
-            (e) {
-              return _parseProductJson(e.data);
-            },
+          snapshot.docs.map(
+            (e) => _parseProductJson(e.data()),
           ),
         );
 
@@ -219,9 +177,9 @@ class FirestoreService {
     productJson[ProductModel.categoriesField] = await categoriesByRefs(
         productJson[ProductModel.categoryRefsField].cast<DocumentReference>());
     productJson[ProductModel.countryField] =
-        CountryModel.fromJson(countryDoc.data, countryDoc.documentID);
+        CountryModel.fromJson(countryDoc.data(), countryDoc.id);
     productJson[ProductModel.unitsTypeField] =
-        UnitModel.fromJson(unitDoc.data, unitDoc.documentID);
+        UnitModel.fromJson(unitDoc.data(), unitDoc.id);
 
     return ProductModel.fromJson(productJson);
   }
