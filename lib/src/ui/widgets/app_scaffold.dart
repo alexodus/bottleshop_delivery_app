@@ -6,7 +6,7 @@ class AppScaffold extends StatelessWidget {
   final Widget endDrawer;
   final AppBar appBar;
   final Widget body;
-  final BottomNavigationBar bottomNavigationBar;
+  final Widget bottomNavigationBar;
 
   const AppScaffold(
       {Key key,

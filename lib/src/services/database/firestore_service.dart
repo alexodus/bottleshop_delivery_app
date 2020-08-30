@@ -1,14 +1,15 @@
 import 'dart:async';
 
+import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/models/slider_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
-  final Firestore _firestoreInstance;
+  final FirebaseFirestore _firestoreInstance;
 
-  FirestoreService({Firestore firestore})
-      : _firestoreInstance = firestore ?? Firestore.instance;
-
+  FirestoreService({FirebaseFirestore firestore})
+      : _firestoreInstance = firestore ?? FirebaseFirestore.instance;
   final StreamController<List<Product>> _productController =
       StreamController<List<Product>>.broadcast();
 
@@ -30,10 +31,9 @@ class FirestoreService {
     if (!_hasMoreProducts) return;
     var currentRequestIndex = _allPagedResults.length;
     pageProductQuery.snapshots().listen((productSnapshot) {
-      if (productSnapshot.documents.isNotEmpty) {
-        var products = productSnapshot.documents
-            .map((snapshot) =>
-                Product.fromMap(snapshot.data, snapshot.documentID))
+      if (productSnapshot.docs.isNotEmpty) {
+        var products = productSnapshot.docs
+            .map((snapshot) => Product.fromMap(snapshot.data(), snapshot.id))
             .toList();
         var pageExists = currentRequestIndex < _allPagedResults.length;
         if (pageExists) {
@@ -45,7 +45,7 @@ class FirestoreService {
             (initialValue, pageItems) => initialValue..addAll(pageItems));
         _productController.add(allPosts);
         if (currentRequestIndex == _allPagedResults.length - 1) {
-          _lastDocument = productSnapshot.documents.last;
+          _lastDocument = productSnapshot.docs.last;
         }
         _hasMoreProducts = products.length == pageLimit;
       }
@@ -58,4 +58,50 @@ class FirestoreService {
   }
 
   void requestMoreData() => _requestProducts();
+
+  Future<List<Product>> getAllProducts() async {
+    var productDocuments = await _firestoreInstance
+        .collection(Constants.productsCollection)
+        .orderBy('name')
+        .get();
+    return productDocuments.docs.map((product) {
+      return Product.fromMap(product.data(), product.id);
+    }).toList();
+  }
+
+  Future<List<Product>> getAllProductsByCategoryName(
+      String categoryName) async {
+    var productDocuments = await _firestoreInstance
+        .collection(Constants.productsCollection)
+        .where('category', isEqualTo: categoryName)
+        .orderBy('name')
+        .get();
+    return productDocuments.docs.map((product) {
+      return Product.fromMap(product.data(), product.id);
+    }).toList();
+  }
+
+  Future<List<Product>> getAllProductsOnFlashSale() async {
+    var productDocuments = await _firestoreInstance
+        .collection(Constants.productsCollection)
+        .orderBy('flash_sale_until')
+        .get();
+    return productDocuments.docs.map((product) {
+      return Product.fromMap(product.data(), product.id);
+    }).toList();
+  }
+
+  Future<List<SliderModel>> getSlidersConfig() async {
+    var slidersDocument = await _firestoreInstance
+        .collection(Constants.configurationCollection)
+        .doc('0')
+        .get();
+    List<SliderModel> sliders;
+    if (slidersDocument.data()['sliders'] != null) {
+      var slidersData = slidersDocument.data()['sliders'];
+      sliders = <SliderModel>[];
+      slidersData.forEach((data) => sliders.add(SliderModel.fromMap(data)));
+    }
+    return sliders;
+  }
 }

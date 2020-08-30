@@ -1,17 +1,16 @@
 import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/flash_sales_carousel_item.dart';
 import 'package:flutter/material.dart';
 
-import 'flash_sales_carousel_item.dart';
-
 class FlashSalesCarousel extends StatelessWidget {
-  final List<Product> productsList;
   final String heroTag;
+  final List<Product> productList;
 
   const FlashSalesCarousel({
     Key key,
-    @required this.productsList,
     @required this.heroTag,
-  })  : assert(productsList != null),
+    @required this.productList,
+  })  : assert(productList != null),
         assert(heroTag != null),
         super(key: key);
 
@@ -21,14 +20,14 @@ class FlashSalesCarousel extends StatelessWidget {
         height: 300,
         margin: EdgeInsets.only(top: 10),
         child: ListView.builder(
-          itemCount: productsList.length,
+          itemCount: productList.length,
           itemBuilder: (context, index) {
             var _marginLeft = 0.0;
             (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
             return FlashSalesCarouselItem(
               heroTag: heroTag,
               marginLeft: _marginLeft,
-              product: productsList.elementAt(index),
+              product: productList.elementAt(index),
             );
           },
           scrollDirection: Axis.horizontal,

@@ -80,100 +80,25 @@ class ProductHomeTab extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.9),
-            boxShadow: [
-              BoxShadow(
-                  color: Theme.of(context).focusColor.withOpacity(0.15),
-                  blurRadius: 5,
-                  offset: Offset(0, 2)),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      'Select Color',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.all(0),
-                    minWidth: 0,
-                    child: Text(
-                      'Clear All',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 10),
-            ],
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          margin: EdgeInsets.symmetric(vertical: 20),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.9),
-            boxShadow: [
-              BoxShadow(
-                  color: Theme.of(context).focusColor.withOpacity(0.15),
-                  blurRadius: 5,
-                  offset: Offset(0, 2)),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      'Select Size',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.all(0),
-                    minWidth: 0,
-                    child: Text(
-                      'Clear All',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 10),
-            ],
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           child: ListTile(
             dense: true,
             contentPadding: EdgeInsets.symmetric(vertical: 0),
             leading: Icon(
-              Icons.check_box_outline_blank,
+              Icons.flash_on,
               color: Theme.of(context).hintColor,
             ),
             title: Text(
-              'Related Poducts',
+              'Related Products',
               style: Theme.of(context).textTheme.headline4,
             ),
           ),
         ),
         FlashSalesCarousel(
-            heroTag: 'product_related_products', productsList: flashSalesList),
+          heroTag: 'product_related_products',
+          productList: flashSalesList,
+        ),
       ],
     );
   }
