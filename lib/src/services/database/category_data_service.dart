@@ -3,17 +3,12 @@ import 'package:bottleshopdeliveryapp/src/models/category.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CategoryDataService {
-  final Firestore _firestoreInstance;
+  final FirebaseFirestore _firestoreInstance;
 
-  CategoryDataService() : _firestoreInstance = Firestore.instance;
+  CategoryDataService() : _firestoreInstance = FirebaseFirestore.instance;
 
   Future<List<Category>> getAllCategories() async {
-    var categorySnapShot = await _firestoreInstance
-        .collection(Constants.categoriesCollection)
-        .orderBy('name')
-        .getDocuments();
-    return categorySnapShot.documents
-        .map((snapshot) => Category.fromMap(snapshot.data, snapshot.documentID))
-        .toList();
+    var categorySnapShot = await _firestoreInstance.collection(Constants.categoriesCollection).orderBy('name').get();
+    return categorySnapShot.docs.map((snapshot) => Category.fromMap(snapshot.data(), snapshot.id)).toList();
   }
 }

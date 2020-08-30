@@ -15,6 +15,7 @@ import 'package:bottleshopdeliveryapp/src/services/payment/stripe_service.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,7 @@ void main() {
           create: (_) => AuthenticationService(),
         ),
         StreamProvider<User>(
-          create: (context) =>
-              context.read<Authentication>().onAuthStateChanged,
+          create: (context) => context.read<Authentication>().authStateChanges,
         ),
         Provider<ProductDataService>(
           create: (_) => ProductDataService(),
@@ -61,30 +61,45 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final logger = Analytics.getLogger('MyApp');
+
   @override
   Widget build(BuildContext context) {
-    final logger = Analytics.getLogger('MyApp');
-    final observer =
-        context.select((Analytics analytics) => analytics.analyticsObserver);
-    return MaterialApp(
-      navigatorObservers: <NavigatorObserver>[observer],
-      title: Strings.appName,
-      onGenerateRoute: Routes.onGenerateRoute,
-      theme: appTheme,
-      darkTheme: appThemeDark,
-      themeMode: ThemeMode.system,
-      home: Consumer<User>(
-        builder: (_, user, __) {
-          logger.v('current user: $user');
-          if (user == null) {
-            observer.analytics.logTutorialBegin();
-            return OnBoardingView();
-          } else {
-            observer.analytics.setUserId(user.uid);
-            return TabsView();
-          }
-        },
-      ),
+    final observer = context.select((Analytics analytics) => analytics.analyticsObserver);
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          logger.e('snapshot error');
+          return CircularProgressIndicator();
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MaterialApp(
+            navigatorObservers: <NavigatorObserver>[observer],
+            title: Strings.appName,
+            onGenerateRoute: Routes.onGenerateRoute,
+            theme: appTheme,
+            darkTheme: appThemeDark,
+            themeMode: ThemeMode.system,
+            home: Consumer<User>(
+              builder: (_, user, __) {
+                logger.v('current user: $user');
+                if (user == null) {
+                  observer.analytics.logTutorialBegin();
+                  return OnBoardingView();
+                } else {
+                  observer.analytics.setUserId(user.uid);
+                  return TabsView();
+                }
+              },
+            ),
+          );
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 }
