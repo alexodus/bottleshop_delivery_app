@@ -15,11 +15,6 @@ class Constants {
   static const unitsCollection = 'units';
   static const orderTypesCollection = 'order_types';
   static const ordersCollection = 'orders';
-  static List<LanguageModel> get languages => [
-        LanguageModel(
-            'English', 'English', 'assets/images/united-states-of-america.png'),
-        LanguageModel('Slovak', 'Slovenčina', 'assets/images/slovakia.png')
-      ];
   static String cloudStorageBucket =
       'gs://bottleshop3veze-delivery.appspot.com';
   static const configurationCollection = 'configuration';

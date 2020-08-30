@@ -123,21 +123,21 @@ class ProductModel {
       countField: count,
       unitsCountField: unitsCount,
       alcoholField: alcohol,
-      unitsTypeRefField: Firestore.instance
+      unitsTypeRefField: FirebaseFirestore.instance
           .collection(Constants.unitsCollection)
-          .document(unitsType.id),
+          .doc(unitsType.id),
       categoryRefsField: categories
           .expand<DocumentReference>(
             (category) => CategoryModel.allIds(category).map(
-              (e) => Firestore.instance
+              (e) => FirebaseFirestore.instance
                   .collection(Constants.categoriesCollection)
-                  .document(e),
+                  .doc(e),
             ),
           )
           .toList(),
-      countryRefField: Firestore.instance
+      countryRefField: FirebaseFirestore.instance
           .collection(Constants.countriesCollection)
-          .document(country.id),
+          .doc(country.id),
       descriptionSkField: descriptionSk,
       descriptionEnField: descriptionEn,
       discountField: discount,

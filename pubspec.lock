@@ -849,7 +849,7 @@ packages:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.10"
+    version: "0.3.12-nullsafety.2"
   tuple:
     dependency: "direct main"
     description:

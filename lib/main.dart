@@ -17,7 +17,6 @@ import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -75,8 +74,6 @@ class MyApp extends StatelessWidget {
           logger.e('snapshot error');
           return CircularProgressIndicator();
         }
-
-        // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
             navigatorObservers: <NavigatorObserver>[observer],
@@ -99,6 +96,7 @@ class MyApp extends StatelessWidget {
             ),
           );
         }
+        // TODO: proper loader and error handler
         return CircularProgressIndicator();
       },
     );
