@@ -66,7 +66,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final observer = context.select((Analytics analytics) => analytics.analyticsObserver);
+    final observer =
+        context.select((Analytics analytics) => analytics.analyticsObserver);
     return FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {

@@ -13,25 +13,39 @@ class UserDataService {
   UserDataService() : _firestoreInstance = FirebaseFirestore.instance;
 
   Future<DocumentSnapshot> getUser(String uid) async {
-    return _firestoreInstance.collection(Constants.usersCollection).doc(uid).get();
+    return _firestoreInstance
+        .collection(Constants.usersCollection)
+        .doc(uid)
+        .get();
   }
 
   Future<void> setUser(User user) async {
-    return _firestoreInstance.collection(Constants.usersCollection).doc(user.uid).set(
+    return _firestoreInstance
+        .collection(Constants.usersCollection)
+        .doc(user.uid)
+        .set(
           user.toJson(),
           SetOptions(merge: true),
         );
   }
 
-  CollectionReference getFavoriteListFor(String uid) =>
-      _firestoreInstance.collection(Constants.usersCollection).doc(uid).collection(Constants.favoritesCollection);
+  CollectionReference getFavoriteListFor(String uid) => _firestoreInstance
+      .collection(Constants.usersCollection)
+      .doc(uid)
+      .collection(Constants.favoritesCollection);
 
   CollectionReference getShoppingCartFor(String uid) {
-    return _firestoreInstance.collection(Constants.usersCollection).doc(uid).collection(Constants.cartCollection);
+    return _firestoreInstance
+        .collection(Constants.usersCollection)
+        .doc(uid)
+        .collection(Constants.cartCollection);
   }
 
   Stream<QuerySnapshot> shoppingCartItemCount(String uid) {
-    return getShoppingCartFor(uid).orderBy('documentId', descending: true).limit(1).snapshots();
+    return getShoppingCartFor(uid)
+        .orderBy('documentId', descending: true)
+        .limit(1)
+        .snapshots();
   }
 
   Future<void> addProductToCart(CartItemModel product) async {
@@ -56,5 +70,6 @@ class UserDataService {
 
   bool isProductInWishList(String productRef) => _wishList.contains(productRef);
 
-  bool isProductInCart(String productRef) => _cart.indexWhere((element) => element.productRef == productRef) == 0;
+  bool isProductInCart(String productRef) =>
+      _cart.indexWhere((element) => element.productRef == productRef) == 0;
 }
