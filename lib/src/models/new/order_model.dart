@@ -1,6 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/models/new/order_type_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/new/user_model.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -15,26 +16,35 @@ class OrderModel {
   static const String statusStepIdField = 'status_step_id';
   static const String statusTimestampsField = 'status_timestamps';
   static const String createdAtTimestampField = 'created_at';
+  static const String preparingAdminRefField = 'preparing_admin_ref';
 
   // fields after data join
   static const String userField = 'customer';
   static const String orderTypeField = 'order_type';
+  static const String preparingAdminField = 'preparing_admin';
 
   final String id;
   final int orderId;
   final UserModel customer;
   final OrderTypeModel orderType;
   final String note;
-  final List<CartItemModel> cartItems;
+  final List<CartItemModel> _cartItems;
   final double totalPaid;
   final int statusStepId;
-  final List<DateTime> statusStepsDates;
+  final List<DateTime> _statusStepsDates;
+
+  List<CartItemModel> get cartItems => _cartItems;
+  List<DateTime> get statusStepsDates => _statusStepsDates;
 
   bool get isComplete => statusStepId == orderType.orderStepsIds.last;
 
+  bool get isFollowingStatusIdComplete =>
+      isComplete || getFollowingStatusId == orderType.orderStepsIds.last;
+
   int get getFollowingStatusId {
     assert(!isComplete);
-    return orderType.orderStepsIds.indexOf(statusStepId) + 1;
+    return orderType
+        .orderStepsIds[orderType.orderStepsIds.indexOf(statusStepId) + 1];
   }
 
   OrderModel({
@@ -43,11 +53,12 @@ class OrderModel {
     @required this.customer,
     @required this.orderType,
     @required this.note,
-    @required this.cartItems,
+    @required List<CartItemModel> cartItems,
     @required this.totalPaid,
     @required this.statusStepId,
-    @required this.statusStepsDates,
-  });
+    @required List<DateTime> statusStepsDates,
+  })  : _cartItems = List.unmodifiable(cartItems),
+        _statusStepsDates = List.unmodifiable(statusStepsDates);
 
   OrderModel.fromJson(Map<String, dynamic> json, String id)
       : assert(json[orderTypeField] is OrderTypeModel),
@@ -61,17 +72,20 @@ class OrderModel {
                     .indexOf(json[statusStepIdField]) +
                 1 ==
             json[statusTimestampsField].length),
+        assert(
+            json[preparingAdminField] != null || json[statusStepIdField] == 0),
         id = id,
         orderId = json[idField],
         customer = json[userField],
         orderType = json[orderTypeField],
         note = json[noteField],
-        cartItems = List<CartItemModel>.from(
+        _cartItems = List<CartItemModel>.unmodifiable(
             json[cartItemsField].map((e) => CartItemModel.fromJson(e))),
         totalPaid = json[totalPaidField],
         statusStepId = json[statusStepIdField],
-        statusStepsDates = List<DateTime>.from(json[statusTimestampsField]
-            .map((e) => DateTime.fromMillisecondsSinceEpoch(e.seconds * 1000)));
+        _statusStepsDates = List<DateTime>.unmodifiable(
+            json[statusTimestampsField].map(
+                (e) => DateTime.fromMillisecondsSinceEpoch(e.seconds * 1000)));
 
   @override
   bool operator ==(other) =>
@@ -81,10 +95,10 @@ class OrderModel {
       other.customer == customer &&
       other.orderType == orderType &&
       other.note == note &&
-      other.cartItems == cartItems &&
+      ListEquality().equals(other.cartItems, cartItems) &&
       other.totalPaid == totalPaid &&
       other.statusStepId == statusStepId &&
-      other.statusStepsDates == statusStepsDates;
+      ListEquality().equals(other.statusStepsDates, statusStepsDates);
 
   @override
   int get hashCode =>
@@ -93,10 +107,12 @@ class OrderModel {
       customer.hashCode ^
       orderType.hashCode ^
       note.hashCode ^
-      cartItems.hashCode ^
+      cartItems.fold(
+          0, (previousValue, element) => previousValue ^ element.hashCode) ^
       totalPaid.hashCode ^
       statusStepId.hashCode ^
-      statusStepsDates.hashCode;
+      statusStepsDates.fold(
+          0, (previousValue, element) => previousValue ^ element.hashCode);
 }
 
 @immutable
