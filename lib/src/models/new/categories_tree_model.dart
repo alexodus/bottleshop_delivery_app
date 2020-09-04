@@ -16,8 +16,13 @@ class CategoriesTreeModel {
     String documentId,
     Map<String, Map<String, dynamic>> documentIdsToData,
   )   : categoryDetails = CategoryPlainModel.fromJson(documentJson, documentId),
-        subCategories =
-            _parseSubcategoriesNew(documentJson, documentIdsToData).toList();
+        subCategories = List.unmodifiable(
+          _parseSubcategoriesNew(documentJson, documentIdsToData).toList()
+            ..sort((a, b) => a.categoryDetails.localizedName.local
+                .toLowerCase()
+                .compareTo(
+                    b.categoryDetails.localizedName.local.toLowerCase())),
+        );
 
   static Iterable<CategoriesTreeModel> _parseSubcategoriesNew(
     Map<String, dynamic> documentJson,
