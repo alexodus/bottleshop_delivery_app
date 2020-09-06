@@ -45,7 +45,7 @@ class ProductModel {
   final double unitsCount;
   final UnitModel unitsType;
   final int alcohol;
-  final List<CategoryModel> categories;
+  final List<CategoryModel> _categories;
   final CountryModel country;
   final String descriptionSk;
   final String descriptionEn;
@@ -54,27 +54,31 @@ class ProductModel {
   final bool isNewEntry;
   final DateTime flashSaleUntil;
 
+  List<CategoryModel> get extraCategories => _categories?.skip(1)?.toList();
+  List<CategoryModel> get allCategories => _categories;
+
   String get uniqueId => cmat;
   bool get hasAlcohol => alcohol != null;
 
   double get priceNoVat => _price;
   double get priceWithVat => _price == null ? null : _price * 1.2;
-  double get finalPrice =>
-      _price == null ? null : _price * 1.2 * (discount ?? 1);
+  double get finalPrice => _price == null
+      ? null
+      : _price * 1.2 * (discount == null ? 1 : 1 - discount);
 
-  const ProductModel({
-    this.name,
+  ProductModel({
+    @required this.name,
     @required this.edition,
     @required this.age,
     @required this.year,
     @required this.cmat,
     @required this.ean,
-    @required price,
+    @required double price,
     @required this.count,
     @required this.unitsCount,
     @required this.unitsType,
     @required this.alcohol,
-    @required this.categories,
+    @required List<CategoryModel> categories,
     @required this.country,
     @required this.descriptionSk,
     @required this.descriptionEn,
@@ -82,12 +86,15 @@ class ProductModel {
     @required this.isRecommended,
     @required this.isNewEntry,
     @required this.flashSaleUntil,
-  }) : _price = price;
+  })  : _price = price,
+        _categories = List.unmodifiable(categories);
 
   ProductModel.fromJson(Map<String, dynamic> json)
       : assert(json[countryField] is CountryModel),
         assert(json[unitsTypeField] is UnitModel),
         assert(json[categoriesField] is List<CategoryModel>),
+        assert(json[discountField] == null ||
+            json[discountField] > 0 && json[discountField] <= 1),
         name = json[nameField],
         edition = json[editionField],
         year = json[yearField],
@@ -100,7 +107,7 @@ class ProductModel {
         unitsCount = json[unitsCountField],
         unitsType = json[unitsTypeField],
         alcohol = json[alcoholField],
-        categories = json[categoriesField],
+        _categories = List<CategoryModel>.unmodifiable(json[categoriesField]),
         descriptionSk = json[descriptionSkField],
         descriptionEn = json[descriptionEnField],
         discount = json[discountField],
@@ -126,7 +133,7 @@ class ProductModel {
       unitsTypeRefField: FirebaseFirestore.instance
           .collection(Constants.unitsCollection)
           .doc(unitsType.id),
-      categoryRefsField: categories
+      categoryRefsField: _categories
           .expand<DocumentReference>(
             (category) => CategoryModel.allIds(category).map(
               (e) => FirebaseFirestore.instance
@@ -164,7 +171,7 @@ class ProductModel {
       other.unitsCount == unitsCount &&
       other.unitsType == unitsType &&
       other.alcohol == alcohol &&
-      other.categories == categories &&
+      ListEquality().equals(other._categories, _categories) &&
       other.country == country &&
       other.descriptionSk == descriptionSk &&
       other.descriptionEn == descriptionEn &&
@@ -186,7 +193,8 @@ class ProductModel {
       unitsCount.hashCode ^
       unitsType.hashCode ^
       alcohol.hashCode ^
-      categories.hashCode ^
+      _categories.fold(
+          0, (previousValue, element) => previousValue ^ element.hashCode) ^
       country.hashCode ^
       descriptionSk.hashCode ^
       descriptionEn.hashCode ^

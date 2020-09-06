@@ -36,6 +36,7 @@ dependencies:
   auto_size_text: ^2.1.0
   tuple: ^1.0.3
   http: ^0.12.2
+  collection: any
 
 
 dev_dependencies:
@@ -47,6 +48,10 @@ dev_dependencies:
     sdk: flutter
   test: any
   e2e: ^0.7.0
+
+dependency_overrides:
+  pedantic: any
+  mockito: any
 
 flutter:
   uses-material-design: true
