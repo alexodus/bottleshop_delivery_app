@@ -1,17 +1,13 @@
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
-import 'package:bottleshopdeliveryapp/src/ui/widgets/flash_sales_carousel.dart';
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductHomeTab extends StatelessWidget {
-  final Product product;
-  final List<Product> flashSalesList;
+  final ProductModel product;
 
   const ProductHomeTab({
     Key key,
     @required this.product,
-    @required this.flashSalesList,
   })  : assert(product != null),
-        assert(flashSalesList != null),
         super(key: key);
 
   @override
@@ -61,11 +57,11 @@ class ProductHomeTab extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(product.price.toStringAsFixed(2),
+              Text(product.priceNoVat.toStringAsFixed(2),
                   style: Theme.of(context).textTheme.headline2),
               SizedBox(width: 10),
               Text(
-                product.price.toStringAsFixed(2),
+                product.priceNoVat.toStringAsFixed(2),
                 style: Theme.of(context).textTheme.headline5.merge(TextStyle(
                     color: Theme.of(context).focusColor,
                     decoration: TextDecoration.lineThrough)),
@@ -79,25 +75,6 @@ class ProductHomeTab extends StatelessWidget {
               )
             ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: ListTile(
-            dense: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 0),
-            leading: Icon(
-              Icons.flash_on,
-              color: Theme.of(context).hintColor,
-            ),
-            title: Text(
-              'Related Products',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ),
-        ),
-        FlashSalesCarousel(
-          heroTag: 'product_related_products',
-          productList: flashSalesList,
         ),
       ],
     );

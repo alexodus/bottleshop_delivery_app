@@ -1,6 +1,5 @@
+import 'package:bottleshopdeliveryapp/src/models/category_plain_model.dart';
 import 'package:flutter/material.dart';
-
-import 'category_plain_model.dart';
 
 @immutable
 class CategoryModel {
@@ -38,5 +37,10 @@ class CategoryModel {
     if (model == null) return;
     yield model.categoryDetails.id;
     yield* allIds(model.subCategory);
+  }
+
+  @override
+  String toString() {
+    return 'CategoryModel{categoryDetails: $categoryDetails, subCategory: $subCategory}';
   }
 }

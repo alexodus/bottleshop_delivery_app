@@ -13,12 +13,8 @@ class ProductDetailViewModel extends BaseViewModel {
     setLoading();
     if (isProductInFavorites(productId)) {
       _logger.d('removed $productId from favourites');
-      await locator<UserDataService>()
-          .removeProductFromWishList('/warehouse/$productId');
     } else {
       _logger.d('added $productId to favourites');
-      await locator<UserDataService>()
-          .addProductToWishList('/warehouse/$productId');
     }
     setNotLoading();
   }

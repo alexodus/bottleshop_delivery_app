@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/src/models/slider_model.dart';
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/home_tab_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,8 +9,8 @@ import 'package:provider/provider.dart';
 class HomeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final sliderList =
-        context.select((HomeTabViewModel model) => model.sliders);
+    final sliderList = context.select<HomeTabViewModel, List<SliderModel>>(
+        (HomeTabViewModel vm) => vm.sliders);
     return Offstage(
       offstage: sliderList.isEmpty,
       child: Stack(
@@ -61,7 +62,8 @@ class HomeSlider extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6
-                                  .merge(TextStyle(height: 0.8)),
+                                  .merge(TextStyle(
+                                      height: 0.8, color: Colors.white)),
                               textAlign: TextAlign.right,
                               overflow: TextOverflow.fade,
                               maxLines: 3,

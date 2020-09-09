@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
 import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
@@ -43,7 +45,10 @@ class MenuDrawer extends StatelessWidget {
           SideMenuItem(
             dense: true,
             title: 'Application Preferences',
-            titleStyle: Theme.of(context).textTheme.bodyText2,
+            titleStyle: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .merge(TextStyle(color: Theme.of(context).focusColor)),
           ),
           SideMenuItem(
             leading: Icons.settings,

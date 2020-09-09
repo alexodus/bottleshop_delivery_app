@@ -20,13 +20,9 @@ class UserDataService {
   }
 
   Future<void> setUser(User user) async {
-    return _firestoreInstance
-        .collection(Constants.usersCollection)
-        .doc(user.uid)
-        .set(
-          user.toJson(),
-          SetOptions(merge: true),
-        );
+    final userDocRef =
+        _firestoreInstance.collection(Constants.usersCollection).doc(user.uid);
+    return userDocRef.set(user.toMap(), SetOptions(merge: true));
   }
 
   CollectionReference getFavoriteListFor(String uid) => _firestoreInstance

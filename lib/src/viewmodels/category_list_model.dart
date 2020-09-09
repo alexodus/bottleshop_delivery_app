@@ -1,65 +1,51 @@
 import 'dart:collection';
 
-import 'package:bottleshopdeliveryapp/src/models/category.dart';
+import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/category_data_service.dart';
+import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
 
 class CategoryListModel {
-  static final CategoryListModel _instance = CategoryListModel?._internal();
-
   final _logger = Analytics.getLogger('CategoriesViewModel');
-  final CategoryDataService _categoryService = CategoryDataService();
-  final List<Category> _categories = [];
+  final ProductDataService _categoryService;
+
+  List<CategoriesTreeModel> _categoryTree = [];
   final List<String> _categoryFilters = [];
   final List<String> _subCategoryFilters = [];
   final List<String> _additionalCategoryFilters = [];
   static bool _isInitComplete = false;
 
-  CategoryListModel._internal();
-
-  factory CategoryListModel() {
-    return _instance;
-  }
+  CategoryListModel({ProductDataService productDataService})
+      : _categoryService = productDataService ?? ProductDataService();
 
   Future<void> fetchAllCategories() async {
     _logger.d('fetchAllCategories invoked');
     if (!_isInitComplete) {
-      var iterable = await _categoryService.getAllCategories();
-      _categories.clear();
-      _categories.addAll(iterable);
-      _categories.forEach((element) => _logger.d('element: $element'));
       _isInitComplete = true;
+      var categories = await _categoryService.categories();
+      _categoryTree = [...categories];
+      _categoryTree.sort((first, second) {
+        if (first.subCategories.isEmpty && second.subCategories.isNotEmpty) {
+          return 1;
+        }
+        if (first.subCategories.isNotEmpty && second.subCategories.isEmpty) {
+          return -1;
+        }
+        return 0;
+      });
+      categories.forEach((element) => _logger.d(element));
     }
     _logger.d('fetchAllCategories fetch OK: $_isInitComplete');
   }
 
   CategoryListModel get instance => CategoryListModel();
 
-  UnmodifiableListView<Category> get categories =>
-      UnmodifiableListView(_categories);
+  UnmodifiableListView<CategoriesTreeModel> get categories =>
+      UnmodifiableListView(_categoryTree);
 
-  Category getCategoryByName(String name) {
-    var index = _categories.indexWhere((element) => element.name == name);
-    return index < 0 ? null : _categories[index];
-  }
-
-  SubCategory getSubCategoryByName(String name) {
-    SubCategory subCategory;
-    for (var category in categories) {
-      if (category.subCategories != null) {
-        var index = category.subCategories
-            .indexWhere((subCategory) => subCategory.name == name);
-        if (index >= 0) {
-          subCategory = category.subCategories[index];
-          break;
-        } else {
-          continue;
-        }
-      } else {
-        return null;
-      }
-    }
-    return subCategory;
+  CategoriesTreeModel getCategoryByName(String name) {
+    var index = _categoryTree
+        .indexWhere((element) => element.categoryDetails.name == name);
+    return index < 0 ? null : _categoryTree.elementAt(index);
   }
 
   bool isSubCategorySelected(String subCategoryName) {
@@ -70,16 +56,12 @@ class CategoryListModel {
     return _categoryFilters.contains(categoryName);
   }
 
-  void toggleAdditionalCategorySelection(String name) {
-    _subCategoryFilters.firstWhere((element) => element == name);
-  }
-
   void toggleSubCategorySelection(String name) {
     if (_subCategoryFilters.contains(name)) {
       _subCategoryFilters.remove(name);
       if (getCategoryByName(name)?.subCategories != null) {
         getCategoryByName(name).subCategories
-          ..map((subCategory) => subCategory.name)
+          ..map((subCategory) => subCategory.categoryDetails.name)
           ..forEach((name) => _subCategoryFilters.remove(name));
       }
     } else {
@@ -92,7 +74,7 @@ class CategoryListModel {
       _categoryFilters.remove(name);
       if (getCategoryByName(name)?.subCategories != null) {
         getCategoryByName(name).subCategories
-          ..map((subCategory) => subCategory.name)
+          ..map((subCategory) => subCategory.categoryDetails.name)
           ..forEach((name) => _subCategoryFilters.remove(name));
       }
     } else {

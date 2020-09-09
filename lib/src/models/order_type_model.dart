@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/models/new/localized_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/localized_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  static final Color _mainColor = Color(0xFF6a2c70);
-  static final Color _mainDarkColor = Color(0xFFe8751a);
+  static final Color _mainColor = Color(0xFFfcba00);
+  static final Color _mainDarkColor = Color(0xFFfcba00);
   static final Color _secondColor = Color(0xFFb83b5e);
-  static final Color _secondDarkColor = Color(0xFFE7F6F8);
-  static final Color _accentColor = Color(0xFFdd2c00);
-  static final Color _accentDarkColor = Color(0xFFfda403);
+  static final Color _secondDarkColor = Color(0xFF655C91);
+  static final Color _accentColor = Color(0xFF7CB3C8);
+  static final Color _accentDarkColor = Color(0xFF355361);
 
   static Color mainColor(double opacity) {
     return AppColors._mainColor.withOpacity(opacity);
@@ -41,7 +41,7 @@ final appTheme = ThemeData(
   primaryColor: Colors.white,
   brightness: Brightness.light,
   accentColor: AppColors.mainColor(1),
-  focusColor: AppColors.accentColor(1),
+  focusColor: AppColors.accentColor(0.8),
   hintColor: AppColors.secondColor(1),
   textTheme: GoogleFonts.poppinsTextTheme(
     TextTheme(
@@ -54,7 +54,7 @@ final appTheme = ThemeData(
       headline3: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
-          color: AppColors.secondColor(1)),
+          color: AppColors.accentColor(0.8)),
       headline2: TextStyle(
           fontSize: 22.0,
           fontWeight: FontWeight.w700,
@@ -66,11 +66,11 @@ final appTheme = ThemeData(
       subtitle1: TextStyle(
           fontSize: 15.0,
           fontWeight: FontWeight.w500,
-          color: AppColors.secondColor(1)),
+          color: AppColors.accentColor(0.8)),
       headline6: TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.w600,
-          color: AppColors.mainColor(1)),
+          color: AppColors.secondColor(1.0)),
       bodyText2: TextStyle(fontSize: 12.0, color: AppColors.secondColor(1)),
       bodyText1: TextStyle(
           fontSize: 14.0,

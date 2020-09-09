@@ -1,7 +1,8 @@
-import 'package:bottleshopdeliveryapp/src/models/category.dart';
+import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/categories_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/category_icon.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +50,9 @@ class CategoriesIconsCarousel extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: 0),
+                alignment: Alignment.center,
+                clipBehavior: Clip.hardEdge,
+                margin: EdgeInsets.only(left: 10),
                 decoration: BoxDecoration(
                   color: Theme.of(context).accentColor.withOpacity(1),
                   borderRadius: BorderRadius.only(
@@ -57,15 +60,19 @@ class CategoriesIconsCarousel extends StatelessWidget {
                       topLeft: Radius.circular(60)),
                 ),
                 child: ListView.builder(
+                  dragStartBehavior: DragStartBehavior.start,
                   itemCount: context.select<CategoryListModel, int>(
                       (value) => value.categories.length),
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
+                  physics: ScrollPhysics(parent: ClampingScrollPhysics()),
                   itemBuilder: (context, index) {
                     return Builder(
                       builder: (context) {
-                        final category =
-                            context.select<CategoryListModel, Category>(
-                                (vm) => vm.categories[index]);
+                        final category = context.select<CategoryListModel,
+                            CategoriesTreeModel>((vm) => vm.categories[index]);
                         return CategoryIcon(
                           tickerProvider: tickerProvider,
                           heroTag: 'home_categories_1',

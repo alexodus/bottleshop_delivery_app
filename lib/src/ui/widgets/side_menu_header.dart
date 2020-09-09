@@ -22,7 +22,7 @@ class SideMenuHeader extends StatelessWidget {
       },
       child: UserAccountsDrawerHeader(
         decoration: BoxDecoration(
-          color: Theme.of(context).accentColor.withOpacity(0.1),
+          color: Theme.of(context).accentColor.withOpacity(0.4),
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
         ),
         accountName: Text(

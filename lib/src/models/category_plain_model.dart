@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/models/new/localized_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/localized_model.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -39,4 +39,9 @@ class CategoryPlainModel {
       localizedName.hashCode ^
       name.hashCode ^
       isExtraCategory.hashCode;
+
+  @override
+  String toString() {
+    return 'CategoryPlainModel{id: $id, localizedName: $localizedName, name: $name, isExtraCategory: $isExtraCategory}';
+  }
 }

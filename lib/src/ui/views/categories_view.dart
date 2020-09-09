@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/models/category.dart';
+import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/category_detail_view.dart';
@@ -59,8 +59,9 @@ class CategoriesView extends StatelessWidget {
                 children: List.generate(
                     context.select<CategoryListModel, int>(
                         (vm) => vm.categories.length), (index) {
-                  final category = context.select<CategoryListModel, Category>(
-                      (vm) => vm.categories.elementAt(index));
+                  final category =
+                      context.select<CategoryListModel, CategoriesTreeModel>(
+                          (vm) => vm.categories.elementAt(index));
                   return index.isEven
                       ? buildEvenCategory(context, category)
                       : buildOddCategory(context, category);
@@ -73,7 +74,7 @@ class CategoriesView extends StatelessWidget {
     );
   }
 
-  Widget buildEvenCategory(BuildContext context, Category category) {
+  Widget buildEvenCategory(BuildContext context, CategoriesTreeModel category) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -104,7 +105,7 @@ class CategoriesView extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Hero(
-                      tag: category.documentID,
+                      tag: category.categoryDetails.id,
                       child: Icon(
                         Icons.category,
                         color: Theme.of(context).primaryColor,
@@ -113,7 +114,7 @@ class CategoriesView extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      category.name,
+                      category.categoryDetails.name,
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     )
                   ],
@@ -192,7 +193,7 @@ class CategoriesView extends StatelessWidget {
                                       .withOpacity(0.2)),
                             ),
                             child: Text(
-                              subCategory.name,
+                              subCategory.categoryDetails.name,
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                           ),
@@ -207,7 +208,7 @@ class CategoriesView extends StatelessWidget {
     );
   }
 
-  Widget buildOddCategory(BuildContext context, Category category) {
+  Widget buildOddCategory(BuildContext context, CategoriesTreeModel category) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -257,7 +258,7 @@ class CategoriesView extends StatelessWidget {
                                       .withOpacity(0.2)),
                             ),
                             child: Text(
-                              subCategory.name,
+                              subCategory.categoryDetails.name,
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                           ),
@@ -295,7 +296,7 @@ class CategoriesView extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Hero(
-                      tag: category.documentID,
+                      tag: category.categoryDetails.id,
                       child: Icon(
                         Icons.category,
                         color: Theme.of(context).primaryColor,
@@ -304,7 +305,7 @@ class CategoriesView extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      category.name,
+                      category.categoryDetails.name,
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     )
                   ],

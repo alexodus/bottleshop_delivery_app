@@ -29,14 +29,14 @@ void main() {
   runZoned(() {
     runApp(MultiProvider(
       providers: [
-        Provider<UserDataService>(
-          create: (_) => UserDataService(),
-        ),
         Provider<Authentication>(
           create: (_) => AuthenticationService(),
         ),
         StreamProvider<User>(
           create: (context) => context.read<Authentication>().authStateChanges,
+        ),
+        Provider<UserDataService>(
+          create: (_) => UserDataService(),
         ),
         Provider<ProductDataService>(
           create: (_) => ProductDataService(),

@@ -29,12 +29,12 @@ class SideMenuItem extends StatelessWidget {
       leading: leading != null
           ? Icon(
               leading,
-              color: Theme.of(context).focusColor.withOpacity(1),
+              color: Theme.of(context).accentColor.withOpacity(0.8),
             )
           : null,
       title: Text(
         title,
-        style: titleStyle ?? Theme.of(context).textTheme.subtitle1,
+        style: titleStyle ?? Theme.of(context).textTheme.headline6,
       ),
       trailing: trailing,
     );

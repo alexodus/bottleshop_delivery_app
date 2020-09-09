@@ -58,8 +58,26 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
             FlashSalesHeader(),
             FlashSalesCarousel(
               heroTag: 'home_flash_sales',
-              productList:
-                  context.select((HomeTabViewModel vm) => vm.flashSales),
+              dataStream: context.watch<HomeTabViewModel>().flashSaleProducts,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                leading: Icon(
+                  Icons.star,
+                  color: Theme.of(context).hintColor,
+                ),
+                title: Text(
+                  'New arrivals',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ),
+            ),
+            FlashSalesCarousel(
+              heroTag: 'home_new_arrival',
+              dataStream: context.watch<HomeTabViewModel>().newProducts,
             ),
             // Heading (Recommended for you)
             Padding(
@@ -77,14 +95,16 @@ class _HomeTabState extends State<HomeTab> with TickerProviderStateMixin {
                 ),
               ),
             ),
+            FlashSalesCarousel(
+              heroTag: 'home_recommended',
+              dataStream: context.watch<HomeTabViewModel>().recommendedProducts,
+            ),
             StickyHeader(
               header: CategoriesIconsCarousel(
                   tickerProvider: this,
                   onChanged: (categoryId) async {
+                    // TODO: Categorization
                     await animationController.reverse();
-                    await context
-                        .read<HomeTabViewModel>()
-                        .getProductsBySelectedCategory();
                     animationController.forward();
                   }),
               content: CategorizedProducts(animationOpacity: animationOpacity),

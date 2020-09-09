@@ -8,7 +8,6 @@ class User {
   final String avatar;
   final String phoneNumber;
   final DateTime dayOfBirth;
-  final List<Address> addresses;
 
   const User({
     @required this.uid,
@@ -16,31 +15,57 @@ class User {
     this.email,
     this.avatar,
     this.phoneNumber,
-    this.addresses,
     this.dayOfBirth,
   }) : assert(uid != null);
 
-  factory User.fromMap(Map<String, dynamic> data) {
-    return User(
-        uid: data['uid'],
-        email: data['email'],
-        name: data['name'],
-        avatar: data['photoUrl'],
-        phoneNumber: data['phoneNumber'],
-        dayOfBirth: data['dayOfBirth'] != null
-            ? DateTime.tryParse(data['dayOfBirth'] ?? '')
-            : null,
-        addresses: data['addresses'] ?? <Address>[]);
+  factory User.fromMap(Map<String, dynamic> map) {
+    return new User(
+      uid: map['uid'] as String,
+      name: map['name'] as String,
+      email: map['email'] as String,
+      avatar: map['avatar'] as String,
+      phoneNumber: map['phoneNumber'] as String,
+      dayOfBirth: map['dayOfBirth'] as DateTime,
+    );
   }
 
-  Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'email': email,
-        'name': name,
-        'avatar': avatar,
-        'phoneNumber': phoneNumber,
-        'addresses': addresses
-      };
+  Map<String, dynamic> toMap() {
+    // ignore: unnecessary_cast
+    return {
+      'uid': this.uid,
+      'name': this.name,
+      'email': this.email,
+      'avatar': this.avatar,
+      'phoneNumber': this.phoneNumber,
+      'dayOfBirth': this.dayOfBirth,
+    } as Map<String, dynamic>;
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is User &&
+          runtimeType == other.runtimeType &&
+          uid == other.uid &&
+          name == other.name &&
+          email == other.email &&
+          avatar == other.avatar &&
+          phoneNumber == other.phoneNumber &&
+          dayOfBirth == other.dayOfBirth;
+
+  @override
+  int get hashCode =>
+      uid.hashCode ^
+      name.hashCode ^
+      email.hashCode ^
+      avatar.hashCode ^
+      phoneNumber.hashCode ^
+      dayOfBirth.hashCode;
+
+  @override
+  String toString() {
+    return 'User{uid: $uid, name: $name, email: $email, avatar: $avatar, phoneNumber: $phoneNumber, dayOfBirth: $dayOfBirth}';
+  }
 }
 
 enum AddressType { shipping, billing }
@@ -53,21 +78,61 @@ class Address {
   final String zipCode;
   final AddressType addressType;
 
-  const Address(
-      {this.streetName,
-      this.streetNumber,
-      this.city,
-      this.zipCode,
-      this.addressType});
+  const Address({
+    @required this.streetName,
+    @required this.streetNumber,
+    @required this.city,
+    @required this.zipCode,
+    @required this.addressType,
+  })  : assert(streetName != null),
+        assert(streetName != null),
+        assert(streetNumber != null),
+        assert(city != null),
+        assert(zipCode != null),
+        assert(addressType != null);
 
-  factory Address.fromMap(Map<String, dynamic> data) {
-    return Address(
-        streetName: data['streetName'],
-        streetNumber: data['streetNumber'],
-        city: data['city'],
-        zipCode: data['zipCode'],
-        addressType: data['addressType'] == AddressType.billing.toString()
-            ? AddressType.billing
-            : AddressType.shipping);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Address &&
+          runtimeType == other.runtimeType &&
+          streetName == other.streetName &&
+          streetNumber == other.streetNumber &&
+          city == other.city &&
+          zipCode == other.zipCode &&
+          addressType == other.addressType;
+
+  @override
+  int get hashCode =>
+      streetName.hashCode ^
+      streetNumber.hashCode ^
+      city.hashCode ^
+      zipCode.hashCode ^
+      addressType.hashCode;
+
+  factory Address.fromMap(Map<String, dynamic> map) {
+    return new Address(
+      streetName: map['streetName'] as String,
+      streetNumber: map['streetNumber'] as String,
+      city: map['city'] as String,
+      zipCode: map['zipCode'] as String,
+      addressType: map['addressType'] as AddressType,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    // ignore: unnecessary_cast
+    return {
+      'streetName': this.streetName,
+      'streetNumber': this.streetNumber,
+      'city': this.city,
+      'zipCode': this.zipCode,
+      'addressType': this.addressType,
+    } as Map<String, dynamic>;
+  }
+
+  @override
+  String toString() {
+    return 'Address{streetName: $streetName, streetNumber: $streetNumber, city: $city, zipCode: $zipCode, addressType: $addressType}';
   }
 }

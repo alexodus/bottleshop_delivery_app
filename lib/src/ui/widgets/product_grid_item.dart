@@ -1,11 +1,11 @@
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductGridItem extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
   final String heroTag;
 
   const ProductGridItem({
@@ -24,7 +24,7 @@ class ProductGridItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(context, ProductDetailView.routeName,
             arguments: RouteArgument(
-                argumentsList: [product, heroTag], id: product.documentID));
+                argumentsList: [product, heroTag], id: product.uniqueId));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -40,8 +40,25 @@ class ProductGridItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            if (product.discount != null)
+              Container(
+                width: 70,
+                margin: EdgeInsets.only(top: 10.0, left: 80),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    color: Theme.of(context).accentColor),
+                alignment: AlignmentDirectional.topEnd,
+                child: Text(
+                  '- ${product.discount * 100} %',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .merge(TextStyle(color: Theme.of(context).primaryColor)),
+                ),
+              ),
             Hero(
-              tag: heroTag + product.documentID,
+              tag: heroTag + product.uniqueId,
               child: ProductImage(
                 imageUrl: product.thumbnailUrl,
               ),
@@ -51,14 +68,15 @@ class ProductGridItem extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Text(
                 product.name,
-                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                overflow: TextOverflow.fade,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                '${product.price.toStringAsFixed(2)} €',
+                '${product.priceWithVat.toStringAsFixed(2)} €',
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),

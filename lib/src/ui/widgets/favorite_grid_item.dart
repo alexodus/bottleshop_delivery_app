@@ -1,11 +1,11 @@
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 // Not Used it an optional grid
 class FavoriteGridItem extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
   final String heroTag;
 
   const FavoriteGridItem(
@@ -13,6 +13,7 @@ class FavoriteGridItem extends StatelessWidget {
       : assert(heroTag != null),
         assert(product != null),
         super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -21,7 +22,7 @@ class FavoriteGridItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(ProductDetailView.routeName,
             arguments: RouteArgument(
-                argumentsList: [product, heroTag], id: product.documentID));
+                argumentsList: [product, heroTag], id: product.uniqueId));
       },
       child: Stack(
         alignment: AlignmentDirectional.topEnd,
@@ -31,7 +32,7 @@ class FavoriteGridItem extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Hero(
-                  tag: heroTag + product.documentID,
+                  tag: heroTag + product.uniqueId,
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(

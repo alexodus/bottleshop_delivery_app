@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart' show required;
 
-class LanguageModel {
+class Language {
   final String englishName;
   final String localName;
   final String flag;
 
-  const LanguageModel(
+  const Language(
       {@required this.englishName,
       @required this.localName,
       @required this.flag})
@@ -13,8 +13,8 @@ class LanguageModel {
         assert(localName != null),
         assert(flag != null);
 
-  factory LanguageModel.fromMap(Map<String, dynamic> data) {
-    return LanguageModel(
+  factory Language.fromMap(Map<String, dynamic> data) {
+    return Language(
         englishName: data['englishName'],
         localName: data['localName'],
         flag: data['flag']);
