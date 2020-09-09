@@ -295,11 +295,25 @@ class _SignUpViewState extends State<SignUpView> {
                                   }
                                 },
                                 signInWithFacebook: () async {
-                                  await context
-                                      .read<SignUpViewModel>()
-                                      .signUpWithFacebook();
-                                  return Navigator.pushReplacementNamed(
-                                      context, TabsView.routeName);
+                                  try {
+                                    await context
+                                        .read<SignUpViewModel>()
+                                        .signUpWithFacebook();
+                                    return Navigator.pushReplacementNamed(
+                                        context, TabsView.routeName);
+                                  } catch (e) {
+                                    context
+                                        .read<SignUpViewModel>()
+                                        .setNotLoading();
+                                    _scaffoldKey.currentState.showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Sing in failed,'
+                                          'please try again',
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 },
                                 signInAnonymously: () async {
                                   await context

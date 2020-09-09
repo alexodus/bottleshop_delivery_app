@@ -1,8 +1,10 @@
-import 'package:bottleshopdeliveryapp/src/models/new/order_type_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/product_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/user_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/order_type_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+enum OrderStatus { ordered, ready, shipped, closed }
 
 @immutable
 class OrderModel {
@@ -25,7 +27,7 @@ class OrderModel {
 
   final String id;
   final int orderId;
-  final UserModel customer;
+  final User customer;
   final OrderTypeModel orderType;
   final String note;
   final List<CartItemModel> _cartItems;
@@ -34,6 +36,7 @@ class OrderModel {
   final List<DateTime> _statusStepsDates;
 
   List<CartItemModel> get cartItems => _cartItems;
+
   List<DateTime> get statusStepsDates => _statusStepsDates;
 
   bool get isComplete => statusStepId == orderType.orderStepsIds.last;
@@ -62,7 +65,7 @@ class OrderModel {
 
   OrderModel.fromJson(Map<String, dynamic> json, String id)
       : assert(json[orderTypeField] is OrderTypeModel),
-        assert(json[userField] is UserModel),
+        assert(json[userField] is User),
         assert((json[orderTypeField] as OrderTypeModel)
             .orderStepsIds
             .contains(json[statusStepIdField])),

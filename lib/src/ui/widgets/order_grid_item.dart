@@ -1,9 +1,9 @@
-import 'package:bottleshopdeliveryapp/src/models/order.dart';
+import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:flutter/material.dart';
 
 class OrderGridItem extends StatelessWidget {
-  final Order order;
+  final OrderModel order;
   final String heroTag;
 
   const OrderGridItem({
@@ -21,8 +21,7 @@ class OrderGridItem extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
         Navigator.of(context).pushNamed('/Order',
-            arguments:
-                RouteArgument(argumentsList: [heroTag], id: order.documentId));
+            arguments: RouteArgument(argumentsList: [heroTag], id: order.id));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -39,21 +38,21 @@ class OrderGridItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: heroTag + order.documentId,
-              child: Image.asset(order.products[0].imageUrl),
+              tag: heroTag + order.id,
+              child: Image.asset(order.cartItems[0].product.imageUrl),
             ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Text(
-                order.products[0].name,
+                order.cartItems[0].product.name,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                order.products[0].price.toStringAsFixed(2),
+                order.cartItems[0].product.priceNoVat.toStringAsFixed(2),
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),

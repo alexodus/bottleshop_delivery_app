@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/models/category.dart';
+import 'package:bottleshopdeliveryapp/src/models/category_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/menu_drawer.dart';
@@ -20,7 +20,7 @@ class _CategoryDetailViewState extends State<CategoryDetailView>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<SubCategory> _subCategoriesList = [];
+  final List<CategoryModel> _subCategoriesList = [];
 
   @override
   void initState() {
@@ -164,7 +164,11 @@ class _CategoryDetailViewState extends State<CategoryDetailView>
               isScrollable: true,
               indicatorColor: Theme.of(context).primaryColor,
               tabs: List.generate(_subCategoriesList.length, (index) {
-                return Tab(text: _subCategoriesList.elementAt(index).name);
+                return Tab(
+                    text: _subCategoriesList
+                        .elementAt(index)
+                        .categoryDetails
+                        .name);
               }),
             ),
           ),

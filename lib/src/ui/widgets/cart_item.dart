@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_image.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class CartItem extends StatelessWidget {
   final String heroTag;
-  final Product product;
+  final ProductModel product;
   final int quantity;
 
   const CartItem({
@@ -45,7 +45,7 @@ class CartItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: heroTag + product.documentID,
+              tag: heroTag + product.uniqueId,
               child: ProductImage(
                 height: 90,
                 width: 90,
@@ -68,7 +68,7 @@ class CartItem extends StatelessWidget {
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                         Text(
-                          product.price.toStringAsFixed(2),
+                          product.priceNoVat.toStringAsFixed(2),
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ],

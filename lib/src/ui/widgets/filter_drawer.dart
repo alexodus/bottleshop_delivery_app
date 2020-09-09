@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/models/category.dart';
+import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/category_detail_view.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
@@ -8,8 +8,9 @@ import 'package:provider/provider.dart';
 class FilterDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final categories = context
-        .select<CategoryListModel, List<Category>>((vm) => vm.categories);
+    final categories =
+        context.select<CategoryListModel, List<CategoriesTreeModel>>(
+            (vm) => vm.categories);
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -24,38 +25,57 @@ class FilterDrawer extends StatelessWidget {
                     title: Text('Categories'),
                     initiallyExpanded: true,
                     children: List.generate(categories.length, (index) {
-                      final category =
-                          context.select<CategoryListModel, Category>(
-                              (vm) => vm.categories[index]);
-                      return ExpansionTile(
-                        leading: Icon(Icons.category),
-                        title: Text(category.name),
-                        children: category.subCategories != null
-                            ? List.generate(
-                                category?.subCategories?.length ?? 0,
-                                (subIndex) {
-                                final subCategory =
-                                    category?.subCategories[subIndex];
-                                return CheckboxListTile(
-                                  value: context
-                                      .watch<CategoryListModel>()
-                                      .isSubCategorySelected(subCategory.name),
-                                  onChanged: (bool shouldSelect) {
-                                    context
-                                        .read<CategoryListModel>()
-                                        .toggleSubCategorySelection(
-                                            subCategory.name);
-                                  },
-                                  title: Text(
-                                    subCategory.name,
-                                    overflow: TextOverflow.fade,
-                                    softWrap: false,
-                                    maxLines: 1,
-                                  ),
-                                );
-                              })
-                            : const <Widget>[],
-                      );
+                      var categoryItem = categories.elementAt(index);
+                      return categoryItem.subCategories.isNotEmpty
+                          ? ExpansionTile(
+                              leading: Icon(Icons.category),
+                              title: Text(categoryItem.categoryDetails.name),
+                              children: categoryItem.subCategories.isNotEmpty
+                                  ? List.generate(
+                                      categoryItem.subCategories.length ?? 0,
+                                      (subIndex) {
+                                      final subCategory =
+                                          categoryItem.subCategories[subIndex];
+                                      return CheckboxListTile(
+                                        value: context
+                                            .watch<CategoryListModel>()
+                                            .isSubCategorySelected(subCategory
+                                                .categoryDetails.name),
+                                        onChanged: (bool shouldSelect) {
+                                          context
+                                              .read<CategoryListModel>()
+                                              .toggleSubCategorySelection(
+                                                  subCategory
+                                                      .categoryDetails.name);
+                                        },
+                                        title: Text(
+                                          subCategory.categoryDetails.name,
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,
+                                          maxLines: 1,
+                                        ),
+                                      );
+                                    })
+                                  : const <Widget>[],
+                            )
+                          : CheckboxListTile(
+                              value: context
+                                  .watch<CategoryListModel>()
+                                  .isCategorySelected(
+                                      categoryItem.categoryDetails.name),
+                              onChanged: (bool shouldSelect) {
+                                context
+                                    .read<CategoryListModel>()
+                                    .toggleSubCategorySelection(
+                                        categoryItem.categoryDetails.name);
+                              },
+                              title: Text(
+                                categoryItem.categoryDetails.name,
+                                overflow: TextOverflow.fade,
+                                softWrap: false,
+                                maxLines: 1,
+                              ),
+                            );
                     }),
                   ),
                 ],

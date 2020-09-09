@@ -38,4 +38,9 @@ class CategoriesTreeModel {
       );
     }
   }
+
+  @override
+  String toString() {
+    return 'CategoriesTreeModel{categoryDetails: $categoryDetails, subCategories: $subCategories}';
+  }
 }

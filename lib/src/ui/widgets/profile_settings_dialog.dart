@@ -80,7 +80,7 @@ class _ProfileSettingsDialogState extends State<ProfileSettingsDialog> {
                                     lastDate: DateTime(2100));
                               },
                               onSaved: (input) => setState(() {
-                                var data = widget.user.toJson();
+                                var data = widget.user.toMap();
                                 data['dayOfBirth'] = input;
                               }),
                             );

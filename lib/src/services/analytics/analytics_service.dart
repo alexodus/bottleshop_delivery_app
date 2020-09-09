@@ -1,5 +1,5 @@
-import 'package:bottleshopdeliveryapp/src/models/order.dart';
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -9,6 +9,7 @@ class DebugLogPrinter extends LogPrinter {
   final String className;
 
   DebugLogPrinter(this.className);
+
   @override
   List<String> log(LogEvent event) {
     var color = PrettyPrinter.levelColors[event.level];
@@ -32,20 +33,21 @@ class AnalyticsService implements Analytics {
       FirebaseAnalyticsObserver(analytics: _analytics);
 
   @override
-  Future<void> logAddToCart(Product product, [int quantity = 1]) async {
+  Future<void> logAddToCart(ProductModel product, [int quantity = 1]) async {
     return _analytics.logAddToCart(
-        itemId: product.documentID,
+        itemId: product.uniqueId,
         itemName: product.name,
-        itemCategory: product.category,
+        itemCategory: product.allCategories[0].categoryDetails.name,
         quantity: quantity);
   }
 
   @override
-  Future<void> logAddToWishlist(Product product, [int quantity = 1]) async {
+  Future<void> logAddToWishlist(ProductModel product,
+      [int quantity = 1]) async {
     return _analytics.logAddToWishlist(
-        itemId: product.documentID,
+        itemId: product.uniqueId,
         itemName: product.name,
-        itemCategory: product.category,
+        itemCategory: product.allCategories[0].categoryDetails.name,
         quantity: quantity);
   }
 
@@ -85,9 +87,9 @@ class AnalyticsService implements Analytics {
   }
 
   @override
-  Future<void> logEcommercePurchase(Order order) async {
+  Future<void> logEcommercePurchase(OrderModel order) async {
     return _analytics.logEcommercePurchase(
-        transactionId: order.documentId, value: order.totalValue);
+        transactionId: order.id, value: order.totalPaid);
   }
 
   @override
@@ -96,10 +98,10 @@ class AnalyticsService implements Analytics {
   }
 
   @override
-  Future<void> logViewItem(Product product) async {
+  Future<void> logViewItem(ProductModel product) async {
     return _analytics.logViewItem(
-        itemId: product.documentID,
+        itemId: product.uniqueId,
         itemName: product.name,
-        itemCategory: product.category);
+        itemCategory: product.allCategories.first.categoryDetails.name);
   }
 }

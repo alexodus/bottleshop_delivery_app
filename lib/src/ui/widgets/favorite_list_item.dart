@@ -1,11 +1,11 @@
-import 'package:bottleshopdeliveryapp/src/models/product.dart';
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteListItem extends StatelessWidget {
   final String heroTag;
-  final Product product;
+  final ProductModel product;
   final VoidCallback onDismissed;
 
   const FavoriteListItem({
@@ -67,7 +67,7 @@ class FavoriteListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Hero(
-                tag: heroTag + product.documentID,
+                tag: heroTag + product.uniqueId,
                 child: Container(
                   height: 60,
                   width: 60,
@@ -122,7 +122,7 @@ class FavoriteListItem extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Text(product.price.toStringAsFixed(2),
+                    Text(product.priceNoVat.toStringAsFixed(2),
                         style: Theme.of(context).textTheme.headline4),
                   ],
                 ),

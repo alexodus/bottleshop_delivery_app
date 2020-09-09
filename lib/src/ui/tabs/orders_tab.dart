@@ -1,5 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/models/order.dart';
+import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/empty_orders_products.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/orders_products.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
@@ -12,7 +12,7 @@ class OrdersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orderList = <Order>[];
+    final orderList = <OrderModel>[];
     return orderList.isEmpty
         ? EmptyOrdersProducts()
         : DefaultTabController(
@@ -107,17 +107,17 @@ class OrdersTab extends StatelessWidget {
                   OrdersProducts(
                       ordersList: orderList
                           .where((order) =>
-                              order.orderState == OrderState.toBeShipped)
-                          .toList()),
-                  OrdersProducts(
-                      ordersList: orderList
-                          .where(
-                              (order) => order.orderState == OrderState.shipped)
+                              order.statusStepId == OrderStatus.ordered.index)
                           .toList()),
                   OrdersProducts(
                       ordersList: orderList
                           .where((order) =>
-                              order.orderState == OrderState.inDispute)
+                              order.statusStepId == OrderStatus.ready.index)
+                          .toList()),
+                  OrdersProducts(
+                      ordersList: orderList
+                          .where((order) =>
+                              order.statusStepId == OrderStatus.shipped.index)
                           .toList()),
                 ]),
               ),

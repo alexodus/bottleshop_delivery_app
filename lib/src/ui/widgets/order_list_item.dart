@@ -1,11 +1,11 @@
-import 'package:bottleshopdeliveryapp/src/models/order.dart';
+import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:flutter/material.dart';
 
 class OrderListItem extends StatelessWidget {
   final String heroTag;
-  final Order order;
+  final OrderModel order;
   final VoidCallback onDismissed;
 
   const OrderListItem({
@@ -41,7 +41,7 @@ class OrderListItem extends StatelessWidget {
         Scaffold.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'The ${order.products[0].name} order is removed from wish list'),
+                'The ${order.cartItems[0].product.name} order is removed from wish list'),
           ),
         );
       },
@@ -68,14 +68,14 @@ class OrderListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Hero(
-                tag: heroTag + order.products[0].documentID,
+                tag: heroTag + order.id,
                 child: Container(
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     image: DecorationImage(
-                        image: AssetImage(order.products[0].imageUrl),
+                        image: AssetImage(order.cartItems[0].product.imageUrl),
                         fit: BoxFit.cover),
                   ),
                 ),
@@ -90,7 +90,7 @@ class OrderListItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            order.products[0].name,
+                            order.cartItems[0].product.name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.subtitle1,
@@ -108,7 +108,7 @@ class OrderListItem extends StatelessWidget {
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    order.orderPlacedOn.toIso8601String(),
+                                    order.statusStepsDates[0].toIso8601String(),
                                     style:
                                         Theme.of(context).textTheme.bodyText2,
                                     overflow: TextOverflow.fade,
@@ -143,7 +143,9 @@ class OrderListItem extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text(order.products[0].price.toStringAsFixed(2),
+                        Text(
+                            order.cartItems[0].product.priceNoVat
+                                .toStringAsFixed(2),
                             style: Theme.of(context).textTheme.headline4),
                         SizedBox(height: 6),
                         Chip(

@@ -1,11 +1,11 @@
-import 'package:bottleshopdeliveryapp/src/models/category.dart';
+import 'package:bottleshopdeliveryapp/src/models/category_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/layout.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ProductsByCategory extends StatelessWidget {
-  final SubCategory subCategory;
+  final CategoryModel subCategory;
   final LayoutMode layout;
   final ValueChanged<LayoutMode> changeLayout;
 
@@ -37,7 +37,7 @@ class ProductsByCategory extends StatelessWidget {
               color: Theme.of(context).hintColor,
             ),
             title: Text(
-              '${subCategory.name} Category',
+              '${subCategory.categoryDetails.name} Category',
               overflow: TextOverflow.fade,
               softWrap: false,
               style: Theme.of(context).textTheme.headline4,
@@ -73,8 +73,8 @@ class ProductsByCategory extends StatelessWidget {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             primary: false,
-            itemCount:
-                5, // TODO: get total items of products per subCategory..products.length,
+            itemCount: 5,
+            // TODO: get total items of products per subCategory..products.length,
             separatorBuilder: (context, index) {
               return SizedBox(height: 10);
             },
@@ -96,7 +96,8 @@ class ProductsByCategory extends StatelessWidget {
               primary: false,
               shrinkWrap: true,
               crossAxisCount: 4,
-              itemCount: 1, //subCategory.products.length,
+              itemCount: 1,
+              //subCategory.products.length,
               itemBuilder: (context, index) {
                 /*Product product = subCategory.products.elementAt(index);
                 return ProductGridItem(

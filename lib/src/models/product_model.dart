@@ -1,7 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/category_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/country_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/new/unit_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/category_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/country_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/unit_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,8 @@ class ProductModel {
   static const String isRecommendedField = 'is_recommended';
   static const String isNewEntryField = 'is_new_entry';
   static const String flashSaleUntilField = 'flash_sale_until';
+  static const String thumbnailUrlField = 'thumbnailUrl';
+  static const String imageUrlField = 'imageUrl';
 
   // fields after data join
   static const String countryRefField = 'country_ref';
@@ -53,15 +55,21 @@ class ProductModel {
   final bool isRecommended;
   final bool isNewEntry;
   final DateTime flashSaleUntil;
+  final String thumbnailUrl;
+  final String imageUrl;
 
   List<CategoryModel> get extraCategories => _categories?.skip(1)?.toList();
+
   List<CategoryModel> get allCategories => _categories;
 
   String get uniqueId => cmat;
+
   bool get hasAlcohol => alcohol != null;
 
   double get priceNoVat => _price;
+
   double get priceWithVat => _price == null ? null : _price * 1.2;
+
   double get finalPrice => _price == null
       ? null
       : _price * 1.2 * (discount == null ? 1 : 1 - discount);
@@ -86,15 +94,16 @@ class ProductModel {
     @required this.isRecommended,
     @required this.isNewEntry,
     @required this.flashSaleUntil,
+    this.thumbnailUrl,
+    this.imageUrl,
   })  : _price = price,
         _categories = List.unmodifiable(categories);
 
   ProductModel.fromJson(Map<String, dynamic> json)
-      : assert(json[countryField] is CountryModel),
-        assert(json[unitsTypeField] is UnitModel),
-        assert(json[categoriesField] is List<CategoryModel>),
-        assert(json[discountField] == null ||
-            json[discountField] > 0 && json[discountField] <= 1),
+      : //assert(json[countryField] is CountryModel),
+        //assert(json[unitsTypeField] is UnitModel),
+        //assert(json[categoriesField] is List<CategoryModel>),
+        //assert(json[discountField] == null || json[discountField] > 0 && json[discountField] <= 1),
         name = json[nameField],
         edition = json[editionField],
         year = json[yearField],
@@ -113,6 +122,8 @@ class ProductModel {
         discount = json[discountField],
         isRecommended = json[isRecommendedField],
         isNewEntry = json[isNewEntryField],
+        thumbnailUrl = json[thumbnailUrlField],
+        imageUrl = json[imageUrlField],
         flashSaleUntil = json[flashSaleUntilField] != null
             ? DateTime.fromMillisecondsSinceEpoch(
                 json[flashSaleUntilField].seconds * 1000)
@@ -202,4 +213,10 @@ class ProductModel {
       isRecommended.hashCode ^
       isNewEntry.hashCode ^
       flashSaleUntil.hashCode;
+
+  @override
+  String toString() {
+    return 'ProductModel{name: $name, edition: $edition, age: $age, year: $year, cmat: $cmat, ean: $ean, _price: '
+        '$_price, count: $count, unitsCount: $unitsCount, unitsType: $unitsType, alcohol: $alcohol, categories: $_categories, country: $country, descriptionSk: $descriptionSk, descriptionEn: $descriptionEn, discount: $discount, isRecommended: $isRecommended, isNewEntry: $isNewEntry, flashSaleUntil: $flashSaleUntil}';
+  }
 }

@@ -1,8 +1,8 @@
-import 'package:bottleshopdeliveryapp/src/models/language_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/language.dart';
 import 'package:flutter/material.dart';
 
 class LanguageItem extends StatefulWidget {
-  final LanguageModel language;
+  final Language language;
 
   const LanguageItem({
     Key key,

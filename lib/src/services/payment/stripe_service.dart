@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
-import 'package:bottleshopdeliveryapp/src/models/order.dart';
+import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:http/http.dart' as http;
 import 'package:stripe_payment/stripe_payment.dart';
@@ -25,31 +25,32 @@ class StripeService {
     return deviceSupportNativePay && isNativeReady;
   }
 
-  Future<void> createPaymentMethodNative(Order toPay) async {
+  Future<void> createPaymentMethodNative(OrderModel toPay) async {
     StripePayment.setStripeAccount(null);
     var applePayItems = <ApplePayItem>[];
     var googlePayItems = <LineItem>[];
-    toPay.products.forEach((product) {
+    toPay.cartItems.forEach((item) {
       googlePayItems.add(LineItem(
         currencyCode: 'EUR',
-        description: product.name,
+        description: item.product.name,
         quantity: '1',
-        totalPrice: product.price.toStringAsFixed(2),
-        unitPrice: product.price.toStringAsFixed(2),
+        totalPrice: item.product.priceNoVat.toStringAsFixed(2),
+        unitPrice: item.product.priceNoVat.toStringAsFixed(2),
       ));
     });
     applePayItems.add(ApplePayItem(
-        label: 'Order #1p3o4', amount: toPay.totalValue.toStringAsFixed(2)));
-    applePayItems.add(
-        ApplePayItem(label: 'Tax 20 %', amount: toPay.tax.toStringAsFixed(2)));
+        label: 'Order #1p3o4', amount: toPay.totalPaid.toStringAsFixed(2)));
+    applePayItems.add(ApplePayItem(
+        label: 'Tax 20 %',
+        amount: (toPay.totalPaid * 1.19).toStringAsFixed(2)));
     applePayItems.add(ApplePayItem(
       label: 'Bottleshop 3 Veze',
-      amount: (toPay.totalValue + toPay.tax).toStringAsFixed(2),
+      amount: (toPay.totalPaid).toStringAsFixed(2),
     ));
     var paymentMethod = PaymentMethod();
     var token = await StripePayment.paymentRequestWithNativePay(
       androidPayOptions: AndroidPayPaymentRequest(
-        totalPrice: (toPay.totalValue + toPay.tax).toStringAsFixed(2),
+        totalPrice: (toPay.totalPaid).toStringAsFixed(2),
         currencyCode: 'EUR',
         lineItems: googlePayItems,
       ),
@@ -68,7 +69,7 @@ class StripeService {
     );
     if (paymentMethod != null) {
       return processPaymentAsDirectCharge(
-          paymentMethod, toPay.amountToPayInCents, toPay.documentId);
+          paymentMethod, (toPay.totalPaid * 100).toString(), toPay.id);
     } else {
       throw ErrorCode(
           errorCode: 'createMethod',
@@ -77,14 +78,14 @@ class StripeService {
     }
   }
 
-  Future<void> createPaymentMethod(Order toPay) async {
+  Future<void> createPaymentMethod(OrderModel toPay) async {
     StripePayment.setStripeAccount(null);
     var paymentMethod = PaymentMethod();
     paymentMethod = await StripePayment.paymentRequestWithCardForm(
         CardFormPaymentRequest());
     if (paymentMethod != null) {
       return processPaymentAsDirectCharge(
-          paymentMethod, toPay.amountToPayInCents, toPay.documentId);
+          paymentMethod, (toPay.totalPaid * 100).toString(), toPay.id);
     } else {
       throw ErrorCode(
           errorCode: 'createMethod',

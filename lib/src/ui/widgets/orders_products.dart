@@ -1,11 +1,12 @@
-import 'package:bottleshopdeliveryapp/src/models/order.dart';
+import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/order_grid_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/order_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class OrdersProducts extends StatefulWidget {
-  final List<Order> ordersList;
+  final List<OrderModel> ordersList;
+
   @override
   _OrdersProductsState createState() => _OrdersProductsState();
 
