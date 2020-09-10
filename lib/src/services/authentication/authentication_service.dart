@@ -1,7 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/user.dart';
+import 'package:bottleshopdeliveryapp/src/repositories/user_repository.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/user_data_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -11,18 +11,18 @@ class AuthenticationService implements Authentication {
   final auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final FacebookLogin _facebookLogin;
-  final UserDataService _userDataService;
+  final UserRepository _userDataService;
 
   AuthenticationService(
       {auth.FirebaseAuth firebaseAuth,
       GoogleSignIn googleSignIn,
       FacebookLogin facebookLogin,
-      UserDataService userDataService})
+      UserRepository userDataService})
       : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance,
         _googleSignIn =
             googleSignIn ?? GoogleSignIn(scopes: Constants.googleSignInScopes),
         _facebookLogin = facebookLogin ?? FacebookLogin(),
-        _userDataService = userDataService ?? UserDataService();
+        _userDataService = userDataService ?? UserRepository();
 
   User _userFromFirebase(auth.User user,
       [auth.AdditionalUserInfo additionalData]) {

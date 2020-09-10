@@ -58,6 +58,8 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        signingConfig signingConfigs.release
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -79,6 +81,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+    buildToolsVersion '30.0.2'
 }
 
 flutter {
@@ -87,7 +94,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     implementation 'com.google.firebase:firebase-messaging:20.2.4'
 }
 

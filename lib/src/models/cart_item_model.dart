@@ -1,42 +1,46 @@
+import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:flutter/foundation.dart';
+
+import 'order_model.dart';
 
 @immutable
 class CartItemModel {
-  final String productRef;
-  final int quantity;
+  static const String countField = 'count';
+  static const String productField = 'product';
+  static const String promoCodeField = 'promo_code';
+  static const String paidPriceField = 'paid_price';
 
-  const CartItemModel({@required this.productRef, @required this.quantity})
-      : assert(productRef != null),
-        assert(quantity != null || quantity > 0);
+  final int count;
+  final ProductModel product;
+  final PromoCodeItemModel promoCode;
+  final double paidPrice;
+
+  CartItemModel({
+    @required this.count,
+    @required this.product,
+    @required this.promoCode,
+    @required this.paidPrice,
+  });
+
+  CartItemModel.fromJson(Map<String, dynamic> json)
+      : assert(json[productField] is ProductModel),
+        count = json[countField],
+        product = json[productField],
+        promoCode = PromoCodeItemModel.fromJson(json[promoCodeField]),
+        paidPrice = json[paidPriceField];
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
+  bool operator ==(other) =>
       other is CartItemModel &&
-          runtimeType == other.runtimeType &&
-          productRef == other.productRef &&
-          quantity == other.quantity;
+      other.count == count &&
+      other.product == product &&
+      other.promoCode == promoCode &&
+      other.paidPrice == paidPrice;
 
   @override
-  int get hashCode => productRef.hashCode ^ quantity.hashCode;
-
-  factory CartItemModel.fromMap(Map<String, dynamic> map) {
-    return CartItemModel(
-      productRef: map['productRef'] as String,
-      quantity: map['quantity'] as int,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    // ignore: unnecessary_cast
-    return {
-      'productRef': productRef,
-      'quantity': quantity,
-    } as Map<String, dynamic>;
-  }
-
-  @override
-  String toString() {
-    return 'CartItemModel{productRef: $productRef, quantity: $quantity}';
-  }
+  int get hashCode =>
+      count.hashCode ^
+      product.hashCode ^
+      promoCode.hashCode ^
+      paidPrice.hashCode;
 }

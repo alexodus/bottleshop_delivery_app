@@ -15,7 +15,6 @@ dependencies:
   cloud_firestore: ^0.14.0+2
   firebase_crashlytics: ^0.1.4+1
   firebase_analytics: ^6.0.0
-  provider: ^4.3.2+2
   google_fonts: ^1.1.0
   google_sign_in: ^4.5.3
   flutter_facebook_login: ^3.0.0
@@ -30,12 +29,9 @@ dependencies:
   cached_network_image: ^2.3.1
   stripe_payment: ^1.0.7
   smooth_star_rating: 1.1.1
-  connectivity: ^0.4.9+2
-  flutter_share: ^1.0.2+1
-  liquid_swipe: ^1.5.0
-  auto_size_text: ^2.1.0
   tuple: ^1.0.3
   http: ^0.12.2
+  flutter_riverpod: ^0.9.1
 
 
 dev_dependencies:

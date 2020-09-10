@@ -1,23 +1,14 @@
-import 'dart:collection';
-
-import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CategoryListModel {
-  final _logger = Analytics.getLogger('CategoriesViewModel');
-  final ProductDataService _categoryService;
+class CategoriesRepository {
+  final _logger = Analytics.getLogger('CategoriesRepository');
+  final FirebaseFirestore _firestoreInstance;
 
-  List<CategoriesTreeModel> _categoryTree = [];
-  final List<String> _categoryFilters = [];
-  final List<String> _subCategoryFilters = [];
-  final List<String> _additionalCategoryFilters = [];
-  static bool _isInitComplete = false;
+  CategoriesRepository({FirebaseFirestore firestore})
+      : _firestoreInstance = firestore ?? FirebaseFirestore.instance;
 
-  CategoryListModel({ProductDataService productDataService})
-      : _categoryService = productDataService ?? ProductDataService();
-
-  Future<void> fetchAllCategories() async {
+  Future<void> getAllCategories() async {
     _logger.d('fetchAllCategories invoked');
     if (!_isInitComplete) {
       _isInitComplete = true;
@@ -36,11 +27,6 @@ class CategoryListModel {
     }
     _logger.d('fetchAllCategories fetch OK: $_isInitComplete');
   }
-
-  CategoryListModel get instance => CategoryListModel();
-
-  UnmodifiableListView<CategoriesTreeModel> get categories =>
-      UnmodifiableListView(_categoryTree);
 
   CategoriesTreeModel getCategoryByName(String name) {
     var index = _categoryTree

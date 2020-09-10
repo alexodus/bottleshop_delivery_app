@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
+import 'package:bottleshopdeliveryapp/src/models/cart_item_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/category_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/category_plain_model.dart';
@@ -8,21 +7,19 @@ import 'package:bottleshopdeliveryapp/src/models/country_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/order_type_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/slider_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/unit_model.dart';
-import 'package:bottleshopdeliveryapp/src/models/user.dart';
+import 'package:bottleshopdeliveryapp/src/models/user.dart' as model;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tuple/tuple.dart';
 
-class ProductDataService {
+class ProductRepository {
   final FirebaseFirestore _firestoreInstance;
 
-  ProductDataService({FirebaseFirestore firestore})
+  ProductRepository({FirebaseFirestore firestore})
       : _firestoreInstance = firestore ?? FirebaseFirestore.instance;
 
   Future<ProductModel> parseProductJson(
-    Map<String, dynamic> productJson,
-  ) async {
+      Map<String, dynamic> productJson) async {
     final DocumentSnapshot countryDoc =
         await productJson[ProductModel.countryRefField].get();
     final DocumentSnapshot unitDoc =
@@ -163,7 +160,7 @@ class ProductDataService {
             return Future.error('missing reference');
           }
 
-          result[OrderModel.userField] = User.fromMap(userDoc.data());
+          result[OrderModel.userField] = model.User.fromMap(userDoc.data());
           result[OrderModel.orderTypeField] =
               OrderTypeModel.fromJson(orderTypeDoc.data(), orderTypeDoc.id);
           result[OrderModel.cartItemsField] = await Future.wait(
@@ -171,7 +168,7 @@ class ProductDataService {
               e.data()[OrderModel.cartItemsField].map(
                 (e) async {
                   e[CartItemModel.productField] =
-                      await _parseProductJson(e[CartItemModel.productField]);
+                      await parseProductJson(e[CartItemModel.productField]);
                   return e;
                 },
               ),
@@ -181,39 +178,6 @@ class ProductDataService {
         },
       ),
     );
-  }
-
-  Future<ProductModel> _parseProductJson(
-      Map<String, dynamic> productJson) async {
-    final DocumentSnapshot countryDoc =
-        await productJson[ProductModel.countryRefField].get();
-    final DocumentSnapshot unitDoc =
-        await productJson[ProductModel.unitsTypeRefField].get();
-    if (!countryDoc.exists || !unitDoc.exists) {
-      return Future.error('Missing reference');
-    }
-    productJson[ProductModel.categoriesField] = await _categoriesByRefs(
-      productJson[ProductModel.categoryRefsField].cast<DocumentReference>(),
-    );
-    productJson[ProductModel.countryField] =
-        CountryModel.fromJson(countryDoc.data(), countryDoc.id);
-    productJson[ProductModel.unitsTypeField] =
-        UnitModel.fromJson(unitDoc.data(), unitDoc.id);
-    return ProductModel.fromJson(productJson);
-  }
-
-  Future<List<SliderModel>> getSlidersConfig() async {
-    var slidersDocument = await _firestoreInstance
-        .collection(Constants.configurationCollection)
-        .doc('0')
-        .get();
-    List<SliderModel> sliders;
-    if (slidersDocument.data()['sliders'] != null) {
-      var slidersData = slidersDocument.data()['sliders'];
-      sliders = <SliderModel>[];
-      slidersData.forEach((data) => sliders.add(SliderModel.fromMap(data)));
-    }
-    return sliders;
   }
 
   Stream<QuerySnapshot> getProductsOnFlashSale() {

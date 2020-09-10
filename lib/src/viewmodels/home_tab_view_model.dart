@@ -1,7 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/slider_model.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
 import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
