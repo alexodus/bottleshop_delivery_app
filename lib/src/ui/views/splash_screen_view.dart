@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:bottleshopdeliveryapp/src/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SplashScreenView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    Future<User> user = watch(userProvider.last);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.85),
       body: Center(

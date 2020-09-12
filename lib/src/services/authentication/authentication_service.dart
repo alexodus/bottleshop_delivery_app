@@ -7,6 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+enum AuthState {
+  loggedIn,
+  loggedOut,
+  inProgress,
+}
+
 class AuthenticationService implements Authentication {
   final auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
@@ -47,35 +53,28 @@ class AuthenticationService implements Authentication {
   }
 
   @override
-  Future<User> signInWithEmailAndPassword(String email, String password) async {
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
     final credential = auth.EmailAuthProvider.credential(
       email: email,
       password: password,
     );
-    final authResult = await _firebaseAuth.signInWithCredential(credential);
-    final user = _userFromFirebase(authResult.user);
-    await _userDataService.setUser(user);
-    return user;
+    return _firebaseAuth.signInWithCredential(credential);
   }
 
   @override
-  Future<User> createUserWithEmailAndPassword(
+  Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
-    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+    return _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
-    final user =
-        _userFromFirebase(authResult.user, authResult.additionalUserInfo);
-    await _userDataService.setUser(user);
-    return user;
   }
 
   @override
   Future<void> sendPasswordResetEmail(String email) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: email);
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
   @override
-  Future<User> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;

@@ -1,4 +1,3 @@
-import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics_service.dart';
 import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,7 +8,7 @@ import 'constants/app_theme.dart';
 import 'constants/routes.dart';
 import 'constants/strings.dart';
 
-final userProvider = StreamProvider.autoDispose<User>((ref) {
+final userProvider = StreamProvider.autoDispose<AuthState>((ref) {
   return AuthenticationService().authStateChanges;
 });
 
@@ -36,19 +35,14 @@ class MyApp extends StatelessWidget {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
-            navigatorObservers: <NavigatorObserver>[AnalyticsService().analyticsObserver],
+            navigatorObservers: <NavigatorObserver>[
+              AnalyticsService().analyticsObserver
+            ],
             title: Strings.appName,
             onGenerateRoute: Routes.onGenerateRoute,
             theme: appTheme,
             darkTheme: appThemeDark,
             themeMode: ThemeMode.system,
-            home: Consumer(
-              builder: (context, watch, child) {
-                final auth = watch(userProvider.last);
-                auth
-                .
-              },
-            ),
           );
         }
         return Center(child: CircularProgressIndicator());
