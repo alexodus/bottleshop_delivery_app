@@ -1,8 +1,8 @@
 import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bottleshopdeliveryapp/src/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
 
 var icons = [
   'assets/icons/icon_absinth.png',
@@ -21,22 +21,17 @@ var icons = [
   'assets/icons/icon_tequila.png',
 ];
 
-class CategoryIcon extends StatelessWidget {
-  final TickerProvider tickerProvider;
+class CategoryIcon extends HookWidget {
   final CategoriesTreeModel category;
   final String heroTag;
   final double marginLeft;
-  final ValueChanged<String> onPressed;
 
   const CategoryIcon({
     Key key,
-    @required this.tickerProvider,
     @required this.category,
     @required this.heroTag,
     @required this.marginLeft,
-    this.onPressed,
-  })  : assert(tickerProvider != null),
-        assert(category != null),
+  })  : assert(category != null),
         assert(heroTag != null),
         assert(marginLeft != null),
         super(key: key);
@@ -45,16 +40,19 @@ class CategoryIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     icons.shuffle();
     final isCategorySelected = context
-        .watch<CategoryListModel>()
-        .isCategorySelected(category.categoryDetails.name);
+        .read(categoriesStateProvider)
+        .isSelected(category.categoryDetails.id);
     final iconName = icons.first;
+    final tickerProvider = useSingleTickerProvider();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.only(left: marginLeft, top: 10, bottom: 10),
       child: InkWell(
         splashColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).accentColor,
-        onTap: () => onPressed(category.categoryDetails.name),
+        onTap: () => context
+            .read(categoriesStateProvider)
+            .selectCategory(category.categoryDetails.id),
         child: AnimatedContainer(
           duration: Duration(milliseconds: 350),
           curve: Curves.easeInOut,

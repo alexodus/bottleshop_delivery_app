@@ -1,12 +1,11 @@
-import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
+import 'package:bottleshopdeliveryapp/src/repositories/product_repository.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_grid_item.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/home_tab_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:provider/provider.dart';
 
 class CategorizedProducts extends StatelessWidget {
+  //TODO: check
   final Animation animationOpacity;
 
   const CategorizedProducts({
@@ -17,7 +16,7 @@ class CategorizedProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stream = context.watch<HomeTabViewModel>().products;
+    final stream = ProductRepository().getAllOtherProducts();
     return FadeTransition(
       opacity: animationOpacity,
       child: StreamBuilder<QuerySnapshot>(
@@ -34,10 +33,8 @@ class CategorizedProducts extends StatelessWidget {
                 crossAxisCount: 4,
                 itemCount: snapshot.data.size ?? 0,
                 itemBuilder: (context, index) {
-                  final product = context
-                      .read<ProductDataService>()
-                      .parseProductJson(
-                          snapshot.data.docs.elementAt(index).data());
+                  final product = ProductRepository().parseProductJson(
+                      snapshot.data.docs.elementAt(index).data());
                   return FutureBuilder(
                     future: product,
                     builder: (context, snapshot) {

@@ -7,7 +7,7 @@ class Strings {
   static const String signOut = 'Sign out';
 
   //Onboarding
-  static const List<String> onboardingLabels = [
+  static const onboardingLabels = [
     'Don\'t cry because it\'s over, smile because it happened.',
     'Be yourself, everyone else is already taken.'
   ];

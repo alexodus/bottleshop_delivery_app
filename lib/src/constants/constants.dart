@@ -8,7 +8,13 @@ class Constants {
     'https://www.googleapis.com/auth/userinfo.profile',
     'openid'
   ];
+  static const appleSignInClientId = 'sk.bottleshop3veze.applesignin';
+  static const appleSignInRedirectUri =
+      'https://bottleshop3veze-delivery.firebaseapp.com/__/auth/handler';
+
   static const usersCollection = 'users';
+  static const shoppingCartsCollection = 'carts';
+  static const favoritesCollection = 'favorites';
   static const productsCollection = 'warehouse';
   static const categoriesCollection = 'categories';
   static const countriesCollection = 'countries';
@@ -18,8 +24,6 @@ class Constants {
   static String cloudStorageBucket =
       'gs://bottleshop3veze-delivery.appspot.com';
   static const configurationCollection = 'configuration';
-  static const cartCollection = 'cart';
-  static const favoritesCollection = 'favorites';
   static const stripeCloudFunctionUrl =
       'https://us-central1-bottleshop3veze-delivery.cloudfunctions.net/verifyPayment';
   static const applePayMerchantId =

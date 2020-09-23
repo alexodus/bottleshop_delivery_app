@@ -1,10 +1,11 @@
 import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
+import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
 import 'package:bottleshopdeliveryapp/src/utils/app_config.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
 
-class EmptyOrdersProducts extends StatelessWidget {
+class EmptyOrdersProducts extends HookWidget {
   const EmptyOrdersProducts({
     Key key,
   }) : super(key: key);
@@ -79,8 +80,9 @@ class EmptyOrdersProducts extends StatelessWidget {
           ),
           SizedBox(height: 50),
           FlatButton(
-            onPressed: () =>
-                context.read<TabsViewModel>().selectTab(TabIndex.home.index),
+            onPressed: () => context
+                .read(tabsViewModelProvider)
+                .selectTab(TabIndex.home.index),
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
             color: Theme.of(context).focusColor.withOpacity(0.55),
             shape: StadiumBorder(),

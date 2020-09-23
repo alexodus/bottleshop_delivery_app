@@ -8,23 +8,19 @@ import 'package:bottleshopdeliveryapp/src/ui/views/notifications_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/sign_in_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/side_menu_header.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/side_menu_item.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/all.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final currentUser =
-        context.select((TabsViewModel viewModel) => viewModel.currentUser);
-    final userName = currentUser?.name ?? '';
-    final userEmail = currentUser?.email ?? '';
     return Drawer(
       child: ListView(
         children: <Widget>[
-          SideMenuHeader(userName: userName, userEmail: userEmail),
+          SideMenuHeader(),
           SideMenuItem(
             leading: Icons.home,
             title: 'Home',
@@ -62,7 +58,7 @@ class MenuDrawer extends StatelessWidget {
           ),
           SideMenuItem(
             handler: () async {
-              await context.read<TabsViewModel>().signOut();
+              await context.read(signUpViewModelProvider).signOut();
               await Navigator.pushReplacementNamed(
                   context, SignInView.routeName);
             },

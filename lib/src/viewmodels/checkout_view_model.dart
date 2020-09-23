@@ -1,41 +1,43 @@
 import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
 import 'package:bottleshopdeliveryapp/src/services/payment/stripe_service.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/base_view_model.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/all.dart';
+import 'package:state_notifier/state_notifier.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 
-class CheckoutViewModel extends BaseViewModel {
+final demoOrder = OrderModel(
+    id: '1',
+    orderId: 1,
+    customer: null,
+    orderType: null,
+    note: null,
+    cartItems: null,
+    totalPaid: null,
+    statusStepId: null,
+    statusStepsDates: null);
+
+final nativePayProvider = FutureProvider<bool>((ref) async {
+  final bool isNativePayAvailable =
+      await StripeService().checkIfNativePayReady();
+  return isNativePayAvailable;
+});
+
+final checkoutStateProvider =
+    StateNotifierProvider((ref) => CheckoutState(null));
+
+class CheckoutState extends StateNotifier<OrderModel> {
   final logger = Analytics.getLogger('CheckoutViewModel');
+  CheckoutState(OrderModel order) : super(order ?? demoOrder);
 
-  CheckoutViewModel(Locator locator) : super(locator: locator);
-  final _order = OrderModel(
-      id: '1',
-      orderId: 1,
-      customer: null,
-      orderType: null,
-      note: null,
-      cartItems: null,
-      totalPaid: null,
-      statusStepId: null,
-      statusStepsDates: null);
-
-  OrderModel get orderToCheckout => _order;
-
-  String get totalAmount => (_order.totalPaid).toStringAsFixed(2);
-
-  Future<bool> get isNativePaymentSupported async =>
-      locator<StripeService>().checkIfNativePayReady();
+  String get totalAmount => (state.totalPaid).toStringAsFixed(2);
 
   Future<void> payByNativePay() async {
     logger.v('payByNativePAy invoked');
     try {
-      var canPayNatively =
-          await locator<StripeService>().checkIfNativePayReady();
+      var canPayNatively = await StripeService().checkIfNativePayReady();
       if (canPayNatively) {
         logger.d('native pay supported');
-        await locator<StripeService>()
-            .createPaymentMethodNative(orderToCheckout);
+        await StripeService().orderToCheckout;
       } else {
         logger.w('native pay not supported');
       }
@@ -49,7 +51,7 @@ class CheckoutViewModel extends BaseViewModel {
   Future<void> payByCreditCard() async {
     logger.v('payByCreditCard invoked');
     try {
-      await locator<StripeService>().createPaymentMethod(orderToCheckout);
+      await StripeService().createPaymentMethod(state);
     } on ErrorCode {
       rethrow;
     } catch (e) {

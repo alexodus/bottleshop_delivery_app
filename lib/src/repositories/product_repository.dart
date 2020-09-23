@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/cart_item_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/categories_tree_model.dart';
@@ -7,16 +9,27 @@ import 'package:bottleshopdeliveryapp/src/models/country_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/order_type_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
+import 'package:bottleshopdeliveryapp/src/models/slider_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/unit_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/user.dart' as model;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hooks_riverpod/all.dart';
+import 'package:state_notifier/state_notifier.dart';
 import 'package:tuple/tuple.dart';
 
 class ProductRepository {
-  final FirebaseFirestore _firestoreInstance;
+  List<CategoriesTreeModel> _categoriesCache = [];
+  static final ProductRepository _instance = ProductRepository._internal();
+  final CollectionReference _categoryCollection =
+      FirebaseFirestore.instance.collection(Constants.categoriesCollection);
+  final CollectionReference _productsCollection =
+      FirebaseFirestore.instance.collection(Constants.categoriesCollection);
+  final CollectionReference _configCollection =
+      FirebaseFirestore.instance.collection(Constants.configurationCollection);
 
-  ProductRepository({FirebaseFirestore firestore})
-      : _firestoreInstance = firestore ?? FirebaseFirestore.instance;
+  ProductRepository._internal();
+
+  factory ProductRepository() => _instance;
 
   Future<ProductModel> parseProductJson(
       Map<String, dynamic> productJson) async {
@@ -106,18 +119,21 @@ class ProductRepository {
         .toList();
   }
 
-  Future<List<CategoriesTreeModel>> categories() async {
-    final docSnapshot = await FirebaseFirestore.instance
-        .collection(Constants.categoriesCollection)
-        .get();
-    final docsMap =
-        Map.fromEntries(docSnapshot.docs.map((e) => MapEntry(e.id, e.data())));
-    return docsMap.entries
-        .where((element) =>
-            element.value.containsKey(CategoriesTreeModel.isMainCategoryField))
-        .map((e) =>
-            CategoriesTreeModel.fromDocumentsMap(e.value, e.key, docsMap))
-        .toList();
+  Future<UnmodifiableListView<CategoriesTreeModel>> fetchCategories() async {
+    if (_categoriesCache.isNotEmpty) {
+      final docSnapshot = await _categoryCollection.get();
+      final docsMap = Map.fromEntries(
+          docSnapshot.docs.map((e) => MapEntry(e.id, e.data())));
+      _categoriesCache = [
+        ...docsMap.entries
+            .where((element) => element.value
+                .containsKey(CategoriesTreeModel.isMainCategoryField))
+            .map((e) =>
+                CategoriesTreeModel.fromDocumentsMap(e.value, e.key, docsMap))
+            .toList()
+      ];
+    }
+    return _categoriesCache;
   }
 
   Future<List<UnitModel>> units() async {
@@ -181,30 +197,58 @@ class ProductRepository {
   }
 
   Stream<QuerySnapshot> getProductsOnFlashSale() {
-    return _firestoreInstance
-        .collection(Constants.productsCollection)
-        .orderBy('flash_sale_until')
-        .snapshots();
+    return _productsCollection.orderBy('flash_sale_until').snapshots();
   }
 
   Stream<QuerySnapshot> getAllOtherProducts() {
-    return _firestoreInstance
-        .collection(Constants.productsCollection)
+    return _productsCollection
         .where('is_new_entry', isEqualTo: false)
         .snapshots();
   }
 
   Stream<QuerySnapshot> getNewProducts() {
-    return _firestoreInstance
-        .collection(Constants.productsCollection)
+    return _productsCollection
         .where('is_new_entry', isEqualTo: true)
         .snapshots();
   }
 
   Stream<QuerySnapshot> getRecommendedProducts() {
-    return _firestoreInstance
-        .collection(Constants.productsCollection)
+    return _productsCollection
         .where('is_recommended', isEqualTo: true)
         .snapshots();
+  }
+
+  Future<List<SliderModel>> getSlidersConfig() async {
+    var slidersDocument = await _configCollection.doc('0').get();
+    List<SliderModel> sliders;
+    if (slidersDocument.data()['sliders'] != null) {
+      var slidersData =
+          slidersDocument.data()['sliders'] as List<Map<String, dynamic>>;
+      sliders = <SliderModel>[];
+      slidersData.forEach((data) => sliders.add(SliderModel.fromMap(data)));
+    }
+    return sliders;
+  }
+}
+
+final productRepositoryProvider = Provider((ref) => ProductRepository());
+final categoriesStateProvider = StateNotifierProvider((_) => CategoriesState());
+
+final categoriesProvider =
+    FutureProvider((ref) => ProductRepository().fetchCategories());
+
+class CategoriesState extends StateNotifier<Map<String, bool>> {
+  CategoriesState() : super(null);
+
+  void selectCategory(String id) {
+    state.update(id, (value) => true);
+  }
+
+  bool isSelected(String id) {
+    return state[id];
+  }
+
+  void clearSelection() {
+    state.updateAll((key, value) => value = false);
   }
 }

@@ -74,7 +74,7 @@ class _CategoryDetailViewState extends State<CategoryDetailView>
                   borderRadius: BorderRadius.circular(300),
                   onTap: () =>
                       Navigator.pushNamed(context, AccountView.routeName),
-                  child: ProfileAvatar(),
+                  child: ProfileAvatar(imageUrl: null),
                 ),
               ),
             ],

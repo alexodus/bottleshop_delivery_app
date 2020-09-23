@@ -3,9 +3,7 @@ import 'package:bottleshopdeliveryapp/src/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/empty_orders_products.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/orders_products.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/tabs_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class OrdersTab extends StatelessWidget {
   const OrdersTab({Key key}) : super(key: key);
@@ -16,11 +14,7 @@ class OrdersTab extends StatelessWidget {
     return orderList.isEmpty
         ? EmptyOrdersProducts()
         : DefaultTabController(
-            initialIndex: context
-                    .select((TabsViewModel viewModel) =>
-                        viewModel.initialOrderTabIndex)
-                    .index ??
-                0,
+            initialIndex: 0,
             length: OrderTabIndex.values.length,
             child: SafeArea(
               child: Scaffold(

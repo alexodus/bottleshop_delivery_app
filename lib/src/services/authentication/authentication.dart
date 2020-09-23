@@ -3,17 +3,19 @@ import 'package:bottleshopdeliveryapp/src/models/user.dart';
 abstract class Authentication {
   Future<User> currentUser();
 
-  Future<User> signInAnonymously();
+  Future<void> signInAnonymously();
 
-  Future<User> signInWithEmailAndPassword(String email, String password);
+  Future<void> signInWithEmailAndPassword(String email, String password);
 
-  Future<User> createUserWithEmailAndPassword(String email, String password);
+  Future<void> createUserWithEmailAndPassword(String email, String password);
 
   Future<void> sendPasswordResetEmail(String email);
 
-  Future<User> signInWithGoogle();
+  Future<void> signInWithGoogle();
 
-  Future<User> signInWithFacebook();
+  Future<void> signInWithFacebook();
+
+  Future<void> signWithApple();
 
   Future<void> signOut();
 

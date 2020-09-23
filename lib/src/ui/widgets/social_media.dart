@@ -1,7 +1,10 @@
+import 'package:bottleshopdeliveryapp/src/viewmodels/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
 
-class SocialMediaWidget extends StatelessWidget {
+class SocialMediaWidget extends HookWidget {
   final VoidCallback signInWithFacebook;
   final VoidCallback signInWithGoogle;
   final VoidCallback signInAnonymously;
@@ -21,6 +24,8 @@ class SocialMediaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isAppleSignInSupported =
+        useProvider(appleSignInAvailableProvider).data?.value ?? false;
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -43,14 +48,15 @@ class SocialMediaWidget extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10),
-        SizedBox(
-          width: 45,
-          height: 45,
-          child: InkWell(
-            onTap: signInWithApple,
-            child: Image.asset('assets/images/apple_login.png'),
+        if (isAppleSignInSupported)
+          SizedBox(
+            width: 45,
+            height: 45,
+            child: InkWell(
+              onTap: signInWithApple,
+              child: Image.asset('assets/images/apple_login.png'),
+            ),
           ),
-        ),
         SizedBox(width: 10),
         SizedBox(
           width: 45,

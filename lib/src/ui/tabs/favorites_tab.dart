@@ -1,68 +1,63 @@
 import 'package:bottleshopdeliveryapp/src/models/layout.dart';
+import 'package:bottleshopdeliveryapp/src/repositories/user_repository.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/empty_favorites.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/favorite_list_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/product_grid_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/search_bar.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/favorites_tab_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FavoritesTab extends StatelessWidget {
+final layoutModeProvider = StateProvider<LayoutMode>((ref) => LayoutMode.list);
+
+class FavoritesTab extends HookWidget {
   static const String routeName = '/favorites';
+
+  const FavoritesTab({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<FavoritesTabViewModel>(
-        create: (_) => FavoritesTabViewModel(context.read),
-        builder: (context, child) {
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Offstage(
-                    offstage: context
-                        .select(
-                            (FavoritesTabViewModel value) => value.favorites)
-                        .isEmpty,
-                    child: SearchBar(
-                      showFilter: true,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                FavoriteListTile(),
-                FavoritesListLayout(),
-                FavoritesGridLayout(),
-                Offstage(
-                  offstage: context
-                      .select((FavoritesTabViewModel value) => value.favorites)
-                      .isNotEmpty,
-                  child: EmptyFavorites(),
-                )
-              ],
+    final favouriteList = useProvider(favouriteListProvider.state);
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Offstage(
+              offstage: favouriteList.isEmpty,
+              child: SearchBar(
+                showFilter: true,
+              ),
             ),
-          );
-        });
+          ),
+          SizedBox(height: 10),
+          FavoriteListTile(),
+          FavoritesListLayout(),
+          FavoritesGridLayout(),
+          Offstage(
+            offstage: favouriteList.isEmpty,
+            child: EmptyFavorites(),
+          )
+        ],
+      ),
+    );
   }
 }
 
-class FavoritesGridLayout extends StatelessWidget {
+class FavoritesGridLayout extends HookWidget {
   const FavoritesGridLayout({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final favorites =
-        context.select((FavoritesTabViewModel value) => value.favorites);
-    final layoutMode =
-        context.select((FavoritesTabViewModel value) => value.layoutMode);
+    final favorites = useProvider(favouriteListProvider.state);
+    final layoutMode = useProvider(layoutModeProvider).state;
     return Offstage(
       offstage: layoutMode != LayoutMode.grid || favorites.isEmpty,
       child: Container(
@@ -73,7 +68,7 @@ class FavoritesGridLayout extends StatelessWidget {
           crossAxisCount: 4,
           itemCount: favorites.length,
           itemBuilder: (context, index) {
-            var product = favorites.elementAt(index);
+            final product = favorites.elementAt(index);
             return ProductGridItem(
               product: product,
               heroTag: 'favorites_grid',
@@ -89,17 +84,15 @@ class FavoritesGridLayout extends StatelessWidget {
   }
 }
 
-class FavoritesListLayout extends StatelessWidget {
+class FavoritesListLayout extends HookWidget {
   const FavoritesListLayout({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final favorites =
-        context.select((FavoritesTabViewModel value) => value.favorites);
-    final layoutMode =
-        context.select((FavoritesTabViewModel value) => value.layoutMode);
+    final favorites = useProvider(favouriteListProvider.state);
+    final layoutMode = useProvider(layoutModeProvider).state;
     return Offstage(
       offstage: layoutMode != LayoutMode.list || favorites.isEmpty,
       child: ListView.separated(
@@ -114,26 +107,24 @@ class FavoritesListLayout extends StatelessWidget {
             return FavoriteListItem(
               heroTag: 'favorites_list',
               product: favorites.elementAt(index),
-              onDismissed: () => context
-                  .read<FavoritesTabViewModel>()
-                  .removeProductFromFavorites(index),
+              onDismissed: () => context.read(favouriteListProvider).removeItem(
+                    favorites.elementAt(index),
+                  ),
             );
           }),
     );
   }
 }
 
-class FavoriteListTile extends StatelessWidget {
+class FavoriteListTile extends HookWidget {
   const FavoriteListTile({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final favorites =
-        context.select((FavoritesTabViewModel value) => value.favorites);
-    final layoutMode =
-        context.select((FavoritesTabViewModel value) => value.layoutMode);
+    final favorites = useProvider(favouriteListProvider.state);
+    final layoutMode = useProvider(layoutModeProvider);
     return Offstage(
       offstage: favorites.isEmpty,
       child: Padding(
@@ -154,23 +145,19 @@ class FavoriteListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               IconButton(
-                onPressed: () => context
-                    .read<FavoritesTabViewModel>()
-                    .setLayoutMode(LayoutMode.list),
+                onPressed: () => layoutMode.state = LayoutMode.list,
                 icon: Icon(
                   Icons.format_list_bulleted,
-                  color: layoutMode == LayoutMode.list
+                  color: layoutMode.state == LayoutMode.list
                       ? Theme.of(context).accentColor
                       : Theme.of(context).focusColor,
                 ),
               ),
               IconButton(
-                onPressed: () => context
-                    .read<FavoritesTabViewModel>()
-                    .setLayoutMode(LayoutMode.grid),
+                onPressed: () => layoutMode.state = LayoutMode.grid,
                 icon: Icon(
                   Icons.apps,
-                  color: layoutMode == LayoutMode.grid
+                  color: layoutMode.state == LayoutMode.grid
                       ? Theme.of(context).accentColor
                       : Theme.of(context).focusColor,
                 ),

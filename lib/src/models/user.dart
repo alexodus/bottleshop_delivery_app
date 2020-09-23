@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -19,7 +20,7 @@ class User {
   }) : assert(uid != null);
 
   factory User.fromMap(Map<String, dynamic> map) {
-    return new User(
+    return User(
       uid: map['uid'] as String,
       name: map['name'] as String,
       email: map['email'] as String,
@@ -66,6 +67,27 @@ class User {
   String toString() {
     return 'User{uid: $uid, name: $name, email: $email, avatar: $avatar, phoneNumber: $phoneNumber, dayOfBirth: $dayOfBirth}';
   }
+
+  factory User.fromFirebase(
+      {@required auth.User user, auth.AdditionalUserInfo additionalData}) {
+    if (user == null) {
+      return null;
+    }
+    var email;
+    if (additionalData != null) {
+      if (user.email == null && additionalData?.profile['email'] != null) {
+        email = additionalData?.profile['email'];
+      } else {
+        email = user.email;
+      }
+    }
+    return User(
+        uid: user.uid,
+        email: email,
+        name: user.displayName,
+        avatar: user.photoURL,
+        phoneNumber: user.phoneNumber);
+  }
 }
 
 enum AddressType { shipping, billing }
@@ -111,7 +133,7 @@ class Address {
       addressType.hashCode;
 
   factory Address.fromMap(Map<String, dynamic> map) {
-    return new Address(
+    return Address(
       streetName: map['streetName'] as String,
       streetNumber: map['streetNumber'] as String,
       city: map['city'] as String,

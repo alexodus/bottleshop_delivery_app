@@ -1,93 +1,72 @@
-import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/ui/views/sign_in_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/form_input_field_with_icon.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/loader_widget.dart';
 import 'package:bottleshopdeliveryapp/src/utils/validator.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/reset_password_view_model.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
 
-class ResetPasswordView extends StatefulWidget {
+final formKeyProvider = Provider((_) => GlobalKey<FormState>());
+
+class ResetPasswordView extends HookWidget {
   static const routeName = '/resetPassword';
 
   @override
-  _ResetPasswordViewState createState() => _ResetPasswordViewState();
-}
-
-class _ResetPasswordViewState extends State<ResetPasswordView> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _email = TextEditingController();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  String email = '';
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _email.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    email = ModalRoute.of(context).settings.arguments;
-    _email.text = email;
-    return ChangeNotifierProvider<ResetPasswordViewModel>(
-      create: (_) => ResetPasswordViewModel(context.read),
-      builder: (context, child) {
-        return Scaffold(
-          backgroundColor: Theme.of(context).accentColor,
-          key: _scaffoldKey,
-          body: Loader(
-            inAsyncCall: context.watch<ResetPasswordViewModel>().isLoading,
-            child: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
+    final email = ModalRoute.of(context).settings.arguments ?? '';
+    final emailController = useTextEditingController(text: email);
+    final formKey = useProvider(formKeyProvider);
+    final signInState = useProvider(signUpViewModelProvider);
+    return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
+      body: Loader(
+        inAsyncCall: signInState.isLoading,
+        child: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Stack(
                   children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        buildFormContainerTop(context: context),
-                        buildFormContainer(
-                          context: context,
-                          child: buildFormFields(
-                            context: context,
-                            onResetClicked: () async {
-                              if (_formKey.currentState.validate()) {
-                                await context
-                                    .read<Authentication>()
-                                    .sendPasswordResetEmail(_email.text);
-                                _email.clear();
-                                _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text(
-                                      'Check your email and follow the instructions to reset your password'),
-                                ));
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    buildPrimaryButton(
-                      context,
-                      'Got your new password?',
-                      ' Sign In',
-                      () => Navigator.pop(context),
+                    buildFormContainerTop(context: context),
+                    buildFormContainer(
+                      context: context,
+                      child: buildFormFields(
+                        context: context,
+                        onResetClicked: () async {
+                          if (formKey.currentState.validate()) {
+                            await signInState
+                                .sendResetPasswordEmail(emailController.text);
+                            emailController.clear();
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'Check your email and follow the instructions to reset your password'),
+                            ));
+                          }
+                        },
+                      ),
                     ),
                   ],
                 ),
-              ),
+                buildPrimaryButton(
+                  context,
+                  'Got your new password?',
+                  ' Sign In',
+                  () => Navigator.pop(context),
+                ),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Widget buildFormFields({BuildContext context, Function onResetClicked}) {
+  Widget buildFormFields(
+      {BuildContext context,
+      VoidCallback onResetClicked,
+      TextEditingController email}) {
     return Column(
       children: <Widget>[
         SizedBox(height: 25),
@@ -111,10 +90,10 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 Icons.mail_outline,
                 color: Theme.of(context).accentColor,
               )),
-          controller: _email,
+          controller: email,
           validator: Validator().email,
           onChanged: (value) => null,
-          onSaved: (value) => _email.text = value,
+          onSaved: (value) => email.text = value,
           maxLines: 1,
         ),
         SizedBox(height: 70),
@@ -183,16 +162,5 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       ),
       child: child,
     );
-  }
-
-  Widget signInLink() {
-    if ((email == '') || (email == null)) {
-      return FlatButton(
-        onPressed: () =>
-            Navigator.pushReplacementNamed(context, SignInView.routeName),
-        child: Text('Sign in'),
-      );
-    }
-    return Container(width: 0, height: 0);
   }
 }

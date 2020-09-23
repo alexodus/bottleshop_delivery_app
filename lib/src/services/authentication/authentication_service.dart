@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:bottleshopdeliveryapp/src/repositories/user_repository.dart';
@@ -6,50 +8,44 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hooks_riverpod/all.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
+final authProvider = Provider((_) => AuthenticationService());
 
 enum AuthState {
-  loggedIn,
-  loggedOut,
-  inProgress,
+  LOGGED_IN,
+  LOGGED_OUT,
 }
 
 class AuthenticationService implements Authentication {
+  static AuthenticationService _instance;
   final auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final FacebookLogin _facebookLogin;
-  final UserRepository _userDataService;
+  final UserRepository _userRepository;
 
-  AuthenticationService(
+  AuthenticationService._internal(
       {auth.FirebaseAuth firebaseAuth,
       GoogleSignIn googleSignIn,
       FacebookLogin facebookLogin,
-      UserRepository userDataService})
+      UserRepository userRepository})
       : _firebaseAuth = firebaseAuth ?? auth.FirebaseAuth.instance,
         _googleSignIn =
             googleSignIn ?? GoogleSignIn(scopes: Constants.googleSignInScopes),
         _facebookLogin = facebookLogin ?? FacebookLogin(),
-        _userDataService = userDataService ?? UserRepository();
+        _userRepository = userRepository ?? UserRepository();
 
-  User _userFromFirebase(auth.User user,
-      [auth.AdditionalUserInfo additionalData]) {
-    if (user == null) {
-      return null;
-    }
-    var email;
-    if (additionalData != null) {
-      if (user.email == null && additionalData?.profile['email'] != null) {
-        email = additionalData?.profile['email'];
-      } else {
-        email = user.email;
-      }
-    }
+  factory AuthenticationService() {
+    return _instance ?? AuthenticationService._internal();
+  }
 
-    return User(
-        uid: user.uid,
-        email: email,
-        name: user.displayName,
-        avatar: user.photoURL,
-        phoneNumber: user.phoneNumber);
+  Future<void> _signUserWithAuthCredential(
+      auth.AuthCredential credential) async {
+    final authResult = await _firebaseAuth.signInWithCredential(credential);
+    final user = User.fromFirebase(
+        user: authResult.user, additionalData: authResult.additionalUserInfo);
+    await _userRepository.setUser(user);
   }
 
   @override
@@ -58,19 +54,22 @@ class AuthenticationService implements Authentication {
       email: email,
       password: password,
     );
-    return _firebaseAuth.signInWithCredential(credential);
+    await _signUserWithAuthCredential(credential);
   }
 
   @override
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
-    return _firebaseAuth.createUserWithEmailAndPassword(
+    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+    final user = User.fromFirebase(
+        user: credential.user, additionalData: credential.additionalUserInfo);
+    await _userRepository.setUser(user);
   }
 
   @override
   Future<void> sendPasswordResetEmail(String email) async {
-    return _firebaseAuth.sendPasswordResetEmail(email: email);
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
   @override
@@ -82,11 +81,7 @@ class AuthenticationService implements Authentication {
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
-      final authResult = await _firebaseAuth.signInWithCredential(credential);
-      final user =
-          _userFromFirebase(authResult.user, authResult.additionalUserInfo);
-      await _userDataService.setUser(user);
-      return user;
+      await _signUserWithAuthCredential(credential);
     } else {
       throw PlatformException(
           code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
@@ -94,34 +89,58 @@ class AuthenticationService implements Authentication {
   }
 
   @override
-  Future<User> signInWithFacebook() async {
+  Future<void> signInWithFacebook() async {
     _facebookLogin.loginBehavior = FacebookLoginBehavior.nativeWithFallback;
     final result = await _facebookLogin.logIn(Constants.facebookPermissions);
     if (result.accessToken != null) {
       final credential =
           auth.FacebookAuthProvider.credential(result.accessToken.token);
-      final authResult = await _firebaseAuth.signInWithCredential(credential);
-      final user =
-          _userFromFirebase(authResult.user, authResult.additionalUserInfo);
-      await _userDataService.setUser(user);
-      return user;
+      await _signUserWithAuthCredential(credential);
     } else {
       throw PlatformException(
           code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
+  }
+
+  @override
+  Future<void> signWithApple() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    final credentialState =
+        await SignInWithApple.getCredentialState(credential.userIdentifier);
+    switch (credentialState) {
+      case CredentialState.authorized:
+        final authCredential = auth.OAuthProvider('apple.com').credential(
+            accessToken: credential.authorizationCode,
+            idToken: credential.identityToken);
+        await _firebaseAuth.signInWithCredential(authCredential);
+        break;
+      case CredentialState.revoked:
+      case CredentialState.notFound:
+        throw PlatformException(
+            code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
+        break;
+    }
+  }
+
+  Future<bool> supportsAppleSignIn() async {
+    bool supportsAppleSignIn = false;
+    if (Platform.isIOS) {
+      supportsAppleSignIn = await SignInWithApple.isAvailable();
+    }
+    return supportsAppleSignIn;
   }
 
   @override
   Future<User> currentUser() async {
     final firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {
-      final user = _userFromFirebase(firebaseUser);
-      final userSnapshot = await _userDataService.getUser(user.uid);
-      if (userSnapshot.exists) {
-        return User.fromMap(userSnapshot.data());
-      } else {
-        return user;
-      }
+      final user = await _userRepository.getUser(firebaseUser.uid);
+      return user ?? User.fromFirebase(user: firebaseUser);
     } else {
       return null;
     }
@@ -135,15 +154,17 @@ class AuthenticationService implements Authentication {
   }
 
   @override
-  Future<User> signInAnonymously() async {
-    final authResult = await _firebaseAuth.signInAnonymously();
-    final user = _userFromFirebase(authResult.user);
-    await _userDataService.setUser(user);
-    return user;
+  Future<void> signInAnonymously() async {
+    final credential = await _firebaseAuth.signInAnonymously();
+    final user = User.fromFirebase(
+        user: credential.user, additionalData: credential.additionalUserInfo);
+    await _userRepository.setUser(user);
   }
 
   @override
   Stream<User> get authStateChanges {
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
+    return _firebaseAuth
+        .authStateChanges()
+        .map((firebaseUser) => User.fromFirebase(user: firebaseUser));
   }
 }

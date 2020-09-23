@@ -20,13 +20,19 @@ class DebugLogPrinter extends LogPrinter {
 
 class AnalyticsService implements Analytics {
   final FirebaseAnalytics _analytics;
+  static AnalyticsService _instance;
 
-  AnalyticsService(
-      {FirebaseAnalytics firebaseAnalytics,
-      bool enableAnalyticsCollection = true})
-      : _analytics = firebaseAnalytics ?? FirebaseAnalytics() {
-    _analytics.setAnalyticsCollectionEnabled(enableAnalyticsCollection);
+  AnalyticsService._internal({FirebaseAnalytics firebaseAnalytics})
+      : _analytics = firebaseAnalytics ?? FirebaseAnalytics();
+
+  factory AnalyticsService({FirebaseAnalytics firebaseAnalytics}) {
+    return _instance ??
+        AnalyticsService._internal(firebaseAnalytics: firebaseAnalytics);
   }
+
+  @override
+  void setAnalyticsCollectionEnabled(bool enabled) =>
+      _analytics.setAnalyticsCollectionEnabled(enabled);
 
   @override
   FirebaseAnalyticsObserver get analyticsObserver =>
@@ -43,13 +49,12 @@ class AnalyticsService implements Analytics {
 
   @override
   Future<void> logAddToWishlist(ProductModel product,
-      [int quantity = 1]) async {
-    return _analytics.logAddToWishlist(
-        itemId: product.uniqueId,
-        itemName: product.name,
-        itemCategory: product.allCategories[0].categoryDetails.name,
-        quantity: quantity);
-  }
+          [int quantity = 1]) async =>
+      _analytics.logAddToWishlist(
+          itemId: product.uniqueId,
+          itemName: product.name,
+          itemCategory: product.allCategories[0].categoryDetails.name,
+          quantity: quantity);
 
   @override
   Future<void> logLogin(String loginMethod) async {

@@ -31,6 +31,8 @@ abstract class Analytics {
 
   FirebaseAnalyticsObserver get analyticsObserver;
 
+  void setAnalyticsCollectionEnabled(bool enabled);
+
   static Logger getLogger(String className) {
     return Logger(printer: DebugLogPrinter(className));
   }

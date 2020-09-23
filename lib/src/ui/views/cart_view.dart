@@ -1,56 +1,65 @@
+import 'package:bottleshopdeliveryapp/src/repositories/user_repository.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/account_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/checkout_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/cart_item.dart';
 import 'package:bottleshopdeliveryapp/src/ui/widgets/profile_avatar_widget.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/cart_view_model.dart';
+import 'package:bottleshopdeliveryapp/src/viewmodels/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CartView extends StatelessWidget {
+class CartView extends HookWidget {
   static const String routeName = '/cart';
 
   @override
   Widget build(BuildContext context) {
-    final _scaffoldKey = GlobalKey<ScaffoldState>();
-    return ChangeNotifierProvider<CartViewModel>(
-      create: (_) => CartViewModel(context.read),
-      builder: (context, child) {
-        return AppScaffold(
-          scaffoldKey: _scaffoldKey,
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
-              onPressed: () => Navigator.pop(context),
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text(
-              'Cart',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            actions: <Widget>[
-              Container(
-                width: 30,
-                height: 30,
-                margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(300),
-                  onTap: () =>
-                      Navigator.pushNamed(context, AccountView.routeName),
-                  child: ProfileAvatar(),
-                ),
+    return AppScaffold(
+      scaffoldKey: GlobalKey<ScaffoldState>(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
+          onPressed: () => Navigator.pop(context),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          'Cart',
+          style: Theme.of(context).textTheme.headline4,
+        ),
+        actions: <Widget>[
+          Container(
+            width: 30,
+            height: 30,
+            margin: EdgeInsets.only(top: 12.5, bottom: 12.5, right: 20),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(300),
+              onTap: () => Navigator.pushNamed(context, AccountView.routeName),
+              child: useProvider(userDetailsProvider).when(
+                data: (value) => ProfileAvatar(imageUrl: value.avatar),
+                error: (_, __) => ProfileAvatar(imageUrl: null),
+                loading: () => ProfileAvatar(imageUrl: null),
               ),
-            ],
+            ),
           ),
-          body: buildCartBBody(context),
-        );
-      },
+        ],
+      ),
+      body: CartBody(context: context),
     );
   }
+}
 
-  Stack buildCartBBody(BuildContext context) {
+class CartBody extends HookWidget {
+  const CartBody({
+    Key key,
+    @required this.context,
+  }) : super(key: key);
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -86,24 +95,26 @@ class CartView extends StatelessWidget {
                     ),
                   ),
                 ),
-                ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: context.select<CartViewModel, int>(
-                      (vm) => vm.shoppingCart.length),
-                  separatorBuilder: (context, index) {
-                    return SizedBox(height: 15);
-                  },
-                  itemBuilder: (context, index) {
-                    return CartItem(
-                        product: context
-                            .watch<CartViewModel>()
-                            .shoppingCart
-                            .elementAt(index),
-                        heroTag: 'cart');
-                  },
+                useProvider(shoppingCartProvider).when(
+                  data: (cart) => ListView.separated(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: cart.length,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 15);
+                    },
+                    itemBuilder: (context, index) {
+                      return CartItem(
+                        product: cart.elementAt(index).product,
+                        heroTag: 'cart',
+                        quantity: cart.elementAt(index).product.count,
+                      );
+                    },
+                  ),
+                  loading: null,
+                  error: null,
                 ),
               ],
             ),

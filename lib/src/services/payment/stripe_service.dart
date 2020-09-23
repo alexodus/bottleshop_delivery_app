@@ -7,8 +7,10 @@ import 'package:http/http.dart' as http;
 import 'package:stripe_payment/stripe_payment.dart';
 
 class StripeService {
+  static final StripeService _instance = StripeService._internal();
   final logger = Analytics.getLogger('StripeService');
-  StripeService() {
+
+  StripeService._internal() {
     StripePayment.setOptions(
       StripeOptions(
         merchantId: Constants.applePayMerchantId,
@@ -17,6 +19,12 @@ class StripeService {
       ),
     );
   }
+
+  factory StripeService() {
+    return _instance;
+  }
+
+  get orderToCheckout => null;
 
   Future<bool> checkIfNativePayReady() async {
     var deviceSupportNativePay = await StripePayment.deviceSupportsNativePay();

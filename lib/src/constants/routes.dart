@@ -19,6 +19,8 @@ import 'package:bottleshopdeliveryapp/src/ui/views/product_detail_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/reset_password_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/sign_in_view.dart';
 import 'package:bottleshopdeliveryapp/src/ui/views/sign_up_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/views/splash_screen_view.dart';
+import 'package:bottleshopdeliveryapp/src/ui/widgets/fatal_error.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +67,9 @@ class Routes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final RouteArgument args = settings.arguments;
     switch (settings.name) {
+      case SplashScreenView.routeName:
+        return _getPageRoute(
+            routeName: settings.name, viewToShow: SplashScreen());
       case AccountView.routeName:
         return _getPageRoute(
             routeName: settings.name, viewToShow: AccountView());
@@ -129,15 +134,7 @@ class Routes {
         break;
       default:
         return MaterialPageRoute(builder: (context) {
-          return Scaffold(
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.96),
-            appBar: AppBar(
-              title: Text('Error'),
-            ),
-            body: Center(
-              child: Text(settings.name),
-            ),
-          );
+          return FatalError(errorMessage: settings.name);
         });
     }
   }

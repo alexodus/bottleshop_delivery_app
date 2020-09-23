@@ -1,16 +1,17 @@
 import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
-import 'package:bottleshopdeliveryapp/src/models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ProfileAvatar extends StatelessWidget {
-  const ProfileAvatar({Key key}) : super(key: key);
+  final String imageUrl;
+
+  const ProfileAvatar({Key key, @required this.imageUrl})
+      : assert(imageUrl != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = context.select((User value) => value?.avatar);
     if (imageUrl != null) {
       return CachedNetworkImage(
         imageUrl: imageUrl,
