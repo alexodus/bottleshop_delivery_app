@@ -42,6 +42,7 @@ class ProductDetailView extends HookWidget {
                 padding: EdgeInsets.symmetric(vertical: 14),
                 color: Theme.of(context).accentColor,
                 shape: StadiumBorder(),
+                // ignore: dead_code
                 child: Icon(true ? Icons.favorite : Icons.favorite_border,
                     color: Theme.of(context).primaryColor),
               ),
