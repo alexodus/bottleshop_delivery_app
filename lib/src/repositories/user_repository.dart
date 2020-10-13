@@ -4,7 +4,7 @@ import 'package:bottleshopdeliveryapp/src/constants/constants.dart';
 import 'package:bottleshopdeliveryapp/src/models/cart_item_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
+import 'package:bottleshopdeliveryapp/src/providers/auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:state_notifier/state_notifier.dart';
