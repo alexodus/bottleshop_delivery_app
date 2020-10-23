@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:bottleshopdeliveryapp/src/app.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -16,11 +14,14 @@ Future<void> main() async {
   FirebaseCrashlytics.instance
       .setCrashlyticsCollectionEnabled(kDebugMode ? false : true);
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  Analytics.setLogLevel(kDebugMode ? Level.verbose : Level.error);
-  AnalyticsService().setAnalyticsCollectionEnabled(!kDebugMode);
-  runZoned(() {
+  Logger.level = kDebugMode ? Level.verbose : Level.error;
+  runZonedGuarded<Future<void>>(() async {
     runApp(
-      const ProviderScope(child: MyApp()),
+      ProviderScope(
+        child: const App(),
+      ),
     );
-  }, onError: FirebaseCrashlytics.instance.recordError);
+  },
+      (Object error, StackTrace stackTrace) =>
+          FirebaseCrashlytics.instance.recordError(error, stackTrace));
 }
