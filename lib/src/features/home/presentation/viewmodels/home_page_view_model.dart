@@ -15,6 +15,7 @@ class HomePageViewModel extends ChangeNotifier {
         _currentTabId = TabIndex.products.index,
         _currentTabTitle = 'Home' {
     _logger = createLogger(this.runtimeType.toString());
+    _logger.v('created');
   }
 
   OrderTabIndex get initialOrderTabIndex => OrderTabIndex.all;

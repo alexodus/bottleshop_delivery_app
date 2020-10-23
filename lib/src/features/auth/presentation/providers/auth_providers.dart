@@ -11,7 +11,6 @@ final appleSignInAvailableProvider = FutureProvider<bool>((ref) async {
 });
 
 final userRepositoryProvider = ChangeNotifierProvider<UserRepository>((ref) {
-  final notifService = ref.watch(pushNotificationsProvider);
   final auth = ref.watch(authProvider);
-  return UserRepository.instance(auth, notifService);
+  return UserRepository.instance(auth);
 });

@@ -17,6 +17,7 @@ class TutorialPage extends HookWidget {
     final screenState = useProvider(localTutorialProvider);
     final onBoardingViewModel = useProvider(tutorialModelProvider);
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.96),
       body: SingleChildScrollView(
         child: Column(

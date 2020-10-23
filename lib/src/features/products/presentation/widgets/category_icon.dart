@@ -4,23 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
-var icons = [
-  'assets/icons/icon_absinth.png',
-  'assets/icons/icon_armagnac.png',
-  'assets/icons/icon_brandy.png',
-  'assets/icons/icon_cachaca.png',
-  'assets/icons/icon_calvados.png',
-  'assets/icons/icon_cognac.png',
-  'assets/icons/icon_destilaty.png',
-  'assets/icons/icon_gin.png',
-  'assets/icons/icon_liehoviny.png',
-  'assets/icons/icon_likery.png',
-  'assets/icons/icon_miesanenapoje.png',
-  'assets/icons/icon_pivo.png',
-  'assets/icons/icon_rum.png',
-  'assets/icons/icon_tequila.png',
-];
-
 class CategoryIcon extends HookWidget {
   final CategoriesTreeModel category;
   final String heroTag;
@@ -38,13 +21,11 @@ class CategoryIcon extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    icons.shuffle();
     final isCategorySelected = useProvider(
       categoryFilterProvider.select(
         (value) => value.isSelected(category.categoryDetails.id),
       ),
     );
-    final iconName = icons.first;
     final tickerProvider = useSingleTickerProvider();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),

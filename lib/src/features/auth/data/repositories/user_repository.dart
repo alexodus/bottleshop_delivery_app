@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bottleshopdeliveryapp/src/core/data/services/logger.dart';
-import 'package:bottleshopdeliveryapp/src/core/data/services/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/data/models/user_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/data/services/authentication_service.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/data/services/user_db_service.dart';
@@ -18,7 +17,6 @@ enum AuthStatus {
 
 class UserRepository with ChangeNotifier {
   final AuthenticationService _auth;
-  final PushNotificationService _pushNotificationService;
   Logger _logger;
   String _error;
   bool _loading;
@@ -37,7 +35,6 @@ class UserRepository with ChangeNotifier {
 
   UserRepository.instance(
     this._auth,
-    this._pushNotificationService,
   ) {
     _loading = false;
     _error = '';

@@ -93,9 +93,6 @@ class FirestoreJsonParsingUtil {
 }
 
 class ProductRepository with ChangeNotifier {
-  final CollectionReference _categoryCollection = FirebaseFirestore.instance
-      .collection(AppDBConstants.categoriesCollection);
-
   Logger _logger;
   String _error;
   bool _loading;
@@ -108,6 +105,7 @@ class ProductRepository with ChangeNotifier {
     _loading = false;
     _error = '';
     _logger = createLogger(this.runtimeType.toString());
+    _logger.v('created');
   }
 
   Stream<ProductModel> singleProduct(String uid) {
@@ -192,6 +190,4 @@ class ProductRepository with ChangeNotifier {
     ];
     return productsDb.streamQueryList(args: query);
   }
-
-  bool filterByCategory(List<ProductModel> products) {}
 }
