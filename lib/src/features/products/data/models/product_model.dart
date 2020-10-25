@@ -28,8 +28,12 @@ class ProductModel {
   static const String isRecommendedField = 'is_recommended';
   static const String isNewEntryField = 'is_new_entry';
   static const String flashSaleUntilField = 'flash_sale_until';
+  @deprecated
   static const String thumbnailUrlField = 'thumbnailUrl';
+  @deprecated
   static const String imageUrlField = 'imageUrl';
+  static const String thumbnailPathField = 'thumbnail_path';
+  static const String imagePathField = 'image_path';
 
   // fields after data join
   static const String countryRefField = 'country_ref';
@@ -55,8 +59,12 @@ class ProductModel {
   final bool isRecommended;
   final bool isNewEntry;
   final DateTime flashSaleUntil;
+  @deprecated
   final String thumbnailUrl;
+  @deprecated
   final String imageUrl;
+  final String thumbnailPath;
+  final String imagePath;
 
   List<CategoryModel> get extraCategories => _categories?.skip(1)?.toList();
 
@@ -94,10 +102,12 @@ class ProductModel {
     @required this.isRecommended,
     @required this.isNewEntry,
     @required this.flashSaleUntil,
+    @required this.thumbnailPath,
+    @required this.imagePath,
     this.thumbnailUrl,
     this.imageUrl,
   })  : _price = price,
-        _categories = List.unmodifiable(categories);
+        _categories = List.unmodifiable(categories ?? []);
 
   ProductModel.fromJson(Map<String, dynamic> json)
       : //assert(json[countryField] is CountryModel),
@@ -128,7 +138,9 @@ class ProductModel {
         flashSaleUntil = json[flashSaleUntilField] != null
             ? DateTime.fromMillisecondsSinceEpoch(
                 json[flashSaleUntilField].seconds * 1000)
-            : null;
+            : null,
+        thumbnailPath = json[thumbnailPathField],
+        imagePath = json[imagePathField];
 
   Map<String, dynamic> toFirebaseJson() {
     var result = <String, dynamic>{
@@ -164,6 +176,8 @@ class ProductModel {
       isNewEntryField: isNewEntry,
       flashSaleUntilField:
           flashSaleUntil != null ? Timestamp.fromDate(flashSaleUntil) : null,
+      thumbnailPathField: thumbnailPath,
+      imagePathField: imagePath,
     };
     result.updateAll((key, value) => value ?? FieldValue.delete());
     return result;
@@ -190,7 +204,9 @@ class ProductModel {
       other.discount == discount &&
       other.isRecommended == isRecommended &&
       other.isNewEntry == isNewEntry &&
-      other.flashSaleUntil == flashSaleUntil;
+      other.flashSaleUntil == flashSaleUntil &&
+      other.thumbnailPath == thumbnailPath &&
+      other.imagePath == imagePath;
 
   @override
   int get hashCode =>
@@ -213,7 +229,9 @@ class ProductModel {
       discount.hashCode ^
       isRecommended.hashCode ^
       isNewEntry.hashCode ^
-      flashSaleUntil.hashCode;
+      flashSaleUntil.hashCode ^
+      thumbnailPath.hashCode ^
+      imagePath.hashCode;
 
   @override
   String toString() {
