@@ -1,5 +1,5 @@
 import 'package:bottleshopdeliveryapp/generated/l10n.dart';
-import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
+import 'package:bottleshopdeliveryapp/src/core/data/services/logger.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/validator.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/form_input_field_with_icon.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/loader_widget.dart';
@@ -10,14 +10,17 @@ import 'package:bottleshopdeliveryapp/src/features/auth/presentation/widgets/soc
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
-import 'package:logger/src/logger.dart';
 
 class SignInPage extends HookWidget {
   static const String routeName = '/sign-in';
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final logger = createLogger('SignInPage');
   SignInPage({Key key}) : super(key: key);
+
+  void authCallback(bool result) {
+    logger.v('auth result: $result');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,6 @@ class SignInPage extends HookWidget {
     final error =
         useProvider(userRepositoryProvider.select((value) => value.error));
     final isAppleAvailable = useProvider(appleSignInAvailableProvider);
-    final logger = useProvider(loggerProvider('SignInPage'));
     logger.v('userRepoErrors: $error');
     return Scaffold(
       key: _scaffoldKey,
@@ -68,8 +70,8 @@ class SignInPage extends HookWidget {
                         showPassword: showPassword,
                         password: password,
                         formKey: _formKey,
-                        logger: logger,
                         isAppleAvailable: isAppleAvailable,
+                        authCallback: authCallback,
                       ),
                     ),
                   ],
@@ -90,23 +92,21 @@ class SignInPage extends HookWidget {
 }
 
 class SignInWidget extends StatelessWidget {
+  final TextEditingController email;
+  final ValueNotifier<bool> showPassword;
+  final TextEditingController password;
+  final GlobalKey<FormState> formKey;
+  final AsyncValue<bool> isAppleAvailable;
+  final ValueChanged<bool> authCallback;
   const SignInWidget({
     Key key,
     @required this.email,
     @required this.showPassword,
     @required this.password,
-    @required GlobalKey<FormState> formKey,
-    @required this.logger,
+    @required this.formKey,
     @required this.isAppleAvailable,
-  })  : _formKey = formKey,
-        super(key: key);
-
-  final TextEditingController email;
-  final ValueNotifier<bool> showPassword;
-  final TextEditingController password;
-  final GlobalKey<FormState> _formKey;
-  final Logger logger;
-  final AsyncValue<bool> isAppleAvailable;
+    @required this.authCallback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -184,13 +184,11 @@ class SignInWidget extends StatelessWidget {
         FlatButton(
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
           onPressed: () async {
-            FormState form = _formKey.currentState;
+            FormState form = formKey.currentState;
             if (form.validate()) {
               await context
                   .read(userRepositoryProvider)
                   .signInWithEmailAndPassword(email.text, password.text);
-            } else {
-              logger.v('form not valid');
             }
           },
           child: Text(
@@ -212,7 +210,7 @@ class SignInWidget extends StatelessWidget {
           data: (data) {
             return SocialMediaWidget(
               isAppleSupported: data,
-              authResultCallback: (res) => logger.v('result: $res'),
+              authResultCallback: authCallback,
             );
           },
           loading: () => Row(
@@ -222,8 +220,7 @@ class SignInWidget extends StatelessWidget {
               ),
             ],
           ),
-          error: (_, __) => SocialMediaWidget(
-              authResultCallback: (res) => logger.v('result: $res')),
+          error: (_, __) => SocialMediaWidget(authResultCallback: authCallback),
         ),
       ],
     );

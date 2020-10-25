@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
+// ignore: must_be_immutable
 class ProductsTab extends HookWidget with CarouselAnimationMixin {
   static const String tabKey = 'productsTab';
 
@@ -16,6 +17,7 @@ class ProductsTab extends HookWidget with CarouselAnimationMixin {
   Widget build(BuildContext context) {
     final _logger = useProvider(loggerProvider('ProductsTab'));
     runHooks();
+    _logger.v('hooks run');
     return ListView(
       children: <Widget>[
         Padding(

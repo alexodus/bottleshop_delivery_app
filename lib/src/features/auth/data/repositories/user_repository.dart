@@ -51,7 +51,7 @@ class UserRepository with ChangeNotifier {
     _logger = createLogger(this.runtimeType.toString());
     _auth.authStateChanges.listen(_onAuthStateChanged);
     _notificationService.onTokenRefreshed
-        .listen((event) => _logger.v('FCM Token updated: $event'));
+        .listen((event) => _onFCMTokenChanged(event));
   }
 
   Future<void> _onFCMTokenChanged(String token) async {

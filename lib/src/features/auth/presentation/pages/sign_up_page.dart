@@ -146,7 +146,7 @@ class SignUpPage extends HookWidget {
                               ),
                             ),
                             controller: password,
-                            validator: null,
+                            validator: Validator().password,
                             obscureText: !showPassword.value,
                             maxLines: 1,
                             onChanged: (value) => null,
