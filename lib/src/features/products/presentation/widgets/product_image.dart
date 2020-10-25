@@ -2,9 +2,10 @@ import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_provi
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
-class ProductImage extends StatelessWidget {
+class ProductImage extends HookWidget {
   final String imagePath;
   final String thumbnailPath;
   final bool isThumbnail;
@@ -38,7 +39,7 @@ class ProductImage extends StatelessWidget {
                     shape: BoxShape.rectangle,
                     image: DecorationImage(
                       image: imageProvider,
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                 ),

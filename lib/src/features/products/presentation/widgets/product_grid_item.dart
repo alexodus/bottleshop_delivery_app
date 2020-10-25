@@ -3,8 +3,9 @@ import 'package:bottleshopdeliveryapp/src/features/products/data/models/product_
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/product_detail_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class ProductGridItem extends StatelessWidget {
+class ProductGridItem extends HookWidget {
   final ProductModel product;
   final String heroTag;
 

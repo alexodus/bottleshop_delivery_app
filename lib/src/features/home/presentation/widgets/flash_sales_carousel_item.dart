@@ -37,9 +37,8 @@ class FlashSalesCarouselItem extends HookWidget {
             Hero(
               tag: heroTag + product.uniqueId,
               child: ProductImage(
-                imagePath: product.imagePath,
                 thumbnailPath: product.thumbnailPath,
-                width: 160,
+                width: 200,
                 height: 200,
               ),
             ),

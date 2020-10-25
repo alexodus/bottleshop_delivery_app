@@ -1,8 +1,9 @@
 import 'package:bottleshopdeliveryapp/src/features/home/presentation/widgets/flash_sales_carousel_item.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/data/models/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class FlashSalesCarousel extends StatelessWidget {
+class FlashSalesCarousel extends HookWidget {
   final String heroTag;
   final List<ProductModel> data;
 
