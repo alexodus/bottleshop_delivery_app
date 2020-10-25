@@ -81,6 +81,7 @@ class LanguageListItem extends HookWidget with AnimationMixin {
 
   @override
   Widget build(BuildContext context) {
+    handleAssignment();
     return InkWell(
       onTap: () => onTap,
       child: Container(

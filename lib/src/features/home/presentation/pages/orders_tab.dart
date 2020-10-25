@@ -5,7 +5,7 @@ import 'package:bottleshopdeliveryapp/src/features/orders/presentation/widgets/e
 import 'package:flutter/material.dart';
 
 class OrdersTab extends StatelessWidget {
-  static const routeName = '/orders';
+  static const tabKey = 'ordersTab';
   const OrdersTab({Key key}) : super(key: key);
 
   @override

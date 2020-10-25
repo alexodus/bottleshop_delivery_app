@@ -25,8 +25,6 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var widgetList = <Widget>[];
-    widgetList.add(child);
     if (inAsyncCall) {
       Widget layOutProgressIndicator;
       if (offset == null) {
@@ -63,10 +61,15 @@ class Loader extends StatelessWidget {
         ),
         layOutProgressIndicator
       ];
-      widgetList += modal;
+      return Stack(
+        children: [
+          child,
+          ...modal,
+        ],
+      );
     }
     return Stack(
-      children: widgetList,
+      children: [child],
     );
   }
 }

@@ -9,6 +9,8 @@ PODS:
     - Firebase/Firestore (~> 6.26.0)
     - firebase_core
     - Flutter
+  - device_info (0.0.1):
+    - Flutter
   - e2e (0.0.1):
     - Flutter
   - FBSDKCoreKit (5.15.1):
@@ -193,6 +195,7 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - e2e (from `.symlinks/plugins/e2e/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -242,6 +245,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   e2e:
     :path: ".symlinks/plugins/e2e/ios"
   firebase_analytics:
@@ -282,6 +287,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   cloud_firestore: db3dab8f6a348f0f6ec01c3ba911ec5ac5e0df1a
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   e2e: d0c9f8c832b4cc7ab386d0c0f0af67fe5ac0c3bd
   FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
   FBSDKLoginKit: f1ea8026a58b52d30c9f2e6a58ca7d813619fb83

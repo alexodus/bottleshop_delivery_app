@@ -1,13 +1,14 @@
 class AppPreferencesKeys {
   static const preferencesDarkMode = 'darkMode';
   static const preferencesOnBoarding = 'onBoarding';
-  static const language = 'language';
+  static const preferencesLanguage = 'language';
 }
 
 class AppDBConstants {
-  static const String usersCollection = "users";
-  static const String appSettingsCollection = "configuration";
-  static const String productsCollection = "warehouse";
+  static const String usersCollection = 'users';
+  static const String userDevicesSubCollection = '/devices';
+  static const String appSettingsCollection = 'configuration';
+  static const String productsCollection = 'warehouse';
   static const String categoriesCollection = 'categories';
   static const String countriesCollection = 'countries';
   static const String shoppingCartsCollection = 'carts';
@@ -17,5 +18,5 @@ class AppDBConstants {
   static const String ordersCollection = 'orders';
   static const String cloudStorageBucket =
       'gs://bottleshop3veze-delivery.appspot.com';
-  static const String slidersSubCollection = '/sliders/data';
+  static const String slidersSubCollection = 'configuration/sliders/data';
 }

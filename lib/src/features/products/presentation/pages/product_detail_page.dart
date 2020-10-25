@@ -1,5 +1,4 @@
 import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/features/cart/presentation/widgets/shopping_cart_button.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_details_tab.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_home_tab.dart';
@@ -20,86 +19,13 @@ class ProductDetailPage extends HookWidget {
         useTabController(initialLength: 2, initialIndex: 0, vsync: ticker);
     final RouteArgument args = ModalRoute.of(context).settings.arguments;
     final productId = args.id;
-    return AppScaffold(
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.9),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).focusColor.withOpacity(0.15),
-              blurRadius: 5,
-              offset: Offset(0, -2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: FlatButton(
-                onPressed: () => {},
-                padding: EdgeInsets.symmetric(vertical: 14),
-                color: Theme.of(context).accentColor,
-                shape: StadiumBorder(),
-                // ignore: dead_code
-                child: Icon(true ? Icons.favorite : Icons.favorite_border,
-                    color: Theme.of(context).primaryColor),
-              ),
-            ),
-            SizedBox(width: 10),
-            FlatButton(
-              onPressed: () {},
-              color: Theme.of(context).accentColor,
-              shape: StadiumBorder(),
-              child: Container(
-                width: 240,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        'Add to Cart',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: Theme.of(context).primaryColor),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: null,
-                      //!vm.isProductInCart(productId) ? null : () => {},
-                      iconSize: 30,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                      icon: Icon(Icons.remove_circle_outline),
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    Text(
-                      '',
-                      style: Theme.of(context).textTheme.subtitle1.merge(
-                            TextStyle(color: Theme.of(context).primaryColor),
-                          ),
-                    ),
-                    IconButton(
-                      onPressed: () => {},
-                      iconSize: 30,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                      icon: Icon(Icons.add_circle_outline),
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-//          snap: true,
+            snap: true,
             floating: true,
-//          pinned: true,
+            pinned: true,
             automaticallyImplyLeading: false,
             leading: IconButton(
               icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
@@ -244,6 +170,79 @@ class ProductDetailPage extends HookWidget {
             ]),
           )
         ],
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withOpacity(0.9),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.15),
+              blurRadius: 5,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: FlatButton(
+                onPressed: () => {},
+                padding: EdgeInsets.symmetric(vertical: 14),
+                color: Theme.of(context).accentColor,
+                shape: StadiumBorder(),
+                // ignore: dead_code
+                child: Icon(true ? Icons.favorite : Icons.favorite_border,
+                    color: Theme.of(context).primaryColor),
+              ),
+            ),
+            SizedBox(width: 10),
+            FlatButton(
+              onPressed: () {},
+              color: Theme.of(context).accentColor,
+              shape: StadiumBorder(),
+              child: Container(
+                width: 240,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        'Add to Cart',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: null,
+                      //!vm.isProductInCart(productId) ? null : () => {},
+                      iconSize: 30,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                      icon: Icon(Icons.remove_circle_outline),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    Text(
+                      '',
+                      style: Theme.of(context).textTheme.subtitle1.merge(
+                            TextStyle(color: Theme.of(context).primaryColor),
+                          ),
+                    ),
+                    IconButton(
+                      onPressed: () => {},
+                      iconSize: 30,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                      icon: Icon(Icons.add_circle_outline),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

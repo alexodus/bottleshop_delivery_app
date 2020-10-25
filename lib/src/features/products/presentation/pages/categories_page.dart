@@ -1,9 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
-import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/menu_drawer.dart';
-import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/search_bar.dart';
 import 'package:bottleshopdeliveryapp/src/features/cart/presentation/widgets/shopping_cart_button.dart';
-import 'package:bottleshopdeliveryapp/src/features/products/data/models/categories_tree_model.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/data/models/category_plain_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/category_detail_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +14,15 @@ class CategoriesPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      scaffoldKey: _scaffoldKey,
+    final categories = useProvider(productRepositoryProvider
+        .select((value) => value.selectableCategories));
+    return Scaffold(
+      key: _scaffoldKey,
       endDrawer: MenuDrawer(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(Icons.sort, color: Theme.of(context).hintColor),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).hintColor),
           onPressed: () => Navigator.pop(context),
         ),
         backgroundColor: Colors.transparent,
@@ -43,22 +43,15 @@ class CategoriesPage extends HookWidget {
         child: Wrap(
           runSpacing: 20,
           children: <Widget>[
-            SearchBar(
-              showFilter: true,
-            ),
-            useProvider(categoriesProvider).when(
-              data: (categories) => Wrap(
-                runSpacing: 30,
-                children: List.generate(categories.length, (index) {
-                  if (index.isEven) {
-                    return buildEvenCategory(
-                        context, categories.elementAt(index));
-                  }
-                  return buildOddCategory(context, categories.elementAt(index));
-                }),
-              ),
-              loading: () => Center(child: CircularProgressIndicator()),
-              error: (_, __) => Text('ERROR'),
+            Wrap(
+              runSpacing: 30,
+              children: List.generate(categories.length, (index) {
+                if (index.isEven) {
+                  return buildEvenCategory(
+                      context, categories.elementAt(index));
+                }
+                return buildOddCategory(context, categories.elementAt(index));
+              }),
             ),
           ],
         ),
@@ -67,7 +60,7 @@ class CategoriesPage extends HookWidget {
   }
 }
 
-Widget buildEvenCategory(BuildContext context, CategoriesTreeModel category) {
+Widget buildEvenCategory(BuildContext context, SelectableCategory category) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -98,16 +91,16 @@ Widget buildEvenCategory(BuildContext context, CategoriesTreeModel category) {
               child: Column(
                 children: <Widget>[
                   Hero(
-                    tag: category.categoryDetails.id,
-                    child: Icon(
-                      Icons.category,
+                    tag: category.id,
+                    child: ImageIcon(
+                      AssetImage(category.icon),
                       color: Theme.of(context).primaryColor,
                       size: 40,
                     ),
                   ),
                   SizedBox(height: 5),
                   Text(
-                    category.categoryDetails.name,
+                    category.name,
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   )
                 ],
@@ -186,7 +179,7 @@ Widget buildEvenCategory(BuildContext context, CategoriesTreeModel category) {
                                     .withOpacity(0.2)),
                           ),
                           child: Text(
-                            subCategory.categoryDetails.name,
+                            subCategory.name,
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
@@ -201,7 +194,7 @@ Widget buildEvenCategory(BuildContext context, CategoriesTreeModel category) {
   );
 }
 
-Widget buildOddCategory(BuildContext context, CategoriesTreeModel category) {
+Widget buildOddCategory(BuildContext context, SelectableCategory category) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -251,7 +244,7 @@ Widget buildOddCategory(BuildContext context, CategoriesTreeModel category) {
                                     .withOpacity(0.2)),
                           ),
                           child: Text(
-                            subCategory.categoryDetails.name,
+                            subCategory.name,
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ),
@@ -289,16 +282,16 @@ Widget buildOddCategory(BuildContext context, CategoriesTreeModel category) {
               child: Column(
                 children: <Widget>[
                   Hero(
-                    tag: category.categoryDetails.id,
-                    child: Icon(
-                      Icons.category,
+                    tag: category.id,
+                    child: ImageIcon(
+                      AssetImage(category.icon),
                       color: Theme.of(context).primaryColor,
                       size: 40,
                     ),
                   ),
                   SizedBox(height: 5),
                   Text(
-                    category.categoryDetails.name,
+                    category.name,
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   )
                 ],

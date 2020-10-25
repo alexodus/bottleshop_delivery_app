@@ -1,5 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/app_config.dart';
-import 'package:bottleshopdeliveryapp/src/core/presentation/res/routes.dart';
+import 'package:bottleshopdeliveryapp/src/features/home/data/models/tab_item.dart';
 import 'package:bottleshopdeliveryapp/src/features/home/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -80,9 +80,8 @@ class EmptyOrdersProducts extends HookWidget {
           ),
           SizedBox(height: 50),
           FlatButton(
-            onPressed: () => context
-                .read(homePageModelProvider)
-                .selectTab(TabIndex.products.index),
+            onPressed: () =>
+                context.read(homePageModelProvider).select(TabItem.products),
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
             color: Theme.of(context).focusColor.withOpacity(0.55),
             shape: StadiumBorder(),

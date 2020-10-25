@@ -1,40 +1,46 @@
 import 'package:bottleshopdeliveryapp/src/core/data/services/logger.dart';
-import 'package:bottleshopdeliveryapp/src/core/presentation/res/routes.dart';
+import 'package:bottleshopdeliveryapp/src/features/home/data/models/tab_item.dart';
+import 'package:bottleshopdeliveryapp/src/features/home/presentation/pages/favorites_tab.dart';
+import 'package:bottleshopdeliveryapp/src/features/home/presentation/pages/orders_tab.dart';
 import 'package:bottleshopdeliveryapp/src/features/home/presentation/pages/products_tab.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 
 class HomePageViewModel extends ChangeNotifier {
   Logger _logger;
-  String _currentTabTitle;
-  int _currentTabId;
-  Widget _currentTab;
+  TabItem _currentTab = TabItem.products;
+  GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
-  HomePageViewModel()
-      : _currentTab = ProductsTab(),
-        _currentTabId = TabIndex.products.index,
-        _currentTabTitle = 'Home' {
+  void select(TabItem tabItem) {
+    _logger.v('selecting: ${tabItem.toString()}');
+    if (tabItem == _currentTab) {
+      _navigatorKey.currentState?.popUntil((route) => route.isFirst);
+      _logger.v('isFirst: ${_currentTab.toString()}');
+    } else {
+      _currentTab = tabItem;
+    }
+    notifyListeners();
+  }
+
+  Map<TabItem, WidgetBuilder> get _widgetBuilders {
+    return {
+      TabItem.favorites: (_) => FavoritesTab(),
+      TabItem.products: (_) => ProductsTab(),
+      TabItem.orders: (_) => OrdersTab(),
+    };
+  }
+
+  HomePageViewModel() {
     _logger = createLogger(this.runtimeType.toString());
     _logger.v('created');
   }
 
-  OrderTabIndex get initialOrderTabIndex => OrderTabIndex.all;
+  String get title => TabItemData.allTabs[_currentTab].title;
 
-  String get title => _currentTabTitle;
+  int get index => TabItemData.allTabs.keys.toList().indexOf(_currentTab);
 
-  int get id => _currentTabId;
+  WidgetBuilder get tabBuilder => _widgetBuilders[_currentTab];
 
-  Widget get tab => _currentTab;
-
-  void selectTab(int index) {
-    if (index != _currentTabId) {
-      var newTab = TabIndex.values[index];
-      var routeArg = AppRoutes.onTabSelection(newTab);
-      _currentTabId = routeArg.id;
-      _currentTabTitle = routeArg.title;
-      _currentTab = routeArg.argumentsList[0];
-
-      notifyListeners();
-    }
-  }
+  GlobalKey<NavigatorState> get navigator => _navigatorKey;
 }

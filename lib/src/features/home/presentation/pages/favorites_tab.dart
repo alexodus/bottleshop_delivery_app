@@ -10,7 +10,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FavoritesTab extends HookWidget {
-  static const String routeName = '/favorites';
+  static const String tabKey = 'favoritesTab';
 
   const FavoritesTab({Key key}) : super(key: key);
 
@@ -38,7 +38,7 @@ class FavoritesTab extends HookWidget {
           FavoritesListLayout(),
           FavoritesGridLayout(),
           Offstage(
-            offstage: favouriteList.isEmpty,
+            offstage: favouriteList.isNotEmpty,
             child: EmptyFavorites(),
           )
         ],

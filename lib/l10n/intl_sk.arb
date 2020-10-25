@@ -1,5 +1,5 @@
 {
-  "@@locale": "sk-SK",
+  "@@locale": "sk",
   "account_already": "Máte už vytvorený účet?",
   "@account_already": {},
   "add_to_cart": "Pridať do košíka",
@@ -131,5 +131,5 @@
   "wish_list": "Zoznam želaní",
   "@wish_list": {},
   "your_orders": "Vaše objednávky",
-  "@your_orders": {}
+  "@your_orders": {}, "dontHaveAnAccount": "Nemate este ucet?"
 }

@@ -1,5 +1,4 @@
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/app_config.dart';
-import 'package:bottleshopdeliveryapp/src/features/home/presentation/pages/home_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/tutorial/presentation/providers/tutorial_providers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class TutorialPage extends HookWidget {
               child: FlatButton(
                 onPressed: () async {
                   await context.read(tutorialModelProvider).finishIntroScreen();
-                  Navigator.pushReplacementNamed(context, HomePage.routeName);
+                  // Navigator.pushReplacementNamed(context, HomePage.routeName);
                 },
                 child: Text(
                   'Skip',
@@ -102,7 +101,7 @@ class TutorialPage extends HookWidget {
                 padding: EdgeInsets.symmetric(horizontal: 35, vertical: 12),
                 onPressed: () async {
                   await context.read(tutorialModelProvider).finishIntroScreen();
-                  Navigator.pushReplacementNamed(context, HomePage.routeName);
+                  // Navigator.pushReplacementNamed(context, HomePage.routeName);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

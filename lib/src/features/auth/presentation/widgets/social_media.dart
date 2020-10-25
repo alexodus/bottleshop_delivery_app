@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,10 +7,16 @@ import 'package:hooks_riverpod/all.dart';
 
 class SocialMediaWidget extends HookWidget {
   final bool isAppleSupported;
-  SocialMediaWidget({Key key, this.isAppleSupported = false}) : super(key: key);
+  final ValueChanged<bool> authResultCallback;
+  const SocialMediaWidget(
+      {Key key,
+      @required this.authResultCallback,
+      this.isAppleSupported = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final logger = useProvider(loggerProvider('SocialMediaWidget'));
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -19,15 +26,11 @@ class SocialMediaWidget extends HookWidget {
           height: 45,
           child: InkWell(
             onTap: () async {
-              if (!await context
+              final result = await context
                   .read(userRepositoryProvider)
-                  .signUpWithFacebook()) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Sing in failed, please try again'),
-                  ),
-                );
-              }
+                  .signUpWithFacebook();
+              logger.v('SocialLogin result: $result');
+              authResultCallback(result);
             },
             child: Image.asset('assets/images/facebook.png'),
           ),
@@ -38,15 +41,10 @@ class SocialMediaWidget extends HookWidget {
           height: 45,
           child: InkWell(
             onTap: () async {
-              if (!await context
-                  .read(userRepositoryProvider)
-                  .signUpWithGoogle()) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Sing in failed, please try again'),
-                  ),
-                );
-              }
+              final result =
+                  await context.read(userRepositoryProvider).signUpWithGoogle();
+              logger.v('SocialLogin result: $result');
+              authResultCallback(result);
             },
             child: Image.asset('assets/images/google_logo.png'),
           ),
@@ -56,19 +54,17 @@ class SocialMediaWidget extends HookWidget {
           SizedBox(
             width: 45,
             height: 45,
-            child: InkWell(
-              onTap: () async {
-                if (!await context
-                    .read(userRepositoryProvider)
-                    .signUpWithApple()) {
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Sing in failed, please try again'),
-                    ),
-                  );
-                }
-              },
-              child: Image.asset('assets/images/apple_login.png'),
+            child: Builder(
+              builder: (context) => InkWell(
+                onTap: () async {
+                  final result = await context
+                      .read(userRepositoryProvider)
+                      .signUpWithApple();
+                  logger.v('SocialLogin result: $result');
+                  authResultCallback(result);
+                },
+                child: Image.asset('assets/images/apple_login.png'),
+              ),
             ),
           ),
           SizedBox(width: 10),
@@ -78,15 +74,11 @@ class SocialMediaWidget extends HookWidget {
           height: 45,
           child: InkWell(
             onTap: () async {
-              if (!await context
+              final result = await context
                   .read(userRepositoryProvider)
-                  .signUpAnonymously()) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Sing in failed, please try again'),
-                  ),
-                );
-              }
+                  .signUpAnonymously();
+              logger.v('SocialLogin result: $result');
+              authResultCallback(result);
             },
             child: Image.asset('assets/images/anonymous.png'),
           ),

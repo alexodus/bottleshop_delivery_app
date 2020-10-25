@@ -5,12 +5,12 @@ import 'package:bottleshopdeliveryapp/src/features/products/data/models/product_
 
 DatabaseService<ProductModel> productsDb = DatabaseService<ProductModel>(
   AppDBConstants.productsCollection,
-  fromSnapshot: (id, data) => ProductModel.fromJson(data),
+  fromMap: (id, data) => ProductModel.fromJson(data),
   toMap: (product) => product.toFirebaseJson(),
 );
 
 DatabaseService<CategoryPlainModel> categoryDb =
     DatabaseService<CategoryPlainModel>(
   AppDBConstants.categoriesCollection,
-  fromSnapshot: (id, data) => CategoryPlainModel.fromJson(data, id),
+  fromMap: (id, data) => CategoryPlainModel.fromJson(data, id),
 );

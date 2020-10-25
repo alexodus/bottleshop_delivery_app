@@ -21,7 +21,7 @@ import 'package:bottleshopdeliveryapp/src/features/tutorial/presentation/pages/t
 import 'package:flutter/material.dart';
 
 enum TabIndex { favorites, products, orders }
-enum OrderTabIndex { all, shipped, toBeShipped, inDispute }
+enum OrderTabIndex { all, shipped, toBeShipped, delivered }
 
 class AppRoutes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {

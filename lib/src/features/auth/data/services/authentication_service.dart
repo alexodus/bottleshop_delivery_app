@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/constants.dart';
-import 'package:bottleshopdeliveryapp/src/features/auth/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -22,35 +21,26 @@ class AuthenticationService {
             GoogleSignIn(scopes: AppConstants.googleSignInScopes),
         _facebookLogin = facebookLogin ?? FacebookLogin();
 
-  Future<UserModel> _signUserWithAuthCredential(
-      AuthCredential credential) async {
-    final authResult = await _firebaseAuth.signInWithCredential(credential);
-    return UserModel.fromFirebaseUser(
-        user: authResult.user, additionalData: authResult.additionalUserInfo);
+  Future<void> _signUserWithAuthCredential(AuthCredential credential) async {
+    await _firebaseAuth.signInWithCredential(credential);
   }
 
-  Future<UserModel> signInWithEmailAndPassword(
-      String email, String password) async {
-    final credential = EmailAuthProvider.credential(
-      email: email,
-      password: password,
-    );
-    return _signUserWithAuthCredential(credential);
-  }
-
-  Future<UserModel> createUserWithEmailAndPassword(
-      String email, String password) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+    await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-    return UserModel.fromFirebaseUser(
-        user: credential.user, additionalData: credential.additionalUserInfo);
+  }
+
+  Future<void> createUserWithEmailAndPassword(
+      String email, String password) async {
+    await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-  Future<UserModel> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;
@@ -58,27 +48,27 @@ class AuthenticationService {
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
-      return _signUserWithAuthCredential(credential);
+      await _signUserWithAuthCredential(credential);
     } else {
       throw PlatformException(
           code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
   }
 
-  Future<UserModel> signInWithFacebook() async {
+  Future<void> signInWithFacebook() async {
     _facebookLogin.loginBehavior = FacebookLoginBehavior.nativeWithFallback;
     final result = await _facebookLogin.logIn(AppConstants.facebookPermissions);
     if (result.accessToken != null) {
       final credential =
           FacebookAuthProvider.credential(result.accessToken.token);
-      return _signUserWithAuthCredential(credential);
+      await _signUserWithAuthCredential(credential);
     } else {
       throw PlatformException(
           code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
   }
 
-  Future<UserModel> signWithApple() async {
+  Future<void> signWithApple() async {
     final credential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
@@ -91,14 +81,14 @@ class AuthenticationService {
       final authCredential = OAuthProvider('apple.com').credential(
           accessToken: credential.authorizationCode,
           idToken: credential.identityToken);
-      return _signUserWithAuthCredential(authCredential);
+      await _signUserWithAuthCredential(authCredential);
     } else {
       throw PlatformException(
           code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
   }
 
-  Future<bool> supportsAppleSignIn() async {
+  Future<bool> get supportsAppleSignIn async {
     bool supportsAppleSignIn = false;
     if (Platform.isIOS) {
       supportsAppleSignIn = await SignInWithApple.isAvailable();
@@ -109,19 +99,17 @@ class AuthenticationService {
   Future<void> signOut() async {
     try {
       await Future.wait([
+        _firebaseAuth.signOut(),
         _googleSignIn.signOut(),
         _facebookLogin.logOut(),
-        _firebaseAuth.signOut(),
       ]);
     } catch (e) {
       //
     }
   }
 
-  Future<UserModel> signInAnonymously() async {
-    final credential = await _firebaseAuth.signInAnonymously();
-    return UserModel.fromFirebaseUser(
-        user: credential.user, additionalData: credential?.additionalUserInfo);
+  Future<void> signInAnonymously() async {
+    await _firebaseAuth.signInAnonymously();
   }
 
   Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();

@@ -1,3 +1,5 @@
+import 'package:bottleshopdeliveryapp/generated/l10n.dart';
+import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/validator.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/form_input_field_with_icon.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/loader_widget.dart';
@@ -8,11 +10,12 @@ import 'package:bottleshopdeliveryapp/src/features/auth/presentation/widgets/soc
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
+import 'package:logger/src/logger.dart';
 
 class SignInPage extends HookWidget {
-  static const String routeName = '/signIn';
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  static const String routeName = '/sign-in';
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   SignInPage({Key key}) : super(key: key);
 
@@ -21,15 +24,21 @@ class SignInPage extends HookWidget {
     final showPassword = useState<bool>(false);
     final email = useTextEditingController();
     final password = useTextEditingController();
+    final loading =
+        useProvider(userRepositoryProvider.select((value) => value.isLoading));
+    final error =
+        useProvider(userRepositoryProvider.select((value) => value.error));
+    final isAppleAvailable = useProvider(appleSignInAvailableProvider);
+    final logger = useProvider(loggerProvider('SignInPage'));
+    logger.v('userRepoErrors: $error');
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Theme.of(context).accentColor,
       body: Loader(
-        inAsyncCall: useProvider(
-            userRepositoryProvider.select((value) => value.isLoading)),
+        inAsyncCall: loading,
         child: Form(
           key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          autovalidateMode: AutovalidateMode.disabled,
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -54,154 +63,169 @@ class SignInPage extends HookWidget {
                               blurRadius: 20)
                         ],
                       ),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: 25),
-                          Text('Sign In',
-                              style: Theme.of(context).textTheme.headline2),
-                          SizedBox(height: 20),
-                          FormInputFieldWithIcon(
-                            style:
-                                TextStyle(color: Theme.of(context).accentColor),
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                hintText: 'Email Address',
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .merge(
-                                      TextStyle(
-                                          color: Theme.of(context).accentColor),
-                                    ),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context)
-                                            .accentColor
-                                            .withOpacity(0.2))),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).accentColor),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.mail_outline,
-                                  color: Theme.of(context).accentColor,
-                                )),
-                            controller: email,
-                            validator: Validator().email,
-                            onChanged: (value) => null,
-                            onSaved: (value) => email.text = value,
-                            maxLines: 1,
-                          ),
-                          SizedBox(height: 20),
-                          FormInputFieldWithIcon(
-                            style:
-                                TextStyle(color: Theme.of(context).accentColor),
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  .merge(
-                                    TextStyle(
-                                        color: Theme.of(context).accentColor),
-                                  ),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .accentColor
-                                          .withOpacity(0.2))),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).accentColor),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Theme.of(context).accentColor,
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () =>
-                                    showPassword.value = showPassword.value,
-                                color: Theme.of(context)
-                                    .accentColor
-                                    .withOpacity(0.4),
-                                icon: Icon(showPassword.value
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
-                              ),
-                            ),
-                            controller: password,
-                            validator: Validator().password,
-                            obscureText: !showPassword.value,
-                            maxLines: 1,
-                            onChanged: (value) => null,
-                            onSaved: (value) => password.text = value,
-                          ),
-                          SizedBox(height: 20),
-                          FlatButton(
-                            onPressed: () => Navigator.pushNamed(
-                                context, ResetPasswordPage.routeName),
-                            child: Text(
-                              'Forgot your password ?',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                          FlatButton(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 70),
-                            onPressed: () async {
-                              FormState form = _formKey.currentState;
-                              if (form.validate()) {
-                                await context
-                                    .read(userRepositoryProvider)
-                                    .signInWithEmailAndPassword(
-                                        email.text, password.text);
-                              }
-                            },
-                            child: Text(
-                              'Login',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  .merge(
-                                    TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                            ),
-                            color: Theme.of(context).accentColor,
-                            shape: StadiumBorder(),
-                          ),
-                          SizedBox(height: 50),
-                          Text(
-                            'Or using social media',
-                            style: Theme.of(context).textTheme.bodyText2,
-                          ),
-                          SizedBox(height: 20),
-                          useProvider(appleSignInAvailableProvider).when(
-                            data: (isAppleSupported) => SocialMediaWidget(
-                                isAppleSupported: isAppleSupported),
-                            loading: () => Container(
-                              height: 45,
-                              width: double.infinity,
-                              child: CircularProgressIndicator(),
-                            ),
-                            error: (_, __) => SocialMediaWidget(),
-                          ),
-                        ],
+                      child: SignInWidget(
+                        email: email,
+                        showPassword: showPassword,
+                        password: password,
+                        formKey: _formKey,
+                        logger: logger,
+                        isAppleAvailable: isAppleAvailable,
                       ),
                     ),
                   ],
                 ),
                 buildPrimaryButton(
                     context,
-                    'Don\'t have an account ?',
-                    ' Sign Up',
-                    () => Navigator.pushNamed(context, SignUpPage.routeName)),
+                    S.of(context).dontHaveAnAccount,
+                    S.of(context).sign_up,
+                    () => Navigator.pushReplacementNamed(
+                        context, SignUpPage.routeName)),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class SignInWidget extends StatelessWidget {
+  const SignInWidget({
+    Key key,
+    @required this.email,
+    @required this.showPassword,
+    @required this.password,
+    @required GlobalKey<FormState> formKey,
+    @required this.logger,
+    @required this.isAppleAvailable,
+  })  : _formKey = formKey,
+        super(key: key);
+
+  final TextEditingController email;
+  final ValueNotifier<bool> showPassword;
+  final TextEditingController password;
+  final GlobalKey<FormState> _formKey;
+  final Logger logger;
+  final AsyncValue<bool> isAppleAvailable;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 25),
+        Text('Sign In', style: Theme.of(context).textTheme.headline2),
+        SizedBox(height: 20),
+        FormInputFieldWithIcon(
+          style: TextStyle(color: Theme.of(context).accentColor),
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+              hintText: 'Email Address',
+              hintStyle: Theme.of(context).textTheme.bodyText2.merge(
+                    TextStyle(color: Theme.of(context).accentColor),
+                  ),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).accentColor.withOpacity(0.2))),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).accentColor),
+              ),
+              prefixIcon: Icon(
+                Icons.mail_outline,
+                color: Theme.of(context).accentColor,
+              )),
+          controller: email,
+          validator: Validator().email,
+          onChanged: (value) => null,
+          onSaved: (value) => email.text = value,
+          maxLines: 1,
+        ),
+        SizedBox(height: 20),
+        FormInputFieldWithIcon(
+          style: TextStyle(color: Theme.of(context).accentColor),
+          decoration: InputDecoration(
+            hintText: 'Password',
+            hintStyle: Theme.of(context).textTheme.bodyText2.merge(
+                  TextStyle(color: Theme.of(context).accentColor),
+                ),
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).accentColor.withOpacity(0.2))),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Theme.of(context).accentColor),
+            ),
+            prefixIcon: Icon(
+              Icons.lock,
+              color: Theme.of(context).accentColor,
+            ),
+            suffixIcon: IconButton(
+              onPressed: () => showPassword.value = !showPassword.value,
+              color: Theme.of(context).accentColor.withOpacity(0.4),
+              icon: Icon(
+                  showPassword.value ? Icons.visibility : Icons.visibility_off),
+            ),
+          ),
+          controller: password,
+          validator: Validator().password,
+          obscureText: !showPassword.value,
+          maxLines: 1,
+          onChanged: (value) => null,
+          onSaved: (value) => password.text = value,
+        ),
+        SizedBox(height: 20),
+        FlatButton(
+          onPressed: () =>
+              Navigator.pushNamed(context, ResetPasswordPage.routeName),
+          child: Text(
+            S.of(context).password_forgotten,
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+        ),
+        SizedBox(height: 30),
+        FlatButton(
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
+          onPressed: () async {
+            FormState form = _formKey.currentState;
+            if (form.validate()) {
+              await context
+                  .read(userRepositoryProvider)
+                  .signInWithEmailAndPassword(email.text, password.text);
+            } else {
+              logger.v('form not valid');
+            }
+          },
+          child: Text(
+            'Login',
+            style: Theme.of(context).textTheme.headline6.merge(
+                  TextStyle(color: Theme.of(context).primaryColor),
+                ),
+          ),
+          color: Theme.of(context).accentColor,
+          shape: StadiumBorder(),
+        ),
+        SizedBox(height: 50),
+        Text(
+          'Or using social media',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
+        SizedBox(height: 20),
+        isAppleAvailable.when(
+          data: (data) {
+            return SocialMediaWidget(
+              isAppleSupported: data,
+              authResultCallback: (res) => logger.v('result: $res'),
+            );
+          },
+          loading: () => Row(
+            children: [
+              Center(
+                child: CircularProgressIndicator(),
+              ),
+            ],
+          ),
+          error: (_, __) => SocialMediaWidget(
+              authResultCallback: (res) => logger.v('result: $res')),
+        ),
+      ],
     );
   }
 }

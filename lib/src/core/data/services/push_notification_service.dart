@@ -4,6 +4,10 @@ import 'package:bottleshopdeliveryapp/src/core/data/services/logger.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
 
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+  print('on background $message');
+}
+
 class PushNotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   bool initialized = false;
@@ -22,16 +26,22 @@ class PushNotificationService {
         await _requestPermission();
       }
       _firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) async {
-          print('onMessage: $message');
-        },
-        onLaunch: (Map<String, dynamic> message) async {
-          print('onLaunch: $message');
-        },
-        onResume: (Map<String, dynamic> message) async {
-          print('onResume: $message');
-        },
-      );
+          onMessage: (Map<String, dynamic> message) async {
+            _logger
+                .v('notification onMessage: $message time: ${DateTime.now()}');
+            return;
+          },
+          onLaunch: (Map<String, dynamic> message) async {
+            _logger
+                .v('notification onLaunch: $message time: ${DateTime.now()}');
+            return;
+          },
+          onResume: (Map<String, dynamic> message) async {
+            _logger
+                .v('notification onResume: $message time: ${DateTime.now()}');
+            return;
+          },
+          onBackgroundMessage: myBackgroundMessageHandler);
       token = await _firebaseMessaging.getToken();
       if (token != null) {
         initialized = true;

@@ -1,17 +1,12 @@
 import 'dart:io';
 
-import 'package:bottleshopdeliveryapp/src/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
 
-class Splash extends HookWidget {
+class Splash extends StatelessWidget {
   static const routeName = '/splash';
   @override
   Widget build(BuildContext context) {
-    final errorMode =
-        useProvider(userRepositoryProvider.select((value) => value.error));
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.85),
       body: Container(
@@ -26,12 +21,7 @@ class Splash extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 200),
-              if (errorMode.isEmpty) _platformLoader(context),
-              if (errorMode.isNotEmpty)
-                Text(
-                  'Oops, something went horribly wrong...',
-                  style: TextStyle(color: Theme.of(context).accentColor),
-                ),
+              _platformLoader(context),
             ],
           ),
         ),

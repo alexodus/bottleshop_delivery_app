@@ -96,27 +96,98 @@ class ProductRepository with ChangeNotifier {
   Logger _logger;
   String _error;
   bool _loading;
+  bool initialized = false;
+  List<CountryModel> _countries = [];
+  List<CategoriesTreeModel> _categories = [];
+  List<UnitModel> _units = [];
+  List<OrderTypeModel> _orderTypes = [];
+  List<SelectableCategory> _selectableCategories = [];
 
   String get error => _error;
 
   bool get isLoading => _loading;
 
+  List<CountryModel> get countries => _countries;
+  List<CategoriesTreeModel> get categories => _categories;
+  List<UnitModel> get units => _units;
+  List<OrderTypeModel> get orderTypes => _orderTypes;
+  List<SelectableCategory> get selectableCategories => _selectableCategories;
+
   ProductRepository.instance() {
-    _loading = false;
+    _loading = true;
     _error = '';
     _logger = createLogger(this.runtimeType.toString());
     _logger.v('created');
   }
 
-  Stream<ProductModel> singleProduct(String uid) {
-    return productsDb.streamSingle(uid);
+  Future<void> init() async {
+    if (!initialized) {
+      try {
+        var data = await Future.wait([
+          _getCategories(),
+          _getCountries(),
+          _getOrderTypes(),
+          _getUnits(),
+        ]);
+        _categories = data[0];
+        _countries = data[1];
+        _orderTypes = data[2];
+        _units = data[3];
+        _selectableCategories = _categories
+            .map((e) => SelectableCategory.fromCategoriesTreeModel(e))
+            .toList();
+        initialized = true;
+        _loading = false;
+        notifyListeners();
+      } catch (e) {
+        _logger.e('failed to fetch data: $e');
+        _error = e.message;
+        _loading = false;
+        return initialized;
+      }
+    }
   }
 
-  Stream<List<SliderModel>> slidersStream() {
-    return homeSliderDb.streamList();
+  void selectCategory(String id) {
+    _selectableCategories.forEach((SelectableCategory category) {
+      category.selected = false;
+      if (category.id == id) {
+        category.selected = true;
+      }
+    });
+    notifyListeners();
   }
 
-  Future<List<CountryModel>> countries() async {
+  void clearSelection() {
+    _selectableCategories.forEach((SelectableCategory category) {
+      category.selected = false;
+      category.subCategories
+          .forEach((subCategory) => subCategory.selected = false);
+    });
+    notifyListeners();
+  }
+
+  selectSubCategory(String id) {
+    _selectableCategories
+        .firstWhere((element) => element.selected)
+        ?.subCategories
+        ?.forEach((subCategory) {
+      subCategory.selected = false;
+      if (subCategory.id == id) {
+        subCategory.selected = true;
+      }
+    });
+    notifyListeners();
+  }
+
+  bool isCategorySelected(String id) {
+    return _selectableCategories
+            .firstWhere((element) => element.id == id)
+            .selected ??
+        false;
+  }
+
+  Future<List<CountryModel>> _getCountries() async {
     final docs = await FirebaseFirestore.instance
         .collection(AppDBConstants.countriesCollection)
         .get();
@@ -127,7 +198,7 @@ class ProductRepository with ChangeNotifier {
         .toList();
   }
 
-  Future<List<CategoriesTreeModel>> categories() async {
+  Future<List<CategoriesTreeModel>> _getCategories() async {
     final docs = await FirebaseFirestore.instance
         .collection(AppDBConstants.categoriesCollection)
         .get();
@@ -141,7 +212,7 @@ class ProductRepository with ChangeNotifier {
         .toList();
   }
 
-  Future<List<UnitModel>> units() async {
+  Future<List<UnitModel>> _getUnits() async {
     final docs = await FirebaseFirestore.instance
         .collection(AppDBConstants.unitsCollection)
         .get();
@@ -152,7 +223,7 @@ class ProductRepository with ChangeNotifier {
         .toList();
   }
 
-  Future<List<OrderTypeModel>> orderTypes() async {
+  Future<List<OrderTypeModel>> _getOrderTypes() async {
     final docs = await FirebaseFirestore.instance
         .collection(AppDBConstants.orderTypesCollection)
         .get();
@@ -161,6 +232,14 @@ class ProductRepository with ChangeNotifier {
     return docsMap.entries
         .map((e) => OrderTypeModel.fromMap(e.key, e.value))
         .toList();
+  }
+
+  Stream<ProductModel> singleProduct(String uid) {
+    return productsDb.streamSingle(uid);
+  }
+
+  Stream<List<SliderModel>> slidersStream() {
+    return homeSliderDb.streamList();
   }
 
   Stream<List<ProductModel>> getProductsOnFlashSale() {

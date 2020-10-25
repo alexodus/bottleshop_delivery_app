@@ -4,6 +4,6 @@ import 'package:bottleshopdeliveryapp/src/features/tutorial/data/models/tutorial
 
 DatabaseService<TutorialModel> tutorialDb = DatabaseService<TutorialModel>(
   AppDBConstants.appSettingsCollection,
-  fromSnapshot: (id, data) => TutorialModel.fromMap(data),
+  fromMap: (id, data) => TutorialModel.fromMap(data),
   toMap: (tutorial) => tutorial.toMap(),
 );

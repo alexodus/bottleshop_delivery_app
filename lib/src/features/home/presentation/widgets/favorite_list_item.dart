@@ -49,8 +49,13 @@ class FavoriteListItem extends StatelessWidget {
         focusColor: Theme.of(context).accentColor,
         highlightColor: Theme.of(context).primaryColor,
         onTap: () {
-          Navigator.of(context)
-              .pushNamed(ProductDetailPage.routeName, arguments: args);
+          Navigator.of(context).pushNamed(
+            ProductDetailPage.routeName,
+            arguments: RouteArgument(
+              argumentsList: [this.product, this.heroTag],
+              id: this.product.uniqueId,
+            ),
+          );
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -75,7 +80,7 @@ class FavoriteListItem extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     image: DecorationImage(
                         image: AssetImage(
-                          product.imageUrl,
+                          product?.imageUrl ?? 'assets/images/generic.png',
                         ),
                         fit: BoxFit.cover),
                   ),

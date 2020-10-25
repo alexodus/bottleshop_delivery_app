@@ -1,4 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/core/data/models/localized_model.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/data/models/categories_tree_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class CategoryPlainModel extends Equatable {
         name = json[nameField],
         localizedName = LocalizedModel.fromMap(json[localizedNameField]),
         isExtraCategory = json[extraCategoryField] ?? false,
-        iconName = json[iconNameField] ?? 'default';
+        iconName = json[iconNameField];
 
   @override
   List<Object> get props {
@@ -43,4 +44,44 @@ class CategoryPlainModel extends Equatable {
 
   @override
   bool get stringify => true;
+}
+
+class SelectableSubCategory {
+  String id;
+  String name;
+  bool selected;
+  SelectableSubCategory({this.id, this.name, selected = false});
+  SelectableSubCategory.fromCategoryModel(CategoryPlainModel m)
+      : id = m.id,
+        name = m.name,
+        selected = false;
+}
+
+class SelectableCategory {
+  String id;
+  String name;
+  bool selected;
+  String icon;
+  List<SelectableSubCategory> subCategories;
+  SelectableCategory(
+      {this.id,
+      this.name,
+      this.icon,
+      this.subCategories,
+      this.selected = false});
+  factory SelectableCategory.fromCategoriesTreeModel(
+      CategoriesTreeModel model) {
+    var icon;
+    if (model.categoryDetails?.iconName != null) {
+      icon = 'assets/images/${model.categoryDetails.iconName}.png';
+    }
+    List<SelectableSubCategory> subs = model.subCategories
+        .map((e) => SelectableSubCategory.fromCategoryModel(e.categoryDetails))
+        .toList();
+    return SelectableCategory(
+        id: model.categoryDetails.id,
+        name: model.categoryDetails.name,
+        icon: icon,
+        subCategories: subs);
+  }
 }

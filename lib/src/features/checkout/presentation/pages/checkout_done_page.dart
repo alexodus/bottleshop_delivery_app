@@ -1,6 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/app_config.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/routes.dart';
-import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/features/cart/presentation/widgets/shopping_cart_button.dart';
 import 'package:bottleshopdeliveryapp/src/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ class CheckoutDonePage extends StatelessWidget {
   static const String routeName = '/checkout-done';
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(

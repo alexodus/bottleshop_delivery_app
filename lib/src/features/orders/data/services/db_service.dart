@@ -4,5 +4,5 @@ import 'package:bottleshopdeliveryapp/src/features/orders/data/models/order_mode
 
 DatabaseService<OrderModel> ordersDbService = DatabaseService(
   AppDBConstants.ordersCollection,
-  fromSnapshot: (id, data) => OrderModel.fromJson(data, id),
+  fromMap: (id, data) => OrderModel.fromJson(data, id),
 );

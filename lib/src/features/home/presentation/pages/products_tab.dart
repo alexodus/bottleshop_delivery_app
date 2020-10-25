@@ -1,26 +1,21 @@
+import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/search_bar.dart';
+import 'package:bottleshopdeliveryapp/src/features/home/presentation/widgets/carousel_animation_mixin.dart';
 import 'package:bottleshopdeliveryapp/src/features/home/presentation/widgets/flash_sales_carousel.dart';
 import 'package:bottleshopdeliveryapp/src/features/home/presentation/widgets/flash_sales_header.dart';
 import 'package:bottleshopdeliveryapp/src/features/home/presentation/widgets/home_slider.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/providers/providers.dart';
-import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/categories_icons_carousel.dart';
-import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/categorized_products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
-class ProductsTab extends HookWidget {
-  static const String routeName = '/products';
+class ProductsTab extends HookWidget with CarouselAnimationMixin {
+  static const String tabKey = 'productsTab';
 
   @override
   Widget build(BuildContext context) {
-    final animationController =
-        useAnimationController(duration: Duration(milliseconds: 200));
-    final curve =
-        CurvedAnimation(parent: animationController, curve: Curves.easeIn);
-    final animationOpacity = Tween(begin: 0.0, end: 1.0).animate(curve);
-    animationController.forward();
+    final _logger = useProvider(loggerProvider('ProductsTab'));
+    runHooks();
     return ListView(
       children: <Widget>[
         Padding(
@@ -85,11 +80,31 @@ class ProductsTab extends HookWidget {
           loading: () => Container(),
           error: (_, __) => Container(),
         ),
-        StickyHeader(
-          header: CategoriesIconsCarousel(),
-          content: CategorizedProducts(animationOpacity: animationOpacity),
-        ),
+        buildAnimatedContainer(context),
       ],
     );
+  }
+
+  void runHooks() {
+    handleAssignment();
+    useEffect(_lifecycleEvents, []);
+  }
+
+  Dispose _lifecycleEvents() {
+    componentDidMount();
+    return componentWillUnmount;
+  }
+
+  void componentDidMount() {
+    animationMixinFields.animationController.forward();
+  }
+
+  void componentWillUnmount() {}
+
+  void handleAssignment() {
+    final animationController =
+        useAnimationController(duration: Duration(milliseconds: 350));
+    animationMixinFields =
+        useMemoized(() => CarouselAnimationMixinFields(animationController));
   }
 }

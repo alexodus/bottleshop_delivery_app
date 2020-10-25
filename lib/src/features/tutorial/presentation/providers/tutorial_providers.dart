@@ -17,7 +17,7 @@ final localTutorialProvider = Provider(
       description: 'Don\'t cry because it\'s over, smile because it happened.',
     ),
     TutorialModel(
-      image: 'assets/img/onboarding1.png',
+      image: 'assets/images/onboarding1.png',
       description: 'Be yourself, everyone else is already taken.',
     ),
   ],

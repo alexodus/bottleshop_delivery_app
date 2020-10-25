@@ -1,6 +1,5 @@
+import 'package:bottleshopdeliveryapp/src/features/products/data/models/category_plain_model.dart';
 import 'package:flutter/material.dart';
-
-import 'category_plain_model.dart';
 
 @immutable
 class CategoryModel {

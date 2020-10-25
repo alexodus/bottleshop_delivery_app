@@ -18,7 +18,7 @@ class IntroViewModel extends StateNotifier<int> {
   int get currentIndex => state;
 
   Future<void> finishIntroScreen() async {
-    final uid = read(currentUserProvider).uid;
+    final uid = read(userRepositoryProvider).user.uid;
     await userDb.updateData(uid, {'introSeen': true});
   }
 }

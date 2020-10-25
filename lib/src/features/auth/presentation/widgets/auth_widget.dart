@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/data/repositories/user_repository.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/presentation/pages/splash.dart';
@@ -15,20 +16,32 @@ class AuthWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = useProvider(userRepositoryProvider);
-    switch (user.status) {
+    final authStatus =
+        useProvider(userRepositoryProvider.select((value) => value.status));
+    final isLoading =
+        useProvider(userRepositoryProvider.select((value) => value.isLoading));
+    final logger = useProvider(loggerProvider('AuthWidget'));
+    logger.v('current status: ${authStatus.toString()}');
+    switch (authStatus) {
       case AuthStatus.Unauthenticated:
       case AuthStatus.Authenticating:
         return SignInPage();
         break;
       case AuthStatus.Authenticated:
-        if (user.isLoading) {
+        if (isLoading) {
+          logger.v('authenticated but still loading: $isLoading');
           return Splash();
         }
-        return user.user?.introSeen ?? false ? HomePage() : TutorialPage();
+        final isNotRoot = Navigator.of(context).canPop();
+        logger.v('on route: $isNotRoot');
+        final user =
+            useProvider(userRepositoryProvider.select((value) => value.user));
+        logger.v('current user: ${user.toString()}');
+        return user?.introSeen ?? false ? HomePage() : TutorialPage();
         break;
       case AuthStatus.Uninitialized:
       default:
+        logger.v('in default');
         return Splash();
     }
   }

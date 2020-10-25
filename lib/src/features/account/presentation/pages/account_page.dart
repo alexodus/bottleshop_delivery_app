@@ -159,7 +159,7 @@ class AccountPage extends HookWidget {
                       context,
                       HomePage.routeName,
                       arguments: AppRoutes.onTabSelection(
-                          TabIndex.orders, OrderTabIndex.inDispute),
+                          TabIndex.orders, OrderTabIndex.delivered),
                     ),
                     dense: true,
                     title: Text(

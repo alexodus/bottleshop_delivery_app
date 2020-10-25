@@ -12,17 +12,18 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final ValueChanged<String> onSaved;
 
-  FormInputFieldWithIcon(
-      {@required this.controller,
-      @required this.validator,
-      this.keyboardType = TextInputType.text,
-      this.obscureText = false,
-      this.minLines = 1,
-      @required this.maxLines,
-      @required this.onChanged,
-      @required this.onSaved,
-      @required this.decoration,
-      @required this.style});
+  FormInputFieldWithIcon({
+    @required this.controller,
+    @required this.validator,
+    this.keyboardType = TextInputType.text,
+    this.obscureText = false,
+    this.minLines = 1,
+    @required this.maxLines,
+    @required this.onChanged,
+    @required this.onSaved,
+    @required this.decoration,
+    @required this.style,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
       maxLines: maxLines,
       minLines: minLines,
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 }

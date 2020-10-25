@@ -1,4 +1,3 @@
-import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/profile_avatar.dart';
 import 'package:bottleshopdeliveryapp/src/features/account/presentation/pages/account_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/presentation/providers/auth_providers.dart';
@@ -14,7 +13,7 @@ class CartPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final user = useProvider(currentUserProvider);
-    return AppScaffold(
+    return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(

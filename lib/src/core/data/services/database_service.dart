@@ -3,17 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService<T> {
   String collection;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final T Function(String, Map<String, dynamic>) fromSnapshot;
+  final T Function(String, Map<String, dynamic>) fromMap;
   final Map<String, dynamic> Function(T) toMap;
 
-  DatabaseService(this.collection, {this.fromSnapshot, this.toMap});
+  DatabaseService(this.collection, {this.fromMap, this.toMap});
 
   FirebaseFirestore get db => _db;
 
   Future<T> getSingle(String id) async {
     var snap = await _db.collection(collection).doc(id).get();
     if (!snap.exists) return null;
-    return fromSnapshot(snap.id, snap.data());
+    return fromMap(snap.id, snap.data());
   }
 
   Stream<T> streamSingle(String id) {
@@ -21,13 +21,13 @@ class DatabaseService<T> {
         .collection(collection)
         .doc(id)
         .snapshots()
-        .map((snap) => snap.exists ? fromSnapshot(snap.id, snap.data()) : null);
+        .map((snap) => snap.exists ? fromMap(snap.id, snap.data()) : null);
   }
 
   Stream<List<T>> streamList() {
     var ref = _db.collection(collection);
-    return ref.snapshots().map((list) =>
-        list.docs.map((doc) => fromSnapshot(doc.id, doc.data())).toList());
+    return ref.snapshots().map(
+        (list) => list.docs.map((doc) => fromMap(doc.id, doc.data())).toList());
   }
 
   Future<List<T>> getQueryList({
@@ -104,7 +104,7 @@ class DatabaseService<T> {
     } else {
       query = await collref.get();
     }
-    return query.docs.map((doc) => fromSnapshot(doc.id, doc.data())).toList();
+    return query.docs.map((doc) => fromMap(doc.id, doc.data())).toList();
   }
 
   Stream<List<T>> streamQueryList({
@@ -178,10 +178,10 @@ class DatabaseService<T> {
     }
     if (ref != null) {
       return ref.snapshots().map((snap) =>
-          snap.docs.map((doc) => fromSnapshot(doc.id, doc.data())).toList());
+          snap.docs.map((doc) => fromMap(doc.id, doc.data())).toList());
     } else {
       return collref.snapshots().map((snap) =>
-          snap.docs.map((doc) => fromSnapshot(doc.id, doc.data())).toList());
+          snap.docs.map((doc) => fromMap(doc.id, doc.data())).toList());
     }
   }
 
@@ -203,7 +203,7 @@ class DatabaseService<T> {
       );
     }
     QuerySnapshot query = await ref.startAt([from]).endAt([to]).get();
-    return query.docs.map((doc) => fromSnapshot(doc.id, doc.data())).toList();
+    return query.docs.map((doc) => fromMap(doc.id, doc.data())).toList();
   }
 
   Stream<List<T>> streamListFromTo(String field, DateTime from, DateTime to,
@@ -224,8 +224,8 @@ class DatabaseService<T> {
       );
     }
     var query = ref.startAfter([to]).endAt([from]).snapshots();
-    return query.map((snap) =>
-        snap.docs.map((doc) => fromSnapshot(doc.id, doc.data())).toList());
+    return query.map(
+        (snap) => snap.docs.map((doc) => fromMap(doc.id, doc.data())).toList());
   }
 
   Future<dynamic> create(Map<String, dynamic> data, {String id}) {

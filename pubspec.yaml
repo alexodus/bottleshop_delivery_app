@@ -2,12 +2,12 @@ name: bottleshopdeliveryapp
 description: Bottleshop 3 Veže Delivery App
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.1+4
-
 environment:
   sdk: ">=2.7.0 <3.0.0"
-
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
   firebase_core: ^0.5.0+1
   firebase_messaging: ^7.0.3
@@ -37,8 +37,6 @@ dependencies:
   equatable: ^1.2.5
   device_info: ^0.4.2+9
   shared_preferences: ^0.5.12+2
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -47,16 +45,9 @@ dev_dependencies:
     sdk: flutter
   test: any
   e2e: ^0.7.0+1
-  
-flutter_localizations:
-  sdk: flutter
-
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/icons/
 flutter_intl:
   enabled: true
-  localizely:
-    project_id: Bottleshop

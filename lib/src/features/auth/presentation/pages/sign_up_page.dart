@@ -1,6 +1,8 @@
+import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/validator.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/form_input_field_with_icon.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/loader_widget.dart';
+import 'package:bottleshopdeliveryapp/src/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/presentation/providers/auth_providers.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/presentation/widgets/social_media.dart';
 import 'package:flutter/material.dart';
@@ -20,15 +22,21 @@ class SignUpPage extends HookWidget {
     final email = useTextEditingController();
     final password = useTextEditingController();
     final passwordRepeat = useTextEditingController();
+    final loading =
+        useProvider(userRepositoryProvider.select((value) => value.isLoading));
+    final error =
+        useProvider(userRepositoryProvider.select((value) => value.error));
+    final isAppleAvailable = useProvider(appleSignInAvailableProvider);
+    final logger = useProvider(loggerProvider('SignUpPage'));
+    logger.v('userRepoErrors: $error');
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Theme.of(context).accentColor,
       body: Loader(
-        inAsyncCall: useProvider(
-            userRepositoryProvider.select((value) => value.isLoading)),
+        inAsyncCall: loading,
         child: Form(
           key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          autovalidateMode: AutovalidateMode.disabled,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -138,16 +146,7 @@ class SignUpPage extends HookWidget {
                               ),
                             ),
                             controller: password,
-                            validator: (val) {
-                              var pwdVal = Validator().password(val);
-                              if (pwdVal == null) {
-                                if (val == passwordRepeat.text) {
-                                  return null;
-                                }
-                                return "Passwords don't match";
-                              }
-                              return pwdVal;
-                            },
+                            validator: null,
                             obscureText: !showPassword.value,
                             maxLines: 1,
                             onChanged: (value) => null,
@@ -212,16 +211,11 @@ class SignUpPage extends HookWidget {
                                 vertical: 12, horizontal: 70),
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
-                                if (!await context
+                                final authResult = await context
                                     .read(userRepositoryProvider)
                                     .signUpWithEmailAndPassword(
-                                        email.text, password.text)) {
-                                  _scaffoldKey.currentState.showSnackBar(
-                                    SnackBar(
-                                      content: Text('Sign up failed'),
-                                    ),
-                                  );
-                                }
+                                        email.text, password.text);
+                                logger.v('signUp result: $authResult');
                               }
                             },
                             child: Text(
@@ -243,15 +237,19 @@ class SignUpPage extends HookWidget {
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                           SizedBox(height: 20),
-                          useProvider(appleSignInAvailableProvider).when(
+                          isAppleAvailable.when(
                             data: (isAppleSupported) => SocialMediaWidget(
-                                isAppleSupported: isAppleSupported),
+                                isAppleSupported: isAppleSupported,
+                                authResultCallback: (res) =>
+                                    logger.v('result: $res')),
                             loading: () => Container(
                               height: 45,
                               width: double.infinity,
                               child: CircularProgressIndicator(),
                             ),
-                            error: (_, __) => SocialMediaWidget(),
+                            error: (_, __) => SocialMediaWidget(
+                                authResultCallback: (res) =>
+                                    logger.v('result: $res')),
                           ),
                         ],
                       ),
@@ -260,7 +258,8 @@ class SignUpPage extends HookWidget {
                 ),
                 FlatButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(
+                        context, SignInPage.routeName);
                   },
                   child: RichText(
                     text: TextSpan(

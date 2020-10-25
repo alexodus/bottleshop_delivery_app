@@ -10,6 +10,8 @@ class UserModel extends Equatable {
   final String avatar;
   final String phoneNumber;
   final DateTime dayOfBirth;
+  final DateTime lastLoggedIn;
+  final DateTime registrationDate;
   final bool introSeen;
 
   const UserModel({
@@ -19,32 +21,33 @@ class UserModel extends Equatable {
     this.avatar,
     this.phoneNumber,
     this.dayOfBirth,
+    this.lastLoggedIn,
+    this.registrationDate,
     this.introSeen,
   }) : assert(uid != null);
 
-  factory UserModel.fromMap(String id, Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
-
-    return UserModel(
-      uid: id,
-      name: data[UserFields.name] as String ?? '',
-      email: data[UserFields.email] as String ?? '',
-      avatar: data[UserFields.avatar] as String ?? '',
-      phoneNumber: data[UserFields.phoneNumber] as String ?? '',
-      dayOfBirth: data[UserFields.dayOfBirth] as DateTime,
-      introSeen: data[UserFields.introSeen] as bool ?? false,
-    );
-  }
+  UserModel.fromMap(String id, Map<String, dynamic> data)
+      : uid = id,
+        name = data[UserFields.name] as String ?? '',
+        email = data[UserFields.email] as String ?? '',
+        avatar = data[UserFields.avatar] as String ?? '',
+        phoneNumber = data[UserFields.phoneNumber] as String ?? '',
+        dayOfBirth = data[UserFields.dayOfBirth]?.toDate() as DateTime,
+        lastLoggedIn = data[UserFields.lastLoggedIn]?.toDate() as DateTime,
+        registrationDate =
+            data[UserFields.registrationDate]?.toDate() as DateTime,
+        introSeen = data[UserFields.introSeen] as bool ?? false;
 
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data[UserFields.name] = uid;
+    data[UserFields.uid] = uid;
+    data[UserFields.name] = name;
     data[UserFields.email] = email;
     data[UserFields.avatar] = avatar;
     data[UserFields.phoneNumber] = phoneNumber;
     data[UserFields.dayOfBirth] = dayOfBirth;
+    data[UserFields.lastLoggedIn] = lastLoggedIn;
+    data[UserFields.registrationDate] = registrationDate;
     data[UserFields.introSeen] = introSeen;
     return data;
   }
@@ -70,6 +73,8 @@ class UserModel extends Equatable {
       name: user.displayName,
       avatar: user.photoURL,
       phoneNumber: user.phoneNumber,
+      registrationDate: DateTime.now().toUtc(),
+      lastLoggedIn: DateTime.now().toUtc(),
       introSeen: false,
     );
   }
@@ -94,7 +99,9 @@ class UserFields {
   static const String name = 'name';
   static const String email = 'email';
   static const String avatar = 'avatar';
-  static const String introSeen = 'intro_seen';
+  static const String introSeen = 'introSeen';
   static const String dayOfBirth = 'dayOfBirth';
+  static const String lastLoggedIn = "last_logged_in";
+  static const String registrationDate = "registration_date";
   static const String phoneNumber = 'phoneNumber';
 }

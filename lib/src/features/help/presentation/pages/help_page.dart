@@ -1,4 +1,3 @@
-import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/app_scaffold.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/search_bar.dart';
 import 'package:bottleshopdeliveryapp/src/features/cart/presentation/widgets/shopping_cart_button.dart';
 import 'package:bottleshopdeliveryapp/src/features/help/presentation/widgets/faq_item.dart';
@@ -7,14 +6,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class HelpPage extends HookWidget {
   static const routeName = '/help';
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
-      child: AppScaffold(
-        scaffoldKey: _scaffoldKey,
+      length: 2,
+      child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
@@ -25,8 +22,6 @@ class HelpPage extends HookWidget {
           elevation: 0,
           bottom: TabBar(
             tabs: [
-              Tab(text: 'Products'),
-              Tab(text: 'Services'),
               Tab(text: 'Delivery'),
               Tab(text: 'Misc'),
             ],
@@ -46,7 +41,7 @@ class HelpPage extends HookWidget {
           ],
         ),
         body: TabBarView(
-          children: List.generate(4, (index) {
+          children: List.generate(2, (index) {
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
               child: Column(

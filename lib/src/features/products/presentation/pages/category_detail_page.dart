@@ -1,10 +1,12 @@
+import 'package:bottleshopdeliveryapp/src/core/data/models/layout.dart';
 import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
+import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/menu_drawer.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/profile_avatar.dart';
 import 'package:bottleshopdeliveryapp/src/features/account/presentation/pages/account_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/presentation/providers/auth_providers.dart';
 import 'package:bottleshopdeliveryapp/src/features/cart/presentation/widgets/shopping_cart_button.dart';
-import 'package:bottleshopdeliveryapp/src/features/products/data/models/category_model.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/data/models/category_plain_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/products_by_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -12,22 +14,25 @@ import 'package:hooks_riverpod/all.dart';
 
 class CategoryDetailPage extends HookWidget {
   static const String routeName = '/categoryDetail';
-
-  const CategoryDetailPage({Key key}) : super(key: key);
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  CategoryDetailPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final scaffoldKeyState = useState(GlobalKey<ScaffoldState>());
+    final _logger = useProvider(loggerProvider('CategoryDetailPage'));
     final RouteArgument args =
         ModalRoute.of(context).settings.arguments as RouteArgument;
-    final List<CategoryModel> subCategoriesList =
-        args.argumentsList as List<CategoryModel>;
-    final tabController =
-        useTabController(initialLength: subCategoriesList.length);
+    _logger.v(
+        'passed ARGUMENTS: ${args.title} - ${args.id} - ${args.argumentsList}');
+    final category = args.argumentsList[0] as SelectableCategory;
+    final index = args.id;
+    final tabController = useTabController(
+        initialLength: category.subCategories.length, initialIndex: args.id);
     final imageUrl =
         useProvider(currentUserProvider.select((value) => value.avatar));
+    final layoutModeState = useState(LayoutMode.list);
     return Scaffold(
-      key: scaffoldKeyState.value,
+      key: _scaffoldKey,
       drawer: MenuDrawer(),
       body: CustomScrollView(
         slivers: <Widget>[
@@ -88,9 +93,9 @@ class CategoryDetailPage extends HookWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Hero(
-                          tag: 'id',
-                          child: Icon(
-                            Icons.category,
+                          tag: index,
+                          child: ImageIcon(
+                            AssetImage(category.icon),
                             color: Theme.of(context).primaryColor,
                             size: 70,
                           ),
@@ -141,20 +146,20 @@ class CategoryDetailPage extends HookWidget {
               unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w300),
               isScrollable: true,
               indicatorColor: Theme.of(context).primaryColor,
-              tabs: List.generate(subCategoriesList.length, (index) {
-                return Tab(
-                    text: subCategoriesList
-                        .elementAt(index)
-                        .categoryDetails
-                        .name);
+              tabs: List.generate(category.subCategories.length, (index) {
+                return Tab(text: category.subCategories.elementAt(index).name);
               }),
             ),
           ),
           SliverToBoxAdapter(
             child: ProductsByCategory(
-              subCategory: subCategoriesList.elementAt(args?.id),
-              changeLayout: (newLayoutMode) =>
-                  debugPrint('Layout changed to ${newLayoutMode.toString()}'),
+              layout: layoutModeState.value,
+              subCategory: category?.subCategories?.isEmpty ?? true
+                  ? SelectableSubCategory(id: category.id, name: category.name)
+                  : category.subCategories.elementAt(index),
+              changeLayout: (layout) => layoutModeState.value == LayoutMode.list
+                  ? layoutModeState.value = LayoutMode.grid
+                  : layoutModeState.value = LayoutMode.list,
             ),
           ),
         ],
