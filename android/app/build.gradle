@@ -39,7 +39,6 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    ndkVersion "21.3.6528147"
     compileSdkVersion 30
 
     sourceSets {
@@ -48,8 +47,6 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
-        checkReleaseBuilds false
-        abortOnError false
     }
 
     defaultConfig {
@@ -74,11 +71,6 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 flutter {
@@ -87,9 +79,11 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
 
-apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
+googleServices { disableVersionCheck = true }
+apply plugin: 'com.google.firebase.crashlytics'

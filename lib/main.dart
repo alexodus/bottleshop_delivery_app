@@ -1,104 +1,27 @@
 import 'dart:async';
 
-import 'package:bottleshopdeliveryapp/src/constants/app_theme.dart';
-import 'package:bottleshopdeliveryapp/src/constants/routes.dart';
-import 'package:bottleshopdeliveryapp/src/constants/strings.dart';
-import 'package:bottleshopdeliveryapp/src/models/user.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics.dart';
-import 'package:bottleshopdeliveryapp/src/services/analytics/analytics_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/authentication/authentication.dart';
-import 'package:bottleshopdeliveryapp/src/services/authentication/authentication_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/product_data_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/database/user_data_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/notifications/push_notification_service.dart';
-import 'package:bottleshopdeliveryapp/src/services/payment/stripe_service.dart';
-import 'package:bottleshopdeliveryapp/src/ui/tabs/tabs_view.dart';
-import 'package:bottleshopdeliveryapp/src/ui/views/on_boarding_view.dart';
-import 'package:bottleshopdeliveryapp/src/viewmodels/category_list_model.dart';
+import 'package:bottleshopdeliveryapp/src/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/all.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Crashlytics.instance.enableInDevMode = false;
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
-  Analytics.setLogLevel(Level.verbose);
-  runZoned(() {
-    runApp(MultiProvider(
-      providers: [
-        Provider<Authentication>(
-          create: (_) => AuthenticationService(),
-        ),
-        StreamProvider<User>(
-          create: (context) => context.read<Authentication>().authStateChanges,
-        ),
-        Provider<UserDataService>(
-          create: (_) => UserDataService(),
-        ),
-        Provider<ProductDataService>(
-          create: (_) => ProductDataService(),
-        ),
-        Provider<PushNotificationService>(
-          create: (_) => PushNotificationService(),
-        ),
-        Provider<Analytics>(
-          create: (_) => AnalyticsService(),
-        ),
-        Provider<StripeService>(
-          create: (_) => StripeService(),
-        ),
-        Provider<CategoryListModel>(
-          create: (_) => CategoryListModel(),
-        )
-      ],
-      child: MyApp(),
-    ));
-  }, onError: Crashlytics.instance.recordError);
-}
-
-class MyApp extends StatelessWidget {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  final logger = Analytics.getLogger('MyApp');
-
-  @override
-  Widget build(BuildContext context) {
-    final observer =
-        context.select((Analytics analytics) => analytics.analyticsObserver);
-    return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          logger.e('snapshot error');
-          return CircularProgressIndicator();
-        }
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            navigatorObservers: <NavigatorObserver>[observer],
-            title: Strings.appName,
-            onGenerateRoute: Routes.onGenerateRoute,
-            theme: appTheme,
-            darkTheme: appThemeDark,
-            themeMode: ThemeMode.system,
-            home: Consumer<User>(
-              builder: (_, user, __) {
-                logger.v('current user: $user');
-                if (user == null) {
-                  observer.analytics.logTutorialBegin();
-                  return OnBoardingView();
-                } else {
-                  observer.analytics.setUserId(user.uid);
-                  return TabsView();
-                }
-              },
-            ),
-          );
-        }
-        // TODO: proper loader and error handler
-        return CircularProgressIndicator();
-      },
+  await Firebase.initializeApp();
+  FirebaseCrashlytics.instance
+      .setCrashlyticsCollectionEnabled(kDebugMode ? false : true);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  Logger.level = kDebugMode ? Level.verbose : Level.error;
+  runZonedGuarded<Future<void>>(() async {
+    runApp(
+      ProviderScope(
+        child: const App(),
+      ),
     );
-  }
+  },
+      (Object error, StackTrace stackTrace) =>
+          FirebaseCrashlytics.instance.recordError(error, stackTrace));
 }
