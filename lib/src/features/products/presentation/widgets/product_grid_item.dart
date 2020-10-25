@@ -64,9 +64,7 @@ class ProductGridItem extends StatelessWidget {
               ),
             Hero(
               tag: heroTag + product.uniqueId,
-              child: ProductImage(
-                imageUrl: product.thumbnailUrl,
-              ),
+              child: ProductImage(thumbnailPath: product.thumbnailPath),
             ),
             SizedBox(height: 12),
             Padding(

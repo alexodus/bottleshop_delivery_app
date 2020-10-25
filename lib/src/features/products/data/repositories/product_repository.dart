@@ -37,7 +37,6 @@ class FirestoreJsonParsingUtil {
         CountryModel.fromMap(countryDoc.id, countryDoc.data());
     productJson[ProductModel.unitsTypeField] =
         UnitModel.fromMap(unitDoc.id, unitDoc.data());
-
     return ProductModel.fromJson(productJson);
   }
 

@@ -4,8 +4,9 @@ import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/p
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/available_progress_bar.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class FlashSalesCarouselItem extends StatelessWidget {
+class FlashSalesCarouselItem extends HookWidget {
   final String heroTag;
   final double marginLeft;
   final ProductModel product;
@@ -36,7 +37,11 @@ class FlashSalesCarouselItem extends StatelessWidget {
             Hero(
               tag: heroTag + product.uniqueId,
               child: ProductImage(
-                  imageUrl: product.thumbnailUrl, width: 160, height: 200),
+                imagePath: product.imagePath,
+                thumbnailPath: product.thumbnailPath,
+                width: 160,
+                height: 200,
+              ),
             ),
             if (product.discount != null)
               Positioned(

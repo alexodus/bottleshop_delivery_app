@@ -1,9 +1,12 @@
+import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/all.dart';
 
 class ProductImage extends StatelessWidget {
-  final String imageUrl;
+  final String imagePath;
+  final String thumbnailPath;
   final bool isThumbnail;
   final double height;
   final double width;
@@ -11,7 +14,8 @@ class ProductImage extends StatelessWidget {
 
   const ProductImage(
       {Key key,
-      this.imageUrl,
+      this.imagePath,
+      this.thumbnailPath,
       this.isThumbnail = true,
       this.width = 160,
       this.height = 160,
@@ -20,23 +24,30 @@ class ProductImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrl == null) {
+    if (imagePath == null && thumbnailPath == null) {
       return buildPlaceholderProductImage(isThumbnail);
     } else {
-      return CachedNetworkImage(
-          imageUrl: imageUrl,
-          imageBuilder: (context, imageProvider) => Container(
-                width: height,
-                height: width,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                      image: imageProvider, fit: BoxFit.fitWidth),
+      final url = imagePath == null ? thumbnailPath : imagePath;
+      return useProvider(downloadUrlProvider(url)).when(
+        data: (imageUrl) => CachedNetworkImage(
+            imageUrl: imageUrl,
+            imageBuilder: (context, imageProvider) => Container(
+                  width: height,
+                  height: width,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
                 ),
-              ),
-          placeholder: (context, url) => CircularProgressIndicator(),
-          errorWidget: (context, url, error) =>
-              buildPlaceholderProductImage(isThumbnail));
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) =>
+                buildPlaceholderProductImage(isThumbnail)),
+        loading: () => buildPlaceholderProductImage(isThumbnail),
+        error: (_, __) => buildPlaceholderProductImage(isThumbnail),
+      );
     }
   }
 
@@ -47,10 +58,11 @@ class ProductImage extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         image: DecorationImage(
-            image: AssetImage(isThumbnail
-                ? AppConstants.defaultProductThumbnail
-                : AppConstants.defaultProductPic),
-            fit: BoxFit.fitHeight),
+          image: AssetImage(isThumbnail
+              ? AppConstants.defaultProductThumbnail
+              : AppConstants.defaultProductPic),
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
   }

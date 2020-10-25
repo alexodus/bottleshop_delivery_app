@@ -1,6 +1,7 @@
 import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/features/orders/data/models/order_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/product_detail_page.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 
 class OrderListItem extends StatelessWidget {
@@ -69,16 +70,8 @@ class OrderListItem extends StatelessWidget {
             children: <Widget>[
               Hero(
                 tag: heroTag + order.id,
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
-                        image: AssetImage(order.cartItems[0].product.imageUrl),
-                        fit: BoxFit.cover),
-                  ),
-                ),
+                child: ProductImage(
+                    imagePath: order.cartItems[0].product.imagePath),
               ),
               SizedBox(width: 15),
               Flexible(

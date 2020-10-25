@@ -1,10 +1,12 @@
 import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/data/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/product_detail_page.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 // Not Used it an optional grid
-class FavoriteGridItem extends StatelessWidget {
+class FavoriteGridItem extends HookWidget {
   final ProductModel product;
   final String heroTag;
 
@@ -35,15 +37,9 @@ class FavoriteGridItem extends StatelessWidget {
               Expanded(
                 child: Hero(
                   tag: heroTag + product.uniqueId,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                            product.imageUrl,
-                          ),
-                          fit: BoxFit.cover),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                  child: ProductImage(
+                    imagePath: product.imagePath,
+                    thumbnailPath: product.thumbnailPath,
                   ),
                 ),
               ),

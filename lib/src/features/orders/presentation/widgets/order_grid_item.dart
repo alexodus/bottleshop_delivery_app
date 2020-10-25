@@ -1,4 +1,5 @@
 import 'package:bottleshopdeliveryapp/src/features/orders/data/models/order_model.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 
 class OrderGridItem extends StatelessWidget {
@@ -37,7 +38,9 @@ class OrderGridItem extends StatelessWidget {
           children: <Widget>[
             Hero(
               tag: heroTag + order.id,
-              child: Image.asset(order.cartItems[0].product.imageUrl),
+              child: ProductImage(
+                imagePath: order.cartItems[0].product.imagePath,
+              ),
             ),
             SizedBox(height: 12),
             Padding(

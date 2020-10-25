@@ -1,5 +1,6 @@
 import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/features/cart/presentation/widgets/shopping_cart_button.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/data/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_details_tab.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_home_tab.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
@@ -19,6 +20,7 @@ class ProductDetailPage extends HookWidget {
         useTabController(initialLength: 2, initialIndex: 0, vsync: ticker);
     final RouteArgument args = ModalRoute.of(context).settings.arguments;
     final productId = args.id;
+    final product = args.argumentsList[0] as ProductModel;
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -47,7 +49,7 @@ class ProductDetailPage extends HookWidget {
                   fit: StackFit.expand,
                   children: <Widget>[
                     ProductImage(
-                      imageUrl: args.argumentsList[0].imageUrl,
+                      imagePath: product.imagePath,
                       width: double.infinity,
                       padding:
                           EdgeInsets.symmetric(horizontal: 5, vertical: 20),

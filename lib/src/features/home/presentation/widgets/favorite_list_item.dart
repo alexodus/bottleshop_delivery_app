@@ -2,6 +2,7 @@ import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/data/models/product_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/product_detail_page.dart';
+import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
@@ -78,17 +79,10 @@ class FavoriteListItem extends HookWidget {
             children: <Widget>[
               Hero(
                 tag: heroTag + product.uniqueId,
-                child: Container(
-                  height: 60,
+                child: ProductImage(
+                  imagePath: product.imagePath,
                   width: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
-                        image: AssetImage(
-                          product?.imageUrl ?? 'assets/images/generic.png',
-                        ),
-                        fit: BoxFit.cover),
-                  ),
+                  height: 60,
                 ),
               ),
               SizedBox(width: 15),

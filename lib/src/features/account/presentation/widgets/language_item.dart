@@ -90,9 +90,10 @@ class LanguageListItem extends HookWidget with AnimationMixin {
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
             BoxShadow(
-                color: Theme.of(context).focusColor.withOpacity(0.1),
-                blurRadius: 5,
-                offset: Offset(0, 2)),
+              color: Theme.of(context).focusColor.withOpacity(0.1),
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
           ],
         ),
         child: Row(

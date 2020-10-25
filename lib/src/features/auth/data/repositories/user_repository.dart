@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bottleshopdeliveryapp/src/core/data/res/constants.dart';
+import 'package:bottleshopdeliveryapp/src/core/data/services/authentication_service.dart';
 import 'package:bottleshopdeliveryapp/src/core/data/services/logger.dart';
 import 'package:bottleshopdeliveryapp/src/core/data/services/push_notification_service.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/data/models/device_model.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/data/models/user_model.dart';
-import 'package:bottleshopdeliveryapp/src/features/auth/data/services/authentication_service.dart';
 import 'package:bottleshopdeliveryapp/src/features/auth/data/services/user_db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';

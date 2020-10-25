@@ -28,10 +28,6 @@ class ProductModel {
   static const String isRecommendedField = 'is_recommended';
   static const String isNewEntryField = 'is_new_entry';
   static const String flashSaleUntilField = 'flash_sale_until';
-  @deprecated
-  static const String thumbnailUrlField = 'thumbnailUrl';
-  @deprecated
-  static const String imageUrlField = 'imageUrl';
   static const String thumbnailPathField = 'thumbnail_path';
   static const String imagePathField = 'image_path';
 
@@ -59,10 +55,6 @@ class ProductModel {
   final bool isRecommended;
   final bool isNewEntry;
   final DateTime flashSaleUntil;
-  @deprecated
-  final String thumbnailUrl;
-  @deprecated
-  final String imageUrl;
   final String thumbnailPath;
   final String imagePath;
 
@@ -104,17 +96,11 @@ class ProductModel {
     @required this.flashSaleUntil,
     @required this.thumbnailPath,
     @required this.imagePath,
-    this.thumbnailUrl,
-    this.imageUrl,
   })  : _price = price,
         _categories = List.unmodifiable(categories ?? []);
 
   ProductModel.fromJson(Map<String, dynamic> json)
-      : //assert(json[countryField] is CountryModel),
-        //assert(json[unitsTypeField] is UnitModel),
-        //assert(json[categoriesField] is List<CategoryModel>),
-        //assert(json[discountField] == null || json[discountField] > 0 && json[discountField] <= 1),
-        name = json[nameField],
+      : name = json[nameField],
         edition = json[editionField],
         year = json[yearField],
         age = json[ageField],
@@ -133,8 +119,6 @@ class ProductModel {
         discount = json[discountField],
         isRecommended = json[isRecommendedField],
         isNewEntry = json[isNewEntryField],
-        thumbnailUrl = json[thumbnailUrlField],
-        imageUrl = json[imageUrlField],
         flashSaleUntil = json[flashSaleUntilField] != null
             ? DateTime.fromMillisecondsSinceEpoch(
                 json[flashSaleUntilField].seconds * 1000)
@@ -236,6 +220,7 @@ class ProductModel {
   @override
   String toString() {
     return 'ProductModel{name: $name, edition: $edition, age: $age, year: $year, cmat: $cmat, ean: $ean, _price: '
-        '$_price, count: $count, unitsCount: $unitsCount, unitsType: $unitsType, alcohol: $alcohol, categories: $_categories, country: $country, descriptionSk: $descriptionSk, descriptionEn: $descriptionEn, discount: $discount, isRecommended: $isRecommended, isNewEntry: $isNewEntry, flashSaleUntil: $flashSaleUntil}';
+        '$_price, count: $count, unitsCount: $unitsCount, unitsType: $unitsType, alcohol: $alcohol, categories: '
+        '$_categories, country: $country, descriptionSk: $descriptionSk, descriptionEn: $descriptionEn, discount: $discount, isRecommended: $isRecommended, isNewEntry: $isNewEntry, flashSaleUntil: $flashSaleUntil,}';
   }
 }

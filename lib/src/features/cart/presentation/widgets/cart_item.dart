@@ -3,8 +3,9 @@ import 'package:bottleshopdeliveryapp/src/features/products/data/models/product_
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/product_detail_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/widgets/product_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends HookWidget {
   final String heroTag;
   final ProductModel product;
   final int quantity;
@@ -26,9 +27,14 @@ class CartItem extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.pushNamed(context, ProductDetailPage.routeName,
-            arguments:
-                RouteArgument(id: args.id, argumentsList: args.argumentsList));
+        Navigator.pushNamed(
+          context,
+          ProductDetailPage.routeName,
+          arguments: RouteArgument(
+            id: args.id,
+            argumentsList: args.argumentsList,
+          ),
+        );
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
@@ -49,7 +55,8 @@ class CartItem extends StatelessWidget {
               child: ProductImage(
                 height: 90,
                 width: 90,
-                imageUrl: product.imageUrl,
+                imagePath: product.imagePath,
+                thumbnailPath: product.thumbnailPath,
               ),
             ),
             SizedBox(width: 15),
