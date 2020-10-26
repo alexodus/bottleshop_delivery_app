@@ -30,8 +30,6 @@ class SignInPage extends HookWidget {
     final passwordRepeat = useTextEditingController();
     final loading =
         useProvider(userRepositoryProvider.select((value) => value.isLoading));
-    final error =
-        useProvider(userRepositoryProvider.select((value) => value.error));
     final isAppleAvailable = useProvider(appleSignInAvailableProvider);
     return Scaffold(
       key: _scaffoldKey,
