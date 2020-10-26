@@ -694,6 +694,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Check your email and follow the instructions to reset your password`
+  String get checkYourEmailAndFollowTheInstructionsToResetYour {
+    return Intl.message(
+      'Check your email and follow the instructions to reset your password',
+      name: 'checkYourEmailAndFollowTheInstructionsToResetYour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Got your new password?`
+  String get gotNewPassword {
+    return Intl.message(
+      'Got your new password?',
+      name: 'gotNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset password`
+  String get resetPassword {
+    return Intl.message(
+      'Reset password',
+      name: 'resetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset`
+  String get reset {
+    return Intl.message(
+      'Reset',
+      name: 'reset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Language`
+  String get appLanguageLabel {
+    return Intl.message(
+      'App Language',
+      name: 'appLanguageLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply Filters`
+  String get applyFilters {
+    return Intl.message(
+      'Apply Filters',
+      name: 'applyFilters',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -38,6 +38,8 @@ dependencies:
   equatable: ^1.2.5
   device_info: ^0.4.2+9
   shared_preferences: ^0.5.12+2
+  flutter_sequence_animation: ^3.0.1
+  overlay_support: ^1.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,4 +1,3 @@
-import 'package:bottleshopdeliveryapp/src/core/presentation/res/constants.dart';
 import 'package:bottleshopdeliveryapp/src/features/home/data/models/tab_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class TabScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      key: const Key(Keys.tabBar),
+      key: const Key('tabBar'),
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Theme.of(context).accentColor,
       unselectedItemColor: Theme.of(context).hintColor.withOpacity(1),

@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/generated/l10n.dart';
 import 'package:bottleshopdeliveryapp/src/core/data/models/route_argument.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/pages/category_detail_page.dart';
 import 'package:bottleshopdeliveryapp/src/features/products/presentation/providers/providers.dart';
@@ -78,7 +79,7 @@ class FilterDrawer extends HookWidget {
               color: Theme.of(context).accentColor,
               shape: StadiumBorder(),
               child: Text(
-                'Apply Filters',
+                S.of(context).applyFilters,
                 textAlign: TextAlign.start,
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),

@@ -40,9 +40,7 @@ class Loader extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: SizedBox(
-                    child: CircularProgressIndicator(
-                        // backgroundColor: Palette.textColorInvert,
-                        ),
+                    child: progressIndicator,
                     height: 30.0,
                     width: 30.0,
                   ),

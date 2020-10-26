@@ -2,7 +2,7 @@ import 'package:bottleshopdeliveryapp/src/features/account/data/models/language.
 import 'package:hooks_riverpod/all.dart';
 
 final languagesPageStateProvider = Provider(
-  (_) => const [
+  (_) => [
     Language(
         englishName: 'English',
         localName: 'Angličtina',
@@ -10,6 +10,6 @@ final languagesPageStateProvider = Provider(
     Language(
         englishName: 'Slovak',
         flag: 'assets/images/slovakia.png',
-        localName: 'Slovenčina'),
+        localName: 'Slovenčina')
   ],
 );

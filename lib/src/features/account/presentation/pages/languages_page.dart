@@ -1,4 +1,4 @@
-import 'package:bottleshopdeliveryapp/src/features/account/data/models/language.dart';
+import 'package:bottleshopdeliveryapp/generated/l10n.dart';
 import 'package:bottleshopdeliveryapp/src/features/account/presentation/providers/providers.dart';
 import 'package:bottleshopdeliveryapp/src/features/account/presentation/widgets/language_item.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ class LanguagesPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languages = useProvider(languagesPageStateProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -30,54 +31,40 @@ class LanguagesPage extends HookWidget {
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Column(
           children: [
-            ..._buildHeader(context),
-            _buildScrollViewFrom(useProvider(languagesPageStateProvider)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildHeader(BuildContext context) => [
-        SizedBox(height: 15),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 0),
-            leading: Icon(
-              Icons.translate,
-              color: Theme.of(context).hintColor,
+            SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                leading: Icon(
+                  Icons.translate,
+                  color: Theme.of(context).hintColor,
+                ),
+                title: Text(
+                  S.of(context).appLanguageLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ),
             ),
-            title: Text(
-              'App Language',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-      ];
-
-  Widget _buildScrollViewFrom(List<Language> availableLanguages) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        children: <Widget>[
-          Consumer(
-            builder: (context, watch, child) {
-              return ListView.separated(
+            SizedBox(height: 10),
+            SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: ListView.separated(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 primary: false,
-                itemCount: availableLanguages.length,
+                itemCount: languages.length,
                 separatorBuilder: (context, index) => SizedBox(height: 10),
                 itemBuilder: (context, index) => LanguageListItem(
-                    language: availableLanguages.elementAt(index)),
-              );
-            },
-          ),
-        ],
+                  language: languages.elementAt(index),
+                  isSelected: index == 0 ? true : false,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
