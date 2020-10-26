@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/generated/l10n.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/validator.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/form_input_field_with_icon.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/loader_widget.dart';
@@ -40,8 +41,9 @@ class ResetPasswordPage extends HookWidget {
                             emailController.clear();
                             _scaffoldKey.currentState.showSnackBar(
                               SnackBar(
-                                content: Text(
-                                    'Check your email and follow the instructions to reset your password'),
+                                content: Text(S
+                                    .of(context)
+                                    .checkYourEmailAndFollowTheInstructionsToResetYour),
                               ),
                             );
                           }
@@ -52,8 +54,8 @@ class ResetPasswordPage extends HookWidget {
                 ),
                 _buildPrimaryButton(
                   context,
-                  'Got your new password?',
-                  ' Sign In',
+                  S.of(context).gotNewPassword,
+                  S.of(context).sign_in,
                   () => Navigator.pop(context),
                 ),
               ],
@@ -71,13 +73,14 @@ class ResetPasswordPage extends HookWidget {
     return Column(
       children: <Widget>[
         SizedBox(height: 25),
-        Text('Reset password', style: Theme.of(context).textTheme.headline2),
+        Text(S.of(context).resetPassword,
+            style: Theme.of(context).textTheme.headline2),
         SizedBox(height: 20),
         FormInputFieldWithIcon(
           style: TextStyle(color: Theme.of(context).accentColor),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-              hintText: 'Email Address',
+              hintText: S.of(context).email,
               hintStyle: Theme.of(context).textTheme.bodyText2.merge(
                     TextStyle(color: Theme.of(context).accentColor),
                   ),
@@ -102,7 +105,7 @@ class ResetPasswordPage extends HookWidget {
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
           onPressed: onResetClicked,
           child: Text(
-            'Reset ',
+            S.of(context).reset,
             style: Theme.of(context).textTheme.headline6.merge(
                   TextStyle(color: Theme.of(context).primaryColor),
                 ),

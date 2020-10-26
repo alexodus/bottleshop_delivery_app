@@ -15,7 +15,7 @@ class CarouselAnimationMixinFields {
 
   factory CarouselAnimationMixinFields(AnimationController controller) {
     final curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
-    final animation = Tween(begin: 0.0, end: 1.0).animate(curve);
+    final animation = Tween<double>(begin: 0.0, end: 1.0).animate(curve);
     return CarouselAnimationMixinFields._(
         animationController: controller, animationOpacity: animation);
   }

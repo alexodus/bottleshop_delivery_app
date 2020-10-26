@@ -38,10 +38,3 @@ class AnalyticsScreenNames {
   static const String userInfo = "User profile";
   static const String root = "Root page";
 }
-
-class Keys {
-  static const String tabBar = 'tabBar';
-  static const String favoritesTab = 'favoritesTab';
-  static const String productsTab = 'productsTab';
-  static const String accountTab = 'ordersTab';
-}

@@ -1,3 +1,4 @@
+import 'package:bottleshopdeliveryapp/generated/l10n.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/providers/core_providers.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/res/validator.dart';
 import 'package:bottleshopdeliveryapp/src/core/presentation/widgets/form_input_field_with_icon.dart';
@@ -73,7 +74,7 @@ class SignUpPage extends HookWidget {
                       child: Column(
                         children: <Widget>[
                           SizedBox(height: 25),
-                          Text('Sign Up',
+                          Text(S.of(context).sign_up,
                               style: Theme.of(context).textTheme.headline2),
                           SizedBox(height: 20),
                           FormInputFieldWithIcon(
@@ -219,7 +220,7 @@ class SignUpPage extends HookWidget {
                               }
                             },
                             child: Text(
-                              'Sign Up',
+                              S.of(context).sign_up,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6
@@ -233,7 +234,7 @@ class SignUpPage extends HookWidget {
                           ),
                           SizedBox(height: 50),
                           Text(
-                            'Or using social media',
+                            S.of(context).or_social_media,
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                           SizedBox(height: 20),

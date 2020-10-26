@@ -65,7 +65,9 @@ class CategoryIcon extends HookWidget {
                 child: Text(
                   category.selected ? category.name : '',
                   style: TextStyle(
-                      fontSize: 14, color: Theme.of(context).accentColor),
+                    fontSize: 14,
+                    color: Theme.of(context).accentColor,
+                  ),
                 ),
               )
             ],

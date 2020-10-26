@@ -131,5 +131,8 @@
   "wish_list": "Zoznam želaní",
   "@wish_list": {},
   "your_orders": "Vaše objednávky",
-  "@your_orders": {}, "dontHaveAnAccount": "Nemate este ucet?"
+  "@your_orders": {}, "dontHaveAnAccount": "Nemate este ucet?",
+  "checkYourEmailAndFollowTheInstructionsToResetYour": "Check your email and follow the instructions to reset your password",
+  "gotNewPassword": "Got your new password?", "resetPassword": "Reset password", "reset": "Reset", "appLanguageLabel": "App Language",
+  "applyFilters": "Apply Filters"
 }

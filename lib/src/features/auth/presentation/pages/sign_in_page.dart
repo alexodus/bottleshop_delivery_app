@@ -113,7 +113,8 @@ class SignInWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         SizedBox(height: 25),
-        Text('Sign In', style: Theme.of(context).textTheme.headline2),
+        Text(S.of(context).sign_in,
+            style: Theme.of(context).textTheme.headline2),
         SizedBox(height: 20),
         FormInputFieldWithIcon(
           style: TextStyle(color: Theme.of(context).accentColor),
@@ -192,7 +193,7 @@ class SignInWidget extends StatelessWidget {
             }
           },
           child: Text(
-            'Login',
+            S.of(context).login,
             style: Theme.of(context).textTheme.headline6.merge(
                   TextStyle(color: Theme.of(context).primaryColor),
                 ),
@@ -202,7 +203,7 @@ class SignInWidget extends StatelessWidget {
         ),
         SizedBox(height: 50),
         Text(
-          'Or using social media',
+          S.of(context).or_social_media,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         SizedBox(height: 20),
